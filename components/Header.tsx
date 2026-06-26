@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Colors } from "@/constants/colors";
 
 const Header = () => {
   const [fontsLoaded] = useFonts({
@@ -21,9 +22,9 @@ const Header = () => {
         }
       >
         <LinearGradient
-          colors={["#ff6b6b", "#ffbb3b", "#6bffb4"]}
-          start={[0, 0]}
-          end={[1, 0]}
+          colors={[Colors.brand.WHITE_ORANGE, Colors.brand.LIGHT_YELLOW]}
+          start={[0, 0.40]}
+          end={[0, 0.64]}
           style={styles.gradient}
         >
           <Text style={[styles.headerTitle, styles.gradientText]}>DUKAIQ</Text>
@@ -40,6 +41,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    borderBottomWidth: 4,
+    borderBottomColor: Colors.brand.BLUE
   },
   gradient: {
     width: "100%",
