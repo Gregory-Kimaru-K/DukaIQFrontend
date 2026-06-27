@@ -9,6 +9,9 @@ export const Colors = {
         LIGHT_BLUE: "#07439F",
         WHITE_ORANGE: "#FFF0C5",
         LIGHT_YELLOW: "#FED757"
+    },
+    text: {
+        WHITE: "#FFFFFF"
     }
 }
 
