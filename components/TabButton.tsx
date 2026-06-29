@@ -1,13 +1,20 @@
 import { Colors } from "@/constants/colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TabTriggerSlotProps } from "expo-router/ui";
-import { MotiPressable } from "moti/interactions";
-import React, { ComponentProps, ComponentType, forwardRef, Ref } from "react";
-import { StyleSheet, View } from "react-native";
-
-const SafeMotiPressable = MotiPressable as unknown as ComponentType<any>;
+import React, { ComponentProps, forwardRef, Ref, useEffect } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 type Icon = ComponentProps<typeof Ionicons>["name"];
+
+const AnimatedPressable = Animated.createAnimatedComponent(
+  Pressable
+);
 
 export type TabButtonProps = TabTriggerSlotProps & {
   icon?: Icon;
@@ -18,23 +25,38 @@ export const TabButton = forwardRef<View, TabButtonProps>(function TabButton(
   { icon, isFocused, ...props },
   ref,
 ) {
+  const progress = useSharedValue(isFocused ? 1 : 0);
+
+  useEffect(() => {
+    progress.value = withSpring(isFocused ? 1 : 0, {
+      damping: 15,
+      stiffness: 40,
+    });
+  }, [isFocused]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      backgroundColor: interpolateColor(
+        progress.value,
+        [0, 1],
+        ["transparent", Colors.brand.ORANGE]
+      ),
+      transform: [
+        {
+          scale: 1 + progress.value * 0.08,
+        },
+      ],
+    };
+  });
+
   return (
-    <SafeMotiPressable
+    <AnimatedPressable
       {...(props as any)}
       ref={ref}
-      style={styles.button}
-      animate={{
-        scale: isFocused ? 1.08 : 1,
-        backgroundColor: isFocused ? "#E66413" : "transparent"
-      }}
-      transition={{
-        type: "spring",
-        damping: 16,
-        stiffness: 180,
-      }}
+      style={[styles.button, animatedStyle]}
     >
       <Ionicons name={icon} size={28} color="#FFFFFF" />
-    </SafeMotiPressable>
+    </AnimatedPressable>
   );
 });
 

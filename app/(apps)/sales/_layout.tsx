@@ -40,7 +40,7 @@ const SalesLayout = () => {
         transition={{
           type: "timing",
           duration: 500,
-          easing: Easing.inOut(Easing.ease)
+          easing: Easing.inOut(Easing.ease),
         }}
       >
         <TabSlot />
