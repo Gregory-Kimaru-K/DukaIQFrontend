@@ -1,21 +1,21 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/colors'
+import CustomStack from '@/components/CustomStack'
+import { globalStyles } from '@/constants/styles'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Index = () => {
   return (
-    <ScrollView style={styles.container}>
-      <Text>Index</Text>
-    </ScrollView>
+    <SafeAreaView>
+      <CustomStack header='SELL' desc="Create, View, edit and delete sales" stackType='type1'/>
+      <ScrollView style={globalStyles.container}>
+        <View>
+          
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: Colors.brand.DARK_BLUE
-  }
-})
 
 export default Index
