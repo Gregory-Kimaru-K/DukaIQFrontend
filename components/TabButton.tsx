@@ -4,17 +4,16 @@ import { TabTriggerSlotProps } from "expo-router/ui";
 import React, { ComponentProps, forwardRef, Ref, useEffect } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
+    Easing,
+    interpolateColor,
+    useAnimatedStyle,
+    useSharedValue,
+    withTiming,
 } from "react-native-reanimated";
 
 type Icon = ComponentProps<typeof Ionicons>["name"];
 
-const AnimatedPressable = Animated.createAnimatedComponent(
-  Pressable
-);
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export type TabButtonProps = TabTriggerSlotProps & {
   icon?: Icon;
@@ -28,9 +27,9 @@ export const TabButton = forwardRef<View, TabButtonProps>(function TabButton(
   const progress = useSharedValue(isFocused ? 1 : 0);
 
   useEffect(() => {
-    progress.value = withSpring(isFocused ? 1 : 0, {
-      damping: 15,
-      stiffness: 40,
+    progress.value = withTiming(isFocused ? 1 : 0, {
+      duration: 500,
+      easing: Easing.inOut(Easing.ease),
     });
   }, [isFocused]);
 
@@ -39,7 +38,7 @@ export const TabButton = forwardRef<View, TabButtonProps>(function TabButton(
       backgroundColor: interpolateColor(
         progress.value,
         [0, 1],
-        ["transparent", Colors.brand.ORANGE]
+        ["transparent", Colors.brand.ORANGE],
       ),
       transform: [
         {
