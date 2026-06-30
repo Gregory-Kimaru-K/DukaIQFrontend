@@ -13,9 +13,6 @@ const Index = () => {
       <CustomStack header='SELL' desc="Create, View, edit and delete sales" stackType='type1'/>
       <ScrollView style={globalStyles.container}>
         <View>
-          <Text></Text>
-        </View>
-        <View>
           <Text style={[globalStyles.text, {fontWeight: "bold", paddingVertical: 12}]}>Today</Text>
           {Array.from({ length: 30 }).map((_, i) => (
             <Sale key={i} />
@@ -49,7 +46,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 16,
   },
   view: {
-    paddingBottom: 140
+    paddingBottom: 1
   }
 })
 

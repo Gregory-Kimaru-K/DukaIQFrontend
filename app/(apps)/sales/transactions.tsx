@@ -6,15 +6,15 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { ScrollView, StyleSheet } from 'react-native'
 import Sale from '@/components/Sale'
 import { Colors } from '@/constants/colors'
+import MiniSummary from '@/components/MiniSummary'
 
 const Transactions = () => {
   return (
     <SafeAreaView style={globalStyles.container}>
       <CustomStack header='TRANSACTIONS' desc="View, edit and delete sales" stackType='type1'/>
        <ScrollView style={globalStyles.container}>
-        <View>
-          <Text></Text>
-        </View>
+        <MiniSummary />
+        <Text style={[globalStyles.h2, {fontWeight: "bold", textAlign: "center", marginVertical: 12}]}>All Transactions</Text>
         <View>
           <Text style={[globalStyles.text, {fontWeight: "bold", paddingVertical: 12}]}>Today</Text>
           {Array.from({ length: 30 }).map((_, i) => (
