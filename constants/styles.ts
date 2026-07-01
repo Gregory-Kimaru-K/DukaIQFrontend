@@ -27,5 +27,15 @@ export const globalStyles = StyleSheet.create({
         width: "100%",
         height: "100%",
         backgroundColor: Colors.brand.DARK_BLUE
-    }
+    },
+    add_btn: {
+        backgroundColor: Colors.brand.ORANGE,
+        width: "64%",
+        height: 56,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center",
+        borderTopRightRadius: 24,
+        borderBottomLeftRadius: 24,
+    },
 })

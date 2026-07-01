@@ -44,7 +44,7 @@ const Index = () => {
         </View>
       </ScrollView>
       <Pressable
-        style={styles.add_btn}
+        style={[globalStyles.add_btn, {position: "fixed", bottom: 110}]}
         onPress={() => router.push("/(apps)/sales/(other)")}
       >
         <Text style={[globalStyles.h2, { fontWeight: "700" }]}>ADD SALE</Text>
@@ -54,18 +54,6 @@ const Index = () => {
 };
 
 const styles = StyleSheet.create({
-  add_btn: {
-    position: "fixed",
-    bottom: 110,
-    backgroundColor: Colors.brand.ORANGE,
-    width: "56%",
-    height: 56,
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
-    borderTopRightRadius: 16,
-    borderBottomLeftRadius: 16,
-  },
   view: {
     paddingBottom: 1,
   },

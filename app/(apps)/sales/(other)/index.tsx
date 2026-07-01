@@ -1,42 +1,51 @@
+import Product from "@/components/Product";
+import Search from "@/components/Search";
 import CustomStackTwo from "@/components/stacks/CustomStackTwo";
-import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CreateSaleScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <CustomStackTwo header="SELL" desc="Tap, search or scan barcode" icon="cart-outline"/>
-      <View style={styles.card}>
-        <Text style={[globalStyles.h2, styles.title]}>Create Sale</Text>
-        <Text style={[globalStyles.text, styles.subtitle]}>
-          This is where you can add a new sale.
+    <SafeAreaView style={globalStyles.container}>
+      <CustomStackTwo
+        header="SELL"
+        desc="Tap, search or scan barcode"
+        icon="cart-outline"
+      />
+      <Search />
+      <ScrollView
+        contentContainerStyle={styles.productsContent}
+        style={[globalStyles.container, styles.products]}
+      >
+        <Product image="img1" isFocused />
+        <Product image="img2" />
+        <Product image="img2" />
+        <Product image="img2" />
+      </ScrollView>
+      <Pressable
+        style={[globalStyles.add_btn, { position: "fixed", bottom: 0 }]}
+      >
+        <Text style={[globalStyles.h2, { fontWeight: "700" }]}>
+          Scan Product
         </Text>
-      </View>
+      </Pressable>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.brand.DARK_BLUE,
-    padding: 16,
+  products: {
+    flexGrow: 0,
   },
-  card: {
-    backgroundColor: Colors.brand.BLUE,
-    borderRadius: 16,
-    padding: 20,
-  },
-  title: {
-    color: Colors.text.WHITE,
-    marginBottom: 8,
-  },
-  subtitle: {
-    color: Colors.text.WHITE,
-    opacity: 0.8,
+  productsContent: {
+    flexDirection: "row",
+    gap: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
 });
 
