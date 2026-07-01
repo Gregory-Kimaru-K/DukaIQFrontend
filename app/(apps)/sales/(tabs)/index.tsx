@@ -6,8 +6,10 @@ import { globalStyles } from '@/constants/styles'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Image } from 'expo-image'
 import Sale from '@/components/Sale'
+import { useRouter } from 'expo-router'
 
 const Index = () => {
+  const router = useRouter()
   return (
     <SafeAreaView>
       <CustomStack header='SELL' desc="Create, View, edit and delete sales" stackType='type1'/>
@@ -25,7 +27,9 @@ const Index = () => {
           ))}
         </View>
       </ScrollView>
-      <Pressable style={styles.add_btn}>
+      <Pressable
+        style={styles.add_btn}
+        onPress={() => router.push("/(apps)/sales/(other)")}>
         <Text style={[globalStyles.h2, { fontWeight: "700" }]}>ADD SALE</Text>
       </Pressable>
     </SafeAreaView>

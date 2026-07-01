@@ -23,7 +23,7 @@ const index = () => {
                 </Pressable>
                 <Pressable 
                     style={styles.btn}
-                    onPress={() => router.navigate("/(apps)/sales")}>
+                    onPress={() => router.navigate("/(apps)/sales/(tabs)")}>
                     <Image source={require("../../assets/cart.png")} style={styles.image} />
                     <Text style={globalStyles.text}>SALES</Text>
                 </Pressable>
