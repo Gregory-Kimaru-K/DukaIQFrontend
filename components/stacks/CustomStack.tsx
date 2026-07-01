@@ -10,9 +10,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 type StackProps = {
     header: string,
     desc: string,
-    stackType: string
 }
-const CustomStack = ({header, desc, stackType}: StackProps) => {
+const CustomStack = ({header, desc}: StackProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.text_cont}>

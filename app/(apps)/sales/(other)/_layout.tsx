@@ -1,13 +1,13 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
+import { Colors } from '@/constants/colors'
 
 const OtherLayout = () => {
   return (
     <Stack>
-        <Stack.Screen name='index' 
-            />
-        <Stack.Screen name='[id]' />
+        <Stack.Screen name='index' options={{ headerShown: false }} />
+        <Stack.Screen name='[id]' options={{ headerShown: false }} />
     </Stack>
   )
 }

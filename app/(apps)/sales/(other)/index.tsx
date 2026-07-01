@@ -1,3 +1,4 @@
+import CustomStackTwo from "@/components/stacks/CustomStackTwo";
 import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
 import React from "react";
@@ -7,6 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const CreateSaleScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
+      <CustomStackTwo header="SELL" desc="Tap, search or scan barcode" icon="cart-outline"/>
       <View style={styles.card}>
         <Text style={[globalStyles.h2, styles.title]}>Create Sale</Text>
         <Text style={[globalStyles.text, styles.subtitle]}>

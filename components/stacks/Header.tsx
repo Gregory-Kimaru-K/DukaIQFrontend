@@ -7,7 +7,7 @@ import { Colors } from "@/constants/colors";
 
 const Header = () => {
   const [fontsLoaded] = useFonts({
-    Ultra: require("../assets/Ultra/Ultra-Regular.ttf"),
+    Ultra: require("../../assets/Ultra/Ultra-Regular.ttf"),
   });
 
   if (!fontsLoaded) {

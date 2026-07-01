@@ -1,36 +1,60 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import CustomStack from '@/components/CustomStack'
-import { globalStyles } from '@/constants/styles'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView, StyleSheet } from 'react-native'
-import Sale from '@/components/Sale'
-import { Colors } from '@/constants/colors'
-import MiniSummary from '@/components/MiniSummary'
+import MiniSummary from "@/components/MiniSummary";
+import Sale from "@/components/Sale";
+import CustomStack from "@/components/stacks/CustomStack";
+import { Colors } from "@/constants/colors";
+import { globalStyles } from "@/constants/styles";
+import React from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Transactions = () => {
   return (
     <SafeAreaView style={globalStyles.container}>
-      <CustomStack header='TRANSACTIONS' desc="View, edit and delete sales" stackType='type1'/>
-       <ScrollView style={globalStyles.container}>
+      <CustomStack
+        header="TRANSACTIONS"
+        desc="View, edit and delete sales"
+        stackType="type1"
+      />
+      <ScrollView style={globalStyles.container}>
         <MiniSummary />
-        <Text style={[globalStyles.h2, {fontWeight: "bold", textAlign: "center", marginVertical: 12}]}>All Transactions</Text>
+        <Text
+          style={[
+            globalStyles.h2,
+            { fontWeight: "bold", textAlign: "center", marginVertical: 12 },
+          ]}
+        >
+          All Transactions
+        </Text>
         <View>
-          <Text style={[globalStyles.text, {fontWeight: "bold", paddingVertical: 12}]}>Today</Text>
+          <Text
+            style={[
+              globalStyles.text,
+              { fontWeight: "bold", paddingVertical: 12 },
+            ]}
+          >
+            Today
+          </Text>
           {Array.from({ length: 30 }).map((_, i) => (
             <Sale key={i} />
           ))}
         </View>
         <View style={styles.view}>
-          <Text style={[globalStyles.text, {fontWeight: "bold", paddingVertical: 12}]}>Yesterday</Text>
+          <Text
+            style={[
+              globalStyles.text,
+              { fontWeight: "bold", paddingVertical: 12 },
+            ]}
+          >
+            Yesterday
+          </Text>
           {Array.from({ length: 30 }).map((_, i) => (
             <Sale key={i} />
           ))}
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   add_btn: {
@@ -40,14 +64,14 @@ const styles = StyleSheet.create({
     width: "56%",
     height: 56,
     alignItems: "center",
-    justifyContent:"center",
-    alignSelf:"center",
+    justifyContent: "center",
+    alignSelf: "center",
     borderTopRightRadius: 16,
     borderBottomLeftRadius: 16,
   },
   view: {
-    paddingBottom: 140
-  }
-})
+    paddingBottom: 140,
+  },
+});
 
-export default Transactions
+export default Transactions;
