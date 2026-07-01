@@ -6,6 +6,7 @@ import { MotiView } from "moti";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Easing } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const tabOrder = ["index", "statistics", "transactions"];
 
@@ -31,36 +32,42 @@ const TabsLayout = () => {
   }, [currentRoute]);
 
   return (
-    <Tabs style={{ backgroundColor: Colors.brand.DARK_BLUE, flex: 1 }}>
-      <MotiView
-        key={animationKey}
-        style={styles.contentWrapper}
-        from={{ opacity: 0.2, translateX: slideDirection * 400 }}
-        animate={{ opacity: 1, translateX: 0 }}
-        transition={{
-          type: "timing",
-          duration: 500,
-          easing: Easing.inOut(Easing.ease),
-        }}
-      >
-        <TabSlot />
-      </MotiView>
-      <TabList style={styles.tab}>
-        <TabTrigger name="statistics" href="./statistics" asChild>
-          <TabButton icon="stats-chart-outline" />
-        </TabTrigger>
-        <TabTrigger name="index" href="./" asChild>
-          <TabButton icon="cart-outline" />
-        </TabTrigger>
-        <TabTrigger name="transactions" href="./transactions" asChild>
-          <TabButton icon="albums-outline" />
-        </TabTrigger>
-      </TabList>
-    </Tabs>
+    <SafeAreaView style={styles.wrapper} edges={["bottom"]}>
+      <Tabs style={{ backgroundColor: Colors.brand.DARK_BLUE, flex: 1 }}>
+        <MotiView
+          key={animationKey}
+          style={styles.contentWrapper}
+          from={{ opacity: 0.2, translateX: slideDirection * 400 }}
+          animate={{ opacity: 1, translateX: 0 }}
+          transition={{
+            type: "timing",
+            duration: 500,
+            easing: Easing.inOut(Easing.ease),
+          }}
+        >
+          <TabSlot />
+        </MotiView>
+        <TabList style={styles.tab}>
+          <TabTrigger name="statistics" href="./statistics" asChild>
+            <TabButton icon="stats-chart-outline" />
+          </TabTrigger>
+          <TabTrigger name="index" href="./" asChild>
+            <TabButton icon="cart-outline" />
+          </TabTrigger>
+          <TabTrigger name="transactions" href="./transactions" asChild>
+            <TabButton icon="albums-outline" />
+          </TabTrigger>
+        </TabList>
+      </Tabs>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: Colors.brand.DARK_BLUE,
+  },
   contentWrapper: {
     flex: 1,
     width: "100%",

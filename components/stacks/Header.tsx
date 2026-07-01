@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.brand.BLUE
   },
   gradient: {
-    width: "100%",
+    alignSelf: "flex-start",
   },
   headerTitle: {
     fontSize: 40,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   gradientText: {
-    color: "transparent",
+    color: "rgba(255,255,255,0)",
   },
 });
 

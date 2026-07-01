@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   gradientText: {
-    color: "transparent",
+    color: "rgba(255,255,255,0)",
   },
 });
 export default CustomStack;
