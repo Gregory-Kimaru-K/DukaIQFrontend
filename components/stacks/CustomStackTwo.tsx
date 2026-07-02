@@ -5,15 +5,16 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type StackProps = {
   header: string,
   desc: string,
-  icon: React.ComponentProps<typeof Ionicons>["name"]
+  icon: React.ComponentProps<typeof Ionicons>["name"],
+  iconChange: () => void
 }
-const CustomStackTwo = ({header, desc, icon}: StackProps) => {
+const CustomStackTwo = ({header, desc, icon, iconChange}: StackProps) => {
   return (
     <View style={styles.container}>
         <Ionicons name="grid" size={40} color={Colors.brand.ORANGE} />
@@ -49,12 +50,12 @@ const CustomStackTwo = ({header, desc, icon}: StackProps) => {
             </LinearGradient>
         </MaskedView>
       </View>
-      <View style={styles.Icon}>
+      <Pressable style={styles.Icon} onPress={iconChange}>
         <Ionicons name={icon} color="#FFFFFF" size={32} />
         <View style={styles.products}>
             <Text style={globalStyles.text}>2</Text>
         </View>
-      </View>
+      </Pressable>
     </View>
   );
 };
