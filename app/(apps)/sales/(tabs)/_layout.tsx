@@ -2,13 +2,13 @@ import { TabButton } from "@/components/TabButton";
 import { Colors } from "@/constants/colors";
 import { useSegments } from "expo-router";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
-import { MotiView } from "moti";
+import { AnimatePresence, MotiView } from "moti";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Easing } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const tabOrder = ["index", "statistics", "transactions"];
+const tabOrder = ["statistics", "index", ,"transactions"];
 
 const TabsLayout = () => {
   const segments = useSegments();
@@ -16,7 +16,7 @@ const TabsLayout = () => {
     (segments.length === 3 ? segments[segments.length - 1] : "index") ??
     "index";
   const previousRouteRef = useRef(currentRoute);
-  const [slideDirection, setSlideDirection] = useState(1);
+  const [slideDirection, setSlideDirection] = useState(0);
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
@@ -34,19 +34,26 @@ const TabsLayout = () => {
   return (
     <SafeAreaView style={styles.wrapper} edges={["bottom"]}>
       <Tabs style={{ backgroundColor: Colors.brand.DARK_BLUE, flex: 1 }}>
-        <MotiView
-          key={animationKey}
-          style={styles.contentWrapper}
-          from={{ opacity: 0.2, translateX: slideDirection * 400 }}
-          animate={{ opacity: 1, translateX: 0 }}
-          transition={{
-            type: "timing",
-            duration: 500,
-            easing: Easing.inOut(Easing.ease),
-          }}
-        >
-          <TabSlot />
-        </MotiView>
+        <AnimatePresence exitBeforeEnter>
+          <MotiView
+            key={animationKey}
+            style={styles.contentWrapper}
+            from={{ opacity: 0, translateY: 500 }}
+            animate={{ opacity: 1, translateY: 0 }}
+            transition={{
+              type: "timing",
+              duration: 500,
+              // easing: Easing.inOut(Easing.ease),
+            }}
+            exit={{ opacity: 0 }}
+            exitTransition={{
+              type: "timing",
+              duration: 10
+            }}
+          >
+            <TabSlot />
+          </MotiView>
+        </AnimatePresence>
         <TabList style={styles.tab}>
           <TabTrigger name="statistics" href="./statistics" asChild>
             <TabButton icon="stats-chart-outline" />

@@ -22,7 +22,7 @@ const CreateSaleScreen = () => {
         <Product image="img1" isFocused />
         <Product image="img2" />
         <Product image="img2" />
-        <Product image="img2" />
+        <Product image="img1" />
       </ScrollView>
       <Pressable
         style={[globalStyles.add_btn, { position: "fixed", bottom: 0 }]}
