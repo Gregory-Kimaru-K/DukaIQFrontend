@@ -9,15 +9,7 @@ import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CreateSaleScreen = () => {
-  const {
-    bottomSheetRef,
-    isOpenOne,
-    snap,
-    snapPoints,
-    openSheetOne,
-    onSheetChange,
-    onClose,
-  } = useSheetOne();
+  const cartSheet = useSheetOne()
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -25,7 +17,7 @@ const CreateSaleScreen = () => {
         header="SELL"
         desc="Tap, search or scan barcode"
         icon="cart-outline"
-        onIconPress={() => openSheetOne(3)}
+        onIconPress={() => cartSheet.openSheetOne(3)}
       />
       <Search />
       <ScrollView
@@ -39,19 +31,19 @@ const CreateSaleScreen = () => {
       </ScrollView>
       <Pressable
         style={[globalStyles.add_btn, { position: "fixed", bottom: 0 }]}
-        onPress={() => openSheetOne(3)}
+        onPress={() => cartSheet.openSheetOne(3)}
       >
         <Text style={[globalStyles.h2, { fontWeight: "700" }]}>
           Scan Product
         </Text>
       </Pressable>
-      {isOpenOne && (
+      {cartSheet.isOpenOne && (
         <Cart
-          bottomSheetRef={bottomSheetRef}
-          snap={snap}
-          snapPoints={snapPoints}
-          onSheetChange={onSheetChange}
-          onClose={onClose}
+          bottomSheetRef={cartSheet.bottomSheetRef}
+          snap={cartSheet.snap}
+          snapPoints={cartSheet.snapPoints}
+          onSheetChange={cartSheet.onSheetChange}
+          onClose={cartSheet.onClose}
         />
       )}
     </SafeAreaView>

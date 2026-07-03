@@ -1,18 +1,26 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const useSheetOne = () => {
+
+type UseBottomSheetProps = {
+  initialIndex?: number;
+  snapPoints?: string[];
+};
+
+
+export const useSheetOne = ({
+    initialIndex=2, 
+    snapPoints = ["40%", "60%", "75%", "100%"]}: UseBottomSheetProps = {}) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isOpenOne, setIsOpenOne] = useState(false);
-  const [snap, setSnap] = useState(3);
-  const snapPoints: string[] = ["40%", "60%", "75%", "100%"];
+  const [snap, setSnap] = useState(initialIndex);
 
-  const openSheetOne = useCallback((index: number) => {
+  const openSheetOne = useCallback((index = initialIndex) => {
     setSnap(index);
     setIsOpenOne(true);
   }, []);
 
-  const onSheetChange = useCallback((index: number) => {
+  const onSheetChange = useCallback((index=initialIndex) => {
     setSnap(index);
   }, []);
 
