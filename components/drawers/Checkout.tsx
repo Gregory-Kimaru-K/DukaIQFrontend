@@ -7,7 +7,12 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CheckItem from "./CheckItem";
 
-const Checkout = () => {
+type CheckoutProps = {
+  closeOne: () => void;
+  openTwo: (index: number) => void;
+}
+
+const Checkout = ({closeOne, openTwo} : CheckoutProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.head}>
@@ -42,6 +47,7 @@ const Checkout = () => {
       <View style={{ paddingBottom: 50 }}>
         <CheckItem />
         <CheckItem />
+        {/* <CheckItem />
         <CheckItem />
         <CheckItem />
         <CheckItem />
@@ -49,8 +55,7 @@ const Checkout = () => {
         <CheckItem />
         <CheckItem />
         <CheckItem />
-        <CheckItem />
-        <CheckItem />
+        <CheckItem /> */}
       </View>
     </SafeAreaView>
   );

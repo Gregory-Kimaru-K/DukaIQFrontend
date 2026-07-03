@@ -9,7 +9,7 @@ type UseBottomSheetProps = {
 
 
 export const useSheetOne = ({
-    initialIndex=2, 
+    initialIndex=1, 
     snapPoints = ["40%", "60%", "75%", "100%"]}: UseBottomSheetProps = {}) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isOpenOne, setIsOpenOne] = useState(false);

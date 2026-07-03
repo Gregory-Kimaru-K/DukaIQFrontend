@@ -1,9 +1,9 @@
-import Checkout from "@/components/Checkout";
-import BottomSheetWrapper from "@/components/drawers/BottomSheetWrapper";
-import Cart from "@/components/drawers/Cart";
+import Checkout from "@/components/drawers/Checkout";
+import Payments from "@/components/drawers/Payments";
 import Product from "@/components/Product";
 import Search from "@/components/Search";
 import CustomStackTwo from "@/components/stacks/CustomStackTwo";
+import BottomSheetWrapper from "@/components/wrappers/BottomSheetWrapper";
 import { globalStyles } from "@/constants/styles";
 import { useSheetOne } from "@/hooks/useSheetOne";
 import React from "react";
@@ -11,7 +11,8 @@ import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CreateSaleScreen = () => {
-  const cartSheet = useSheetOne()
+  const cartSheet = useSheetOne();
+  const paySheet = useSheetOne();
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -33,7 +34,7 @@ const CreateSaleScreen = () => {
       </ScrollView>
       <Pressable
         style={[globalStyles.add_btn, { position: "fixed", bottom: 0 }]}
-        onPress={() => cartSheet.openSheetOne(3)}
+        onPress={() => paySheet.openSheetOne(3)}
       >
         <Text style={[globalStyles.h2, { fontWeight: "700" }]}>
           Scan Product
@@ -47,7 +48,18 @@ const CreateSaleScreen = () => {
           onSheetChange={cartSheet.onSheetChange}
           onClose={cartSheet.onClose}
         >
-            <Checkout />
+          <Checkout closeOne={cartSheet.onClose} openTwo={paySheet.openSheetOne}  />
+        </BottomSheetWrapper>
+      )}
+      {paySheet.isOpenOne && (
+        <BottomSheetWrapper
+          bottomSheetRef={paySheet.bottomSheetRef}
+          snap={paySheet.snap}
+          snapPoints={paySheet.snapPoints}
+          onSheetChange={paySheet.onSheetChange}
+          onClose={paySheet.onClose}
+        >
+          <Payments openOne={cartSheet.openSheetOne} closeTwo={paySheet.onClose} />
         </BottomSheetWrapper>
       )}
     </SafeAreaView>

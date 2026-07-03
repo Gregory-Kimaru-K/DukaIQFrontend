@@ -19,6 +19,18 @@ export const globalStyles = StyleSheet.create({
         ...BASE_TEXT,
         fontSize: 24
     },
+    h3: {
+        ...BASE_TEXT,
+        fontSize: 20
+    },
+    h4: {
+        ...BASE_TEXT,
+        fontSize: 18
+    },
+    h5: {
+        ...BASE_TEXT,
+        fontSize: 16
+    },
     text: {
         ...BASE_TEXT,
         fontSize: 14
@@ -54,7 +66,7 @@ export const globalStyles = StyleSheet.create({
         borderTopColor: Colors.brand.LIGHT_BLUE,
     },
     sheetBackground2: {
-        backgroundColor: "rgba(3, 31, 75, 0.96)",
+        backgroundColor: "rgba(3, 31, 75, 0.88)",
     },
     handleIndicator: {
         backgroundColor: "#FFFFFF",
