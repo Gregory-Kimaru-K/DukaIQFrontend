@@ -1,3 +1,5 @@
+import Checkout from "@/components/Checkout";
+import BottomSheetWrapper from "@/components/drawers/BottomSheetWrapper";
 import Cart from "@/components/drawers/Cart";
 import Product from "@/components/Product";
 import Search from "@/components/Search";
@@ -38,13 +40,15 @@ const CreateSaleScreen = () => {
         </Text>
       </Pressable>
       {cartSheet.isOpenOne && (
-        <Cart
+        <BottomSheetWrapper
           bottomSheetRef={cartSheet.bottomSheetRef}
           snap={cartSheet.snap}
           snapPoints={cartSheet.snapPoints}
           onSheetChange={cartSheet.onSheetChange}
           onClose={cartSheet.onClose}
-        />
+        >
+            <Checkout />
+        </BottomSheetWrapper>
       )}
     </SafeAreaView>
   );

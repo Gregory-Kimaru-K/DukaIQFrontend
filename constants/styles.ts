@@ -38,4 +38,25 @@ export const globalStyles = StyleSheet.create({
         borderTopRightRadius: 24,
         borderBottomLeftRadius: 24,
     },
+    gesture: {
+        width: "100%",
+        height: "100%",
+        position: "absolute",
+        bottom: 0,
+    },
+    contentContainer: {
+        flex: 1,
+        zIndex: 2,
+    },
+    sheetBackground: {
+        backgroundColor: "rgba(3, 31, 75, 0.58)",
+        borderTopWidth: 4,
+        borderTopColor: Colors.brand.LIGHT_BLUE,
+    },
+    sheetBackground2: {
+        backgroundColor: "rgba(3, 31, 75, 0.96)",
+    },
+    handleIndicator: {
+        backgroundColor: "#FFFFFF",
+    }
 })

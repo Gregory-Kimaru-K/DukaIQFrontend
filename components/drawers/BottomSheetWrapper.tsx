@@ -4,25 +4,27 @@ import { BlurView } from "expo-blur";
 import React from "react";
 import { Platform, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Checkout from "../Checkout";
+import { globalStyles } from "@/constants/styles";
 
-type CartProps = {
+type BottomSheetWrapperProps = {
   bottomSheetRef: React.RefObject<any>;
   snap: number;
   snapPoints: string[];
   onSheetChange: (index: number) => void;
   onClose: () => void;
+  children: React.ReactNode;
 };
 
-const Cart = ({
-  bottomSheetRef,
-  snap,
-  snapPoints,
-  onSheetChange,
-  onClose,
-}: CartProps) => {
+const BottomSheetWrapper = ({
+    bottomSheetRef,
+    snap,
+    snapPoints,
+    onSheetChange,
+    onClose,
+    children
+    }: BottomSheetWrapperProps) => {
   return (
-    <GestureHandlerRootView style={styles.gesture}>
+    <GestureHandlerRootView style={globalStyles.gesture}>
       <BlurView
         tint="dark"
         // @ts-ignore
@@ -46,44 +48,17 @@ const Cart = ({
         onClose={onClose}
         backgroundStyle={
           Platform.OS == "ios"
-            ? styles.sheetBackground
-            : styles.sheetBackground2
+            ? globalStyles.sheetBackground
+            : globalStyles.sheetBackground2
         }
-        handleIndicatorStyle={styles.handleIndicator}
+        handleIndicatorStyle={globalStyles.handleIndicator}
       >
-        <BottomSheetScrollView style={styles.contentContainer}>
-          <Checkout />
+        <BottomSheetScrollView style={globalStyles.contentContainer}>
+          {children}
         </BottomSheetScrollView>
       </BottomSheet>
     </GestureHandlerRootView>
   );
 };
 
-export default Cart;
-
-const styles = StyleSheet.create({
-  gesture: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    bottom: 0,
-  },
-  contentContainer: {
-    flex: 1,
-    zIndex: 2,
-  },
-  sheetBackground: {
-    backgroundColor: "rgba(3, 31, 75, 0.58)",
-    borderTopWidth: 4,
-    borderTopColor: Colors.brand.LIGHT_BLUE,
-  },
-  sheetBackground2: {
-    backgroundColor: "rgba(3, 31, 75, 0.96)",
-  },
-  handleIndicator: {
-    backgroundColor: "#FFFFFF",
-  },
-  sheetText: {
-    color: "#FFFFFF",
-  },
-});
+export default BottomSheetWrapper;
