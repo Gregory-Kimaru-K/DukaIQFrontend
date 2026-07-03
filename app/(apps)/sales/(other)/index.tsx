@@ -2,24 +2,27 @@ import Product from "@/components/Product";
 import Search from "@/components/Search";
 import CustomStackTwo from "@/components/stacks/CustomStackTwo";
 import { globalStyles } from "@/constants/styles";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import React, { useCallback, useRef, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Checkout from "@/components/drawers/Checkout";
+import { Colors } from "@/constants/colors";
 
 const CreateSaleScreen = () => {
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [isOpen, setIsOpen] = useState(false);
-  const snapPoints = ["40%", "60%", "75%", "100%"];
+  const [snap, setSnap] = useState(3)
+  const snapPoints: string[] = ["40%", "60%", "75%", "100%"];
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
     bottomSheetRef.current?.snapToIndex(index);
     setIsOpen(true);
+    setSnap(index)
   }, []);
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -48,7 +51,16 @@ const CreateSaleScreen = () => {
         </Text>
       </Pressable>
       {isOpen && (
+        <>
         <GestureHandlerRootView style={styles.gesture}>
+                <BlurView
+                    tint="dark"
+                    // @ts-ignore
+                    style={{ width: "100%", height: snapPoints[snap-1], position: "absolute", bottom: 0, zIndex: 0}}
+                    intensity={Platform.OS == "ios" ? 16 : 0}
+                    blurReductionFactor={80}
+                    experimentalBlurMethod="dimezisBlurView"
+                    />
                 <BottomSheet
                     ref={bottomSheetRef}
                     onChange={handleSheetChanges}
@@ -56,21 +68,15 @@ const CreateSaleScreen = () => {
                     snapPoints={snapPoints}
                     enablePanDownToClose={true}
                     onClose={() => setIsOpen(false)}
-                    backgroundStyle={styles.sheetBackground}
+                    backgroundStyle={Platform.OS == "ios" ? styles.sheetBackground : styles.sheetBackground2}
                     handleIndicatorStyle={styles.handleIndicator}
                 >
-                    <BlurView
-                        tint="dark"
-                        style={{ width: "100%", height: "100%" }}
-                        intensity={12}
-                        blurReductionFactor={10}
-                        experimentalBlurMethod="dimezisBlurView">
-                        <BottomSheetView style={styles.contentContainer}>
+                        <BottomSheetScrollView style={styles.contentContainer}>
                             <Checkout />
-                        </BottomSheetView>
-                    </BlurView>
+                        </BottomSheetScrollView>
                 </BottomSheet>
         </GestureHandlerRootView>
+        </>
       )}
     </SafeAreaView>
   );
@@ -96,11 +102,15 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    padding: 36,
-    alignItems: "center",
+    zIndex:2
   },
   sheetBackground: {
-    backgroundColor: "rgba(3, 31, 75, 0.4)",
+    backgroundColor: "rgba(3, 31, 75, 0.58)",
+    borderTopWidth: 4,
+    borderTopColor: Colors.brand.LIGHT_BLUE,
+  },
+  sheetBackground2: {
+    backgroundColor: "rgba(3, 31, 75, 0.96)",
   },
   handleIndicator: {
     backgroundColor: "#FFFFFF",
