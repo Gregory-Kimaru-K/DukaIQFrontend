@@ -13,6 +13,10 @@ type CheckoutProps = {
 }
 
 const Checkout = ({closeOne, openTwo} : CheckoutProps) => {
+  const handlePayments = () => {
+    closeOne()
+    openTwo(3)
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.head}>
@@ -33,7 +37,9 @@ const Checkout = ({closeOne, openTwo} : CheckoutProps) => {
       </Pressable>
       <View style={styles.total}>
         <Text style={[globalStyles.h2, { fontWeight: "bold" }]}>TOTAL</Text>
-        <Pressable style={styles.btn}>
+        <Pressable
+          style={styles.btn}
+          onPress={handlePayments}>
           <Text
             style={[
               globalStyles.h2,

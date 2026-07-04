@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import CoutryPickerComp from "../CoutryPickerComp";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 
 
@@ -14,10 +15,17 @@ type PaymentsProps = {
 };
 
 const Payments = ({ closeTwo, openOne }: PaymentsProps) => {
-  const [show, setShow] = useState(false);
-  const [countryCode, setCountryCode] = useState("254");
+  const handleBack = () => {
+    closeTwo()
+    openOne(3)
+  }
+
+  const [price, setPrice] = useState(1800)
   return (
     <SafeAreaView style={{ gap: 12 }}>
+        <Pressable onPress={handleBack}>
+            <Ionicons name="chevron-back-outline" color={"#ffffff"} size={32} />
+        </Pressable>
       <View style={styles.image_cont}>
         <Image
           source={require("../../assets/iphone.png")}
@@ -27,13 +35,18 @@ const Payments = ({ closeTwo, openOne }: PaymentsProps) => {
       <Text style={[globalStyles.h1pro, { textAlign: "center" }]}>
         PAY WITH MPESA
       </Text>
-      <Text
-        style={[
-          globalStyles.h1pro,
-          { textAlign: "center", color: Colors.brand.ORANGE },
-        ]}
-      >KSH. 1800</Text>
-
+        <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
+            <Text style={[ globalStyles.h1pro, { textAlign: "center", color: Colors.brand.ORANGE }] }>KSH.</Text>
+            <TextInput
+                style={[ globalStyles.h1pro, { textAlign: "center", color: Colors.brand.ORANGE }] }
+                value={price.toString()}
+                keyboardType="numeric"
+                onChangeText={(text) => {
+                    const value = Number(text);
+                    setPrice(isNaN(value) ? 0 : value);
+                }}
+                />
+        </View>
       <View style={{ gap: 4 }}>
         <Text style={globalStyles.text}>Customer Phone Number</Text>
         <View style={styles.textCont}>

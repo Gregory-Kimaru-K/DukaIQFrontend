@@ -1,4 +1,5 @@
 import Checkout from "@/components/drawers/Checkout";
+import Credit from "@/components/drawers/Credit";
 import Payments from "@/components/drawers/Payments";
 import Product from "@/components/Product";
 import Search from "@/components/Search";
@@ -13,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const CreateSaleScreen = () => {
   const cartSheet = useSheetOne();
   const paySheet = useSheetOne();
+  const creditSheet = useSheetOne();
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -34,7 +36,7 @@ const CreateSaleScreen = () => {
       </ScrollView>
       <Pressable
         style={[globalStyles.add_btn, { position: "fixed", bottom: 0 }]}
-        onPress={() => paySheet.openSheetOne(3)}
+        onPress={() => creditSheet.openSheetOne(2)}
       >
         <Text style={[globalStyles.h2, { fontWeight: "700" }]}>
           Scan Product
@@ -60,6 +62,17 @@ const CreateSaleScreen = () => {
           onClose={paySheet.onClose}
         >
           <Payments openOne={cartSheet.openSheetOne} closeTwo={paySheet.onClose} />
+        </BottomSheetWrapper>
+      )}
+      {creditSheet.isOpenOne && (
+        <BottomSheetWrapper
+          bottomSheetRef={creditSheet.bottomSheetRef}
+          snap={creditSheet.snap}
+          snapPoints={creditSheet.snapPoints}
+          onSheetChange={creditSheet.onSheetChange}
+          onClose={creditSheet.onClose}
+        >
+          <Credit/>
         </BottomSheetWrapper>
       )}
     </SafeAreaView>
