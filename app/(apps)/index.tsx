@@ -32,7 +32,9 @@ const index = () => {
                     <Image source={require("../../assets/Settings.png")} style={styles.image} />
                     <Text style={globalStyles.text}>SETTINGS</Text>
                 </Pressable>
-                <Pressable style={styles.btn}>
+                <Pressable
+                    style={styles.btn}
+                    onPress={() => router.navigate("/(apps)/products/(tabs)")}>
                     <Image source={require("../../assets/Portraits.png")} style={styles.image} />
                     <Text style={globalStyles.text}>PRODUCTS</Text>
                 </Pressable>
@@ -45,13 +47,15 @@ const index = () => {
                     <Image source={require("../../assets/Expense.png")} style={styles.image} />
                     <Text style={globalStyles.text}>EXPENSES</Text>
                 </Pressable>
+
                 <Pressable style={styles.btn}>
-                    
                     <Image source={require("../../assets/Tax.png")} style={styles.image} />
                     <Text style={globalStyles.text}>TAX</Text>
                 </Pressable>
-                <Pressable style={styles.btn}>
-                    
+
+                <Pressable
+                    style={styles.btn}
+                    onPress={() => router.navigate("/(apps)/creditors/(tabs)")}>
                     <Image source={require("../../assets/Debt.png")} style={styles.image} />
                     <Text style={globalStyles.text}>CREDITORS</Text>
                 </Pressable>

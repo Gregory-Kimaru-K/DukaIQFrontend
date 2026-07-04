@@ -15,9 +15,9 @@ const AppsLayout = () => {
             },
             headerTitle: () => <Header />,
             }} />
-        <Stack.Screen name='sales' options={{
-            headerShown: false
-        }} />
+        <Stack.Screen name='sales' options={{ headerShown: false }} />
+        <Stack.Screen name='products' options={{ headerShown: false }} />
+        <Stack.Screen name='creditors' options={{ headerShown: false }} />
     </Stack>
   )
 }
