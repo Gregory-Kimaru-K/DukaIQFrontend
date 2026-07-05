@@ -10,12 +10,16 @@ type StackProps = {
   header: string;
   desc: string;
   icon: React.ComponentProps<typeof Ionicons>["name"];
-  onIconPress?: () => void;
+  onIconPress: () => void;
+  count?:boolean;
+  countNo?: number;
 };
-const CustomStackTwo = ({ header, desc, icon, onIconPress }: StackProps) => {
+const CustomStackTwo = ({ header, desc, icon, onIconPress, count=false, countNo=0 }: StackProps) => {
   return (
     <View style={styles.container}>
-      <Ionicons name="grid" size={40} color={Colors.brand.ORANGE} />
+      <Pressable>
+        <Ionicons name="grid" size={40} color={Colors.brand.ORANGE} />
+      </Pressable>
       <View style={styles.text_cont}>
         <MaskedView
           maskElement={
@@ -53,9 +57,11 @@ const CustomStackTwo = ({ header, desc, icon, onIconPress }: StackProps) => {
       </View>
       <Pressable style={styles.Icon} onPress={onIconPress}>
         <Ionicons name={icon} color="#FFFFFF" size={32} />
-        <View style={styles.products}>
-          <Text style={globalStyles.text}>2</Text>
-        </View>
+        {(count && countNo!==0) && (
+          <View style={styles.products}>
+            <Text style={globalStyles.text}>{countNo}</Text>
+          </View>
+        )}
       </Pressable>
     </View>
   );
@@ -90,9 +96,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 4,
     right: 4,
+    padding: 4,
     backgroundColor: Colors.brand.ORANGE,
-    width: 18,
-    height: 18,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: "50%",

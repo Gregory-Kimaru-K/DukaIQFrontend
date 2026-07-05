@@ -1,7 +1,7 @@
-import Checkout from "@/components/drawers/Checkout";
-import Credit from "@/components/drawers/Credit";
-import Payments from "@/components/drawers/Payments";
-import Product from "@/components/Product";
+import Checkout from "@/components/drawerssale/Checkout";
+import Credit from "@/components/drawerssale/Credit";
+import Payments from "@/components/drawerssale/Payments";
+import Product from "@/components/sales/Product";
 import Search from "@/components/Search";
 import CustomStackTwo from "@/components/stacks/CustomStackTwo";
 import BottomSheetWrapper from "@/components/wrappers/BottomSheetWrapper";
@@ -23,6 +23,8 @@ const CreateSaleScreen = () => {
         desc="Tap, search or scan barcode"
         icon="cart-outline"
         onIconPress={() => cartSheet.openSheetOne(3)}
+        count={true}
+        countNo={0}
       />
       <Search />
       <ScrollView

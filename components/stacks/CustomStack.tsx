@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type StackProps = {
@@ -46,9 +46,10 @@ const CustomStack = ({header, desc}: StackProps) => {
             </LinearGradient>
         </MaskedView>
       </View>
-      <View style={styles.Icon}>
-        <Ionicons name="grid" color={"#FFFFFF"} size={40} />
-      </View>
+
+      <Pressable>
+        <Ionicons name="grid" color={Colors.brand.ORANGE} size={40} />
+      </Pressable>
     </View>
   );
 };
@@ -67,11 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   text_cont: {},
-  Icon: {
-    backgroundColor: Colors.brand.BLUE,
-    padding: 4,
-    borderRadius: 12,
-  },
   gradient: {
     width: "100%",
   },

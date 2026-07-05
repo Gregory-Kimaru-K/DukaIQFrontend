@@ -6,8 +6,8 @@ import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CoutryPickerComp from "../CoutryPickerComp";
-import DropDown from "../DropDown";
+import CoutryPickerComp from "../sales/CoutryPickerComp";
+import DropDown from "../sales/DropDown";
 
 const customerOptions = [
   { id: "1", label: "John Doe" },
@@ -20,8 +20,6 @@ const customerOptions = [
   { id: "8", label: "Grego Otis" },
   { id: "9", label: "Hellen Someone" },
   { id: "10", label: "Dont Knoow" },
-
-
 ];
 
 const Credit = () => {

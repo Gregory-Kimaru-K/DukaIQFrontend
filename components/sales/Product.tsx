@@ -17,12 +17,12 @@ const Product = ({
                 <View style={[styles.image_cont, isFocused && styles.image_contf]}>
                     {image === "img1" ? (
                         <Image
-                            source={require("../assets/Flour.png")}
+                            source={require("../../assets/Flour.png")}
                             style={{ width: 40, height: 40 }}
                         />
                     ) : (
                         <Image
-                            source={require("../assets/milbottle.png")}
+                            source={require("../../assets/milbottle.png")}
                             style={{ width: 40, height: 40 }}
                         />
                     )}

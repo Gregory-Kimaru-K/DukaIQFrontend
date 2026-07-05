@@ -1,13 +1,20 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { Stack } from 'expo-router'
+import { Colors } from "@/constants/colors";
+import { Stack } from "expo-router";
+import React from "react";
 
-const _layout = () => {
+const ProdOthLayout = () => {
   return (
-    <Stack>
-      <Stack.Screen name='index' /> 
+    <Stack
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: Colors.brand.DARK_BLUE },
+        headerTintColor: "#fff",
+      }}
+    >
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="[id]" />
     </Stack>
-  )
-}
+  );
+};
 
-export default _layout
+export default ProdOthLayout;

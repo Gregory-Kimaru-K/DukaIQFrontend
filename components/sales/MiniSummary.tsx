@@ -25,7 +25,7 @@ const MiniSummary = () => {
           end={[0,0.9]}
           
           style={styles.profit}>
-          <Image source={require("../assets/Profit.png")} style={styles.icon} />
+          <Image source={require("../../assets/Profit.png")} style={styles.icon} />
           <Text style={globalStyles.text}>Today's Net Profit</Text>
           <Text style={[globalStyles.text, {fontWeight: "bold"}]}>KSH. 300</Text>
         </LinearGradient>
@@ -37,7 +37,7 @@ const MiniSummary = () => {
           start={[0,0]}
           end={[0,1]}
           style={styles.monetary}>
-          <Image source={require("../assets/iphone.png")} style={styles.icon} />
+          <Image source={require("../../assets/iphone.png")} style={styles.icon} />
           <Text style={globalStyles.text}>Mpesa</Text>
           <Text style={globalStyles.text}>KSH. 300</Text>
         </LinearGradient>
@@ -47,7 +47,7 @@ const MiniSummary = () => {
           start={[0,0]}
           end={[0,1]}
           style={styles.monetary}>
-          <Image source={require("../assets/dollarbag.png")} style={styles.icon} />
+          <Image source={require("../../assets/dollarbag.png")} style={styles.icon} />
           <Text style={globalStyles.text}>Cash</Text>
           <Text style={globalStyles.text}>KSH. 300</Text>
         </LinearGradient>

@@ -7,7 +7,7 @@ const Sale = () => {
     return (
         <View style={styles.sale}>
             <View style={styles.image_cont}>
-                <Image source={require("../assets/Checkmark.png")} style={styles.image}/>
+                <Image source={require("../../assets/Checkmark.png")} style={styles.image}/>
             </View>
             <View style={{ width: "84%", gap: 16 }}>
                 <View style={styles.sales_top}>

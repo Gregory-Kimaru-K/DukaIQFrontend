@@ -1,5 +1,5 @@
-import MiniSummary from "@/components/MiniSummary";
-import Sale from "@/components/Sale";
+import MiniSummary from "@/components/sales/MiniSummary";
+import Sale from "@/components/sales/Sale";
 import CustomStack from "@/components/stacks/CustomStack";
 import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
