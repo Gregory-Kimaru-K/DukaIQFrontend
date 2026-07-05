@@ -5,7 +5,7 @@ import React from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const index = () => {
+const batch = () => {
   const router = useRouter();
   const iconPress = () => {
     router.push("/(apps)/products/(other)");
@@ -14,8 +14,8 @@ const index = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <CustomStackTwo
-        header="DRAFTING"
-        desc="Create and View Drafts"
+        header="RESTOCK"
+        desc="View, Add and Edit Batches"
         icon="add"
         onIconPress={iconPress}
       />
@@ -32,4 +32,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default batch;

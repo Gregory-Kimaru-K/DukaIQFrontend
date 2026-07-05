@@ -55,6 +55,9 @@ const TabsLayout = () => {
         </AnimatePresence>
         <TabList style={styles.tab}>
           <TabTrigger name="index" href="./" asChild>
+            <TabButton icon="clipboard-outline" />
+          </TabTrigger>
+          <TabTrigger name="batch" href="./batch" asChild>
             <TabButton icon="file-tray-stacked-outline" />
           </TabTrigger>
           <TabTrigger name="statistics" href="./statistics" asChild>

@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router'
 import { Colors } from '@/constants/colors'
 import { globalStyles } from '@/constants/styles'
 import Search from '@/components/Search'
+import Draft from '@/components/products/Draft'
 
 const Index = () => {
   const router = useRouter()
@@ -17,6 +18,7 @@ const Index = () => {
     <SafeAreaView style={{ backgroundColor: Colors.brand.DARK_BLUE, height: "100%" }}>
       <CustomStackTwo header='DRAFT-XXX' desc='Restock and View batches' icon='add' onIconPress={iconPress} />
       <Search />
+      <Draft />
     </SafeAreaView>
   )
 }
