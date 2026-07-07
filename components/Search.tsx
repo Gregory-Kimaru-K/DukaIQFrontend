@@ -19,14 +19,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 12,
         alignSelf: "center",
-        marginVertical: 12
+        marginVertical: 12,
     },
     input: {
         backgroundColor: Colors.brand.LIGHT_DARK_BLUE,
         width: "64%",
         height: 48,
         borderRadius: 20,
-        padding: 12
+        padding: 12,
+        borderWidth: .4,
+        borderColor: Colors.brand.LIGHT_BLUE
     },
     icon: {
         backgroundColor: Colors.brand.BLUE,

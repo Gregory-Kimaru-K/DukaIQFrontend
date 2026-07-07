@@ -13,7 +13,7 @@ const Draft = () => {
             </View>
             <View style={{ width: "72%", gap: 12 }}>
                 <View style={styles.row}>
-                    <Text style={[globalStyles.h2, {fontWeight: "bold"}]}>DRAFT-XXXX</Text>
+                    <Text style={[globalStyles.h4, {fontWeight: "bold"}]}>DRAFT-XXXX</Text>
                     <View style={{ backgroundColor: "#07449f92", padding: 3.2, borderRadius: 5 }}>
                         <Text style={globalStyles.text}>Shop_1</Text>
                     </View>

@@ -13,7 +13,6 @@ const Transactions = () => {
       <CustomStack
         header="TRANSACTIONS"
         desc="View, edit and delete sales"
-        stackType="type1"
       />
       <ScrollView style={globalStyles.container}>
         <MiniSummary />
