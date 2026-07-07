@@ -1,17 +1,32 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { globalStyles } from '@/constants/styles'
 import Search from '../Search'
-import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
-import Product from '../products/Product'
+import { Image } from 'expo-image'
 
 const ProductDraw = () => {
   return (
-    <View>
-      <Text style={globalStyles.h1}>Add Products</Text>
+    <View style={styles.container}>
+        <View style={globalStyles.image_cont}>
+        <Image source={require("../../assets/Portraits.png")} style={globalStyles.image} />
+        </View>
+      <Text style={[globalStyles.h1, { textAlign: "center" }]}>Draft Products</Text>
       <Search />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 4,
+    paddingTop: 12
+  },
+    image_cont: {
+      backgroundColor: "rgba(230, 100, 19, 0.48)",
+      padding: 12,
+      alignSelf: "center",
+      borderRadius: 16,
+    },
+})
 
 export default ProductDraw

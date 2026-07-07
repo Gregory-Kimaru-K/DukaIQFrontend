@@ -66,9 +66,6 @@ const TabsLayout = () => {
           <TabTrigger name="products" href="./products" asChild>
             <TabButton icon="cube-outline" />
           </TabTrigger>
-          <TabTrigger name="suppliers" href="./suppliers" asChild>
-            <TabButton icon="man-outline" />
-          </TabTrigger>
         </TabList>
       </Tabs>
     </SafeAreaView>

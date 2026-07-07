@@ -5,8 +5,11 @@ import { globalStyles } from '@/constants/styles'
 import { StyleSheet, Image } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { TextInput } from 'react-native-gesture-handler'
-const CheckItem = () => {
+
+
+const CheckItem = ({ restock=false }: {restock?: boolean}) => {
     const [quantity, setQuantity] = useState(1)
+    const [price, setPrice] = useState(600)
     return (
         <View style={styles.item}>
             <View style={styles.itemsCont}>
@@ -23,7 +26,19 @@ const CheckItem = () => {
                         <Ionicons name='add' size={20} color={"#ffffff"} />
                     </Pressable>
                 </View>
-                <Text style={{fontWeight: "bold", color: Colors.brand.ORANGE, fontSize: 18}}>KSH. 600</Text>
+                {restock ? (
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <Text style={{fontWeight: "bold", color: Colors.brand.ORANGE, fontSize: 18}}>KSH.</Text>
+                        <TextInput
+                            value={price.toString()}
+                            style={{fontWeight: "bold", color: Colors.brand.ORANGE, fontSize: 18}}
+                             />
+                    </View>
+                )
+                    :
+                    <Text style={{fontWeight: "bold", color: Colors.brand.ORANGE, fontSize: 18}}>KSH. 600</Text>
+
+                }
                 <Pressable>
                     <Ionicons name='close-circle' size={28} color={Colors.brand.LIGHT_BLUE} />
                 </Pressable>

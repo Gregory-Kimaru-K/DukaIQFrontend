@@ -70,5 +70,15 @@ export const globalStyles = StyleSheet.create({
     },
     handleIndicator: {
         backgroundColor: "#FFFFFF",
+    },
+    image_cont: {
+      backgroundColor: "rgba(230, 100, 19, 0.48)",
+      padding: 12,
+      alignSelf: "center",
+      borderRadius: 16,
+    },
+    image: {
+        width: 56,
+        height: 56
     }
 })
