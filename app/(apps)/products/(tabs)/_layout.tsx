@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   tab: {
-    height: 92,
+    height: 64,
     backgroundColor: Colors.brand.DARK_BLUE,
     justifyContent: "space-around",
     alignItems: "center",

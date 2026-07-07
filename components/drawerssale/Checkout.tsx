@@ -27,7 +27,7 @@ const Checkout = ({closeOne, openTwo} : CheckoutProps) => {
           colors={["#07439F", "#031e47", "#021025"]}
           start={[0, 0]}
           end={[0, 1]}
-          style={styles.scan}
+          style={globalStyles.scan}
         >
           <Ionicons name="image" size={56} color={Colors.brand.ORANGE} />
         </LinearGradient>
@@ -54,13 +54,6 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     gap: 12,
-  },
-  scan: {
-    width: "64%",
-    height: 120,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
   },
 });
 export default Checkout;

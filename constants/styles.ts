@@ -80,5 +80,12 @@ export const globalStyles = StyleSheet.create({
     image: {
         width: 56,
         height: 56
-    }
+    },
+    scan: {
+        width: "64%",
+        height: 120,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 20,
+    },
 })
