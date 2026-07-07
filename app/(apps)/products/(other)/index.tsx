@@ -10,10 +10,13 @@ import { useSheetOne } from '@/hooks/useSheetOne'
 import BottomSheetWrapper from '@/components/wrappers/BottomSheetWrapper'
 import ProductDraw from '@/components/drawerproduct/ProductDraw'
 import RestockDraw from '@/components/drawerproduct/RestockDraw'
+import Payments from '@/components/drawerssale/Payments'
 
 const Index = () => {
   const productAdd = useSheetOne()
   const restock = useSheetOne()
+  const paymentStock = useSheetOne()
+  const credit = useSheetOne()
   return (
     <SafeAreaView style={{ backgroundColor: Colors.brand.DARK_BLUE, height: "100%" }}>
       <CustomStackTwo header='DRAFT-XXX' desc='Restock and View batches' icon='add' onIconPress={() => productAdd.openSheetOne(3)} />
@@ -48,7 +51,18 @@ const Index = () => {
           onSheetChange={restock.onSheetChange}
           onClose={restock.onClose}
         >
-          <RestockDraw />
+          <RestockDraw openPay={() => paymentStock.openSheetOne(3)} />
+        </BottomSheetWrapper>
+      )}
+      {paymentStock.isOpenOne && (
+        <BottomSheetWrapper
+          bottomSheetRef={paymentStock.bottomSheetRef}
+          snap={paymentStock.snap}
+          snapPoints={paymentStock.snapPoints}
+          onSheetChange={paymentStock.onSheetChange}
+          onClose={paymentStock.onClose}
+        >
+          <Payments closeTwo={restock.onClose} openOne={() => restock.openSheetOne(3)} />
         </BottomSheetWrapper>
       )}
     </SafeAreaView>

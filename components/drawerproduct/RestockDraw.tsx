@@ -7,15 +7,14 @@ import Total from '../sales/Total'
 import CheckHead from '../sales/CheckHead'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const RestockDraw = () => {
-    const handlePay =() => {}
+const RestockDraw = ({ openPay }: {openPay: () => void}) => {
     return (
         <SafeAreaView style={styles.container}>
             <CheckHead head='Restock' />
             <View style={globalStyles.image_cont}>
                 <Image source={require("../../assets/Supplier.png")} style={globalStyles.image} />
             </View>
-            <Total handlePayments={handlePay} />
+            <Total handlePayments={openPay} />
             <View>
                 <CheckItem restock={true} />
                 {/* <CheckItem restock={true} />
