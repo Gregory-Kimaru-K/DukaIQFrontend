@@ -1,4 +1,5 @@
 import Search from "@/components/Search";
+import ProductDets from "@/components/drawerproduct/ProductDets";
 import ProductDraw from "@/components/drawerproduct/ProductDraw";
 import RestockDraw from "@/components/drawerproduct/RestockDraw";
 import Payments from "@/components/drawerssale/Payments";
@@ -17,6 +18,8 @@ const Index = () => {
   const restock = useSheetOne();
   const paymentStock = useSheetOne();
   const credit = useSheetOne();
+  const productDetails = useSheetOne()
+
   return (
     <SafeAreaView
       style={{ backgroundColor: Colors.brand.DARK_BLUE, height: "100%" }}
@@ -29,12 +32,11 @@ const Index = () => {
       />
       <Search />
       <ScrollView contentContainerStyle={{ gap: 12 }}>
+        <Product  />
         <Product />
         <Product />
         <Product />
         <Product />
-        <Product />
-
       </ScrollView>
       <Pressable
         style={[globalStyles.add_btn, { position: "fixed", bottom: 10 }]}
@@ -79,6 +81,18 @@ const Index = () => {
           />
         </BottomSheetWrapper>
       )}
+      {paymentStock.isOpenOne && (
+        <BottomSheetWrapper
+          bottomSheetRef={paymentStock.bottomSheetRef}
+          snap={paymentStock.snap}
+          snapPoints={paymentStock.snapPoints}
+          onSheetChange={paymentStock.onSheetChange}
+          onClose={paymentStock.onClose}
+        >
+          <ProductDets />
+        </BottomSheetWrapper>
+      )}
+
     </SafeAreaView>
   );
 };

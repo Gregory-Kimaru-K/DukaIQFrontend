@@ -28,61 +28,29 @@ const Product = ({ isFocused: isFocusedProp = false }: ProductProps) => {
             ]}
         >
             <View style={isFocused ? styles.image_cont_focused : styles.image_cont}>
-            <Image
-                source={isFocused ? require("../../assets/BluePortraits.png") : require("../../assets/Portraits.png")}
-                style={styles.image}
-            />
+                <Image source={isFocused ? require("../../assets/BluePortraits.png") : require("../../assets/Portraits.png")}
+                    style={styles.image} />
             </View>
+
+
             <View style={{ width: "72%", gap: 12 }}>
-            <View style={styles.row}>
-                <Text
-                style={[
-                    globalStyles.h4,
-                    {
-                    fontWeight: "bold",
-                    color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE,
-                    },
-                ]}
-                >
-                PRODUCT-XXXX
-                </Text>
-                <View
-                style={{
-                    backgroundColor: isFocused ? Colors.brand.LIGHT_BLUE : "#07449f92",
-                    padding: 3.2,
-                    borderRadius: 5,
-                }}
-                >
-                <Text
-                    style={[
-                    globalStyles.text,
-                    ]}
-                >
-                    Shop_1
-                </Text>
+                <View style={styles.row}>
+                    <Text
+                        style={[ globalStyles.h4,{ fontWeight: "bold",color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}
+                        >
+                        PRODUCT-XXXX
+                    </Text>
+                    <View style={{ backgroundColor: isFocused ? Colors.brand.LIGHT_BLUE : "#07449f92", padding: 3.2, borderRadius: 5}}>
+                        <Text style={globalStyles.text}>Shop_1</Text>
+                    </View>
                 </View>
-            </View>
 
-            {open && <ProductEdit />}
+                {open && <ProductEdit />}
 
-            <View style={styles.row}>
-                <Text
-                style={[
-                    globalStyles.text,
-                    { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE },
-                ]}
-                >
-                20 Unit
-                </Text>
-                <Text
-                style={[
-                    globalStyles.text,
-                    { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE },
-                ]}
-                >
-                Updated at 5:12PM
-                </Text>
-            </View>
+                <View style={styles.row}>
+                    <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE }, ]} >20 Unit</Text>
+                    <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}>Updated at 5:12PM</Text>
+                </View>
             </View>
             <Pressable onPress={() => setOpen(!open)}>
             <Ionicons
