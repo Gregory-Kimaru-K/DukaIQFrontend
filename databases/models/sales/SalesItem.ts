@@ -1,9 +1,9 @@
-import { Products } from "../products/Product";
+import { Product } from "../products/Product";
 import { Sales } from "./Sales";
 
 export interface SalesItem {
     id:string;
-    product:Products;
+    product:Product;
     sale:Sales;
     quantity:number;
     price:number;

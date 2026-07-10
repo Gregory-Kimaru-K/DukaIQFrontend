@@ -11,5 +11,6 @@
   "workbench.preferredHighContrastLightColorTheme": "Monokai",
   "workbench.sideBar.location": "right",
   "workbench.iconTheme": "vs-minimal",
-  "workbench.tree.expandMode": "singleClick"
+  "workbench.tree.expandMode": "singleClick",
+  "workbench.settings.openDefaultSettings": false
 }

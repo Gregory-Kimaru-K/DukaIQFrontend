@@ -1,0 +1,23 @@
+import { Creditors } from "./models/Creditors";
+import { Category } from "./models/products/Category";
+import { Credit } from "./models/products/Credit";
+import { Product } from "./models/products/Product";
+import { Shop } from "./models/products/Shop";
+import { Type } from "./models/products/Type";
+import { Vendor } from "./models/products/Vendors";
+import { Sales } from "./models/sales/Sales";
+import { SalesItem } from "./models/sales/SalesItem";
+import { Batch } from "./models/stock/Batch";
+import { BatchItem } from "./models/stock/BatchItem";
+
+export const Shops: Shop[] = [];
+export const Categories: Category[] = [];
+export const Types: Type[] = [];
+export const Vendors: Vendor[] = [];
+export const Creditorss: Creditors[] = [];
+export const Credits: Credit[] = [];
+export const Products: Product[] = [];
+export const Batches: Batch[] = [];
+export const BatchItems: BatchItem[] = [];
+export const Saless: Sales[] = [];
+export const SalesItems: SalesItem[] = [];

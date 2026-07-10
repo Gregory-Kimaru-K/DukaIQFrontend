@@ -1,5 +1,3 @@
-import { Products } from "../products/Product"
-
 export interface Batch {
     id:string;
     payment_method:string;
