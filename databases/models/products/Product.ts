@@ -1,6 +1,7 @@
 import { Shop } from "./Shop";
 import { Category } from "./Category";
 import { Type } from "./Type";
+import { BatchItem } from "./BatchItem";
 
 export interface Products {
     id: string;
@@ -9,12 +10,10 @@ export interface Products {
     shop: Shop;
     category: Category;
     type: Type;
-    quantity:number;
-    expiry?:string;
-    price:string;
-    vat?:string;
-    exercise_duty:string;
-    profit:string;
-    updated_at:string;
     created_at:string;
+    current_stock: number;
+    total_purchased:number;
+    total_sold:number;
+    current_batch:BatchItem;
+    batch_count:number;
 }

@@ -2,7 +2,6 @@ import { Products } from "../products/Product"
 
 export interface Batch {
     id:string;
-    products: Products[];
     payment_method:string;
     price:string;
     payment:string;
