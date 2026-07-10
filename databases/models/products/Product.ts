@@ -4,12 +4,12 @@ import { Type } from "./Type";
 
 export interface Products {
     id: string;
-    barcode:string;
+    barcode?:string;
     name: string;
     shop: Shop;
     category: Category;
     type: Type;
-    quantity:string;
+    quantity:number;
     expiry?:string;
     price:string;
     vat?:string;
