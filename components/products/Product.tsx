@@ -4,8 +4,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import ProductEdit from "./ProductEdit";
 
 type ProductProps = {
     isFocused?: boolean;
@@ -14,7 +12,6 @@ type ProductProps = {
 const Product = ({ isFocused: isFocusedProp = false }: ProductProps) => {
     const [isFocusedState, setIsFocusedState] = useState(false);
     const isFocused = isFocusedProp || isFocusedState;
-    const [open, setOpen] = useState(false)
 
     return (
         <Pressable
@@ -45,16 +42,14 @@ const Product = ({ isFocused: isFocusedProp = false }: ProductProps) => {
                     </View>
                 </View>
 
-                {open && <ProductEdit />}
-
                 <View style={styles.row}>
                     <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE }, ]} >20 Unit</Text>
                     <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}>Updated at 5:12PM</Text>
                 </View>
             </View>
-            <Pressable onPress={() => setOpen(!open)}>
+            <Pressable>
             <Ionicons
-                name={open ? "chevron-down" : "chevron-forward"}
+                name={"chevron-forward"}
                 size={32}
                 color={isFocused ? Colors.brand.LIGHT_BLUE : "#ffffff"}
                 style={{ alignSelf: "center" }}

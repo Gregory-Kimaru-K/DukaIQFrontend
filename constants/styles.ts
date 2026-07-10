@@ -88,4 +88,14 @@ export const globalStyles = StyleSheet.create({
         justifyContent: "center",
         borderRadius: 20,
     },
+    btn: {
+        backgroundColor: Colors.brand.ORANGE,
+        width: "64%",
+        height: 56,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center",
+        borderRadius: 8,
+        marginTop: 12
+    }
 })

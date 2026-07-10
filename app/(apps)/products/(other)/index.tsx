@@ -40,7 +40,7 @@ const Index = () => {
       </ScrollView>
       <Pressable
         style={[globalStyles.add_btn, { position: "fixed", bottom: 10 }]}
-        onPress={() => restock.openSheetOne(3)}
+        onPress={() => productDetails.openSheetOne(3)}
       >
         <Text style={[globalStyles.h2, { fontWeight: "700" }]}>RESTOCK</Text>
       </Pressable>
@@ -81,13 +81,13 @@ const Index = () => {
           />
         </BottomSheetWrapper>
       )}
-      {paymentStock.isOpenOne && (
+      {productDetails.isOpenOne && (
         <BottomSheetWrapper
-          bottomSheetRef={paymentStock.bottomSheetRef}
-          snap={paymentStock.snap}
-          snapPoints={paymentStock.snapPoints}
-          onSheetChange={paymentStock.onSheetChange}
-          onClose={paymentStock.onClose}
+          bottomSheetRef={productDetails.bottomSheetRef}
+          snap={productDetails.snap}
+          snapPoints={productDetails.snapPoints}
+          onSheetChange={productDetails.onSheetChange}
+          onClose={productDetails.onClose}
         >
           <ProductDets />
         </BottomSheetWrapper>
