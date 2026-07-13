@@ -97,5 +97,18 @@ export const globalStyles = StyleSheet.create({
         alignSelf: "center",
         borderRadius: 8,
         marginTop: 12
+    },
+    inputContainer: {
+        width: "92%",
+        alignSelf: "center"
+    },
+    input: {
+        width: "100%",
+        height:44,
+        padding: 8,
+        backgroundColor: Colors.brand.DARK_LIGHT_BLUE,
+        color: "#ffffff",
+        fontSize: 16,
+        borderRadius: 8,
     }
 })

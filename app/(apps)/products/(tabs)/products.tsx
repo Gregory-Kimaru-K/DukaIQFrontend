@@ -15,7 +15,7 @@ const products = () => {
   const proddets = useSheetOne()
   return (
     <SafeAreaView style={globalStyles.container}>
-      <CustomStackTwo header="PRODUCTS" desc="Add, View Products" icon='add' onIconPress={() => proddets.openSheetOne(1)}/>
+      <CustomStackTwo header="PRODUCTS" desc="Add, View Products" icon='add' onIconPress={() => proddets.openSheetOne(3)}/>
       <Search />
       <Product />
       {proddets.isOpenOne && (

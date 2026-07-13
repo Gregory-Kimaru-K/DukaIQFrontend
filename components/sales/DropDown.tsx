@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    View,
+    View
 } from "react-native";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 type DropDownItem = {
@@ -53,6 +53,7 @@ const DropDown = ({
     onSelect(item);
   };
 
+  
   return (
     <View style={styles.container}>
       <TextInput
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     marginTop: 8,
-    maxHeight: 350,
+    maxHeight: 160,
     backgroundColor: "#0f1b34",
     borderRadius: 8,
     borderWidth: 1,
