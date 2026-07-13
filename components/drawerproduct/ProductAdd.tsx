@@ -39,8 +39,8 @@ const TypeOptions = [
 
 const ProductAdd = () => {
     const [shopName, setShopName] = useState("");
-    const [categoryName, setCategoryName] = useState("")
-    const [TypeName, setTypeName] = useState("")
+    const [categoryName, setCategoryName] = useState("");
+    const [TypeName, setTypeName] = useState("");
     return (
         <SafeAreaView style={styles.safeArea}>
             <KeyboardAvoidingView
