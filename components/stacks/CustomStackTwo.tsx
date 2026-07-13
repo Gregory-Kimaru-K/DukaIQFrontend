@@ -3,6 +3,7 @@ import { globalStyles } from "@/constants/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -15,9 +16,10 @@ type StackProps = {
   countNo?: number;
 };
 const CustomStackTwo = ({ header, desc, icon, onIconPress, count=false, countNo=0 }: StackProps) => {
+  const router = useRouter()
   return (
     <View style={styles.container}>
-      <Pressable>
+      <Pressable onPress={() => router.push("/(apps)")}>
         <Ionicons name="grid" size={40} color={Colors.brand.ORANGE} />
       </Pressable>
       <View style={styles.text_cont}>
