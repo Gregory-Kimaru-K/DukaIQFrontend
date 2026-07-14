@@ -53,7 +53,12 @@ const BottomSheetWrapper = ({
         }
         handleIndicatorStyle={globalStyles.handleIndicator}
       >
-        <BottomSheetScrollView style={globalStyles.contentContainer}>
+        <BottomSheetScrollView
+          style={globalStyles.contentContainer}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+
+          >
           {children}
         </BottomSheetScrollView>
       </BottomSheet>

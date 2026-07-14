@@ -40,7 +40,13 @@
         }
       ],
       "expo-font",
-      "expo-sqlite"
+      "expo-sqlite",
+       [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow this app to access your camera to scan barcodes."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

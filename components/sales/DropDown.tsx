@@ -2,13 +2,11 @@ import { Colors } from "@/constants/colors";
 import React, { useEffect, useMemo, useState } from "react";
 import {
     Pressable,
-    ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     View
 } from "react-native";
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 type DropDownItem = {
   id: string | number;
   label: string;
@@ -56,7 +54,7 @@ const DropDown = ({
   
   return (
     <View style={styles.container}>
-      <TextInput
+      <BottomSheetTextInput
         value={searchText}
         placeholder={placeholder}
         placeholderTextColor="#ffffff80"
