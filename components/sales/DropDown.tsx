@@ -1,25 +1,22 @@
 import { Colors } from "@/constants/colors";
-import React, { useEffect, useMemo, useState } from "react";
+import { Category } from "@/databases/models/products/Category";
+import { Shop } from "@/databases/models/products/Shop";
+import { Type } from "@/databases/models/products/Type";
 import {
-    Pressable,
-    StyleSheet,
-    Text,
-    View
-} from "react-native";
-import { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
-type DropDownItem = {
-  id: string | number;
-  label: string;
-  value?: string;
-};
+  BottomSheetScrollView,
+  BottomSheetTextInput,
+} from "@gorhom/bottom-sheet";
+import React, { useEffect, useMemo, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
-type DropDownProps = {
-  data: DropDownItem[];
+interface DropDownProps {
+  data: Shop[] | Category[] | Type[];
   value?: string;
   placeholder?: string;
-  onSelect: (item: DropDownItem) => void;
+  onSelect: (item: Shop | Category | Type) => void;
   noDataMessage?: string;
-};
+  onCreate?: (item: string) => void;
+}
 
 const DropDown = ({
   data,
@@ -27,31 +24,46 @@ const DropDown = ({
   placeholder = "Search...",
   onSelect,
   noDataMessage = "No results found",
+  onCreate,
 }: DropDownProps) => {
-  const [searchText, setSearchText] = useState(value);
+  const [searchText, setSearchText] = useState(value || "");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setSearchText(value);
+    if (value !== searchText) {
+      setSearchText(value || "");
+    }
   }, [value]);
 
   const filteredData = useMemo(() => {
     const query = searchText.trim().toLowerCase();
     if (!query) return data;
     return data.filter((item) => {
-      const label = item.label.toLowerCase();
-      const valueText = (item.value ?? item.label).toLowerCase();
-      return label.includes(query) || valueText.includes(query);
+      const label = item.name.toLowerCase();
+      return label.includes(query);
     });
   }, [data, searchText]);
 
-  const handleSelect = (item: DropDownItem) => {
-    setSearchText(item.label);
+  const handleSelect = (item: Shop | Category | Type) => {
+    const nextText = item.name;
+    console.log("Selected value:", nextText);
+    setSearchText(nextText);
     setOpen(false);
     onSelect(item);
+    console.log("Selected value:", nextText);
   };
 
-  
+  const handleCreate = (name: string) => {
+    const trimmedName = name.trim();
+    if (!trimmedName) return;
+
+    if (onCreate) {
+      onCreate(trimmedName);
+    }
+    setSearchText(trimmedName);
+    setOpen(false);
+  };
+
   return (
     <View style={styles.container}>
       <BottomSheetTextInput
@@ -64,14 +76,17 @@ const DropDown = ({
           if (!open) setOpen(true);
         }}
         onFocus={() => setOpen(true)}
-        onBlur={() => setOpen(false)}
       />
 
       {open && (
         <View style={styles.listContainer}>
           {filteredData.length === 0 ? (
-            <Pressable onPress={() => setOpen(false)}>
-              <Text style={styles.noDataText}>{searchText}</Text>
+            <Pressable onPress={() => handleCreate(searchText)}>
+              <Text style={styles.noDataText}>
+                {searchText.trim()
+                  ? `Create "${searchText.trim()}"`
+                  : "Create new entry"}
+              </Text>
             </Pressable>
           ) : (
             <BottomSheetScrollView
@@ -85,7 +100,7 @@ const DropDown = ({
                   style={styles.item}
                   onPress={() => handleSelect(item)}
                 >
-                  <Text style={styles.itemText}>{item.label}</Text>
+                  <Text style={styles.itemText}>{item.name}</Text>
                 </Pressable>
               ))}
             </BottomSheetScrollView>

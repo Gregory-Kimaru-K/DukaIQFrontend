@@ -1,128 +1,145 @@
 import { globalStyles } from "@/constants/styles";
-import React, { useState } from "react";
-import {
-    Pressable,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-} from "react-native";
+import { Category } from "@/databases/models/products/Category";
+import { Shop } from "@/databases/models/products/Shop";
+import { Type } from "@/databases/models/products/Type";
+import { ProductRepo } from "@/databases/repositories/ProductRepo";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import React, { useEffect, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDown from "../sales/DropDown";
 import ScanProducts from "../ScanProducts";
-import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-
-const ShopOptions = [
-  { id: "1", label: "Shop 1" },
-  { id: "2", label: "Shop 2" },
-  { id: "3", label: "Shop 3" },
-  { id: "4", label: "Shop 4" },
-  { id: "5", label: "Shop 5" },
-  { id: "6", label: "Shop 6" },
-  { id: "7", label: "Shop 7" },
-  { id: "8", label: "Shop 8" },
-  { id: "9", label: "Shop 9" },
-  { id: "10", label: "Shop 10" },
-  { id: "11", label: "Shop 11" },
-  { id: "12", label: "Shop 12" },
-  { id: "13", label: "Shop 13" },
-];
-
-const CatOptions = [
-  { id: "1", label: "Cat 1" },
-  { id: "2", label: "Cat 2" },
-  { id: "3", label: "Cat 3" },
-  { id: "4", label: "Cat 4" },
-  { id: "5", label: "Shop 5" },
-  { id: "6", label: "Shop 6" },
-  { id: "7", label: "Shop 7" },
-  { id: "8", label: "Shop 8" },
-  { id: "9", label: "Shop 9" },
-  { id: "10", label: "Shop 10" },
-  { id: "11", label: "Shop 11" },
-  { id: "12", label: "Shop 12" },
-  { id: "13", label: "Shop 13" },
-];
-
-const TypeOptions = [
-  { id: "1", label: "Type 1" },
-  { id: "2", label: "Type 2" },
-  { id: "3", label: "Type 3" },
-  { id: "4", label: "Type 4" },
-  { id: "5", label: "Shop 5" },
-  { id: "6", label: "Shop 6" },
-  { id: "7", label: "Shop 7" },
-  { id: "8", label: "Shop 8" },
-  { id: "9", label: "Shop 9" },
-  { id: "10", label: "Shop 10" },
-  { id: "11", label: "Shop 11" },
-  { id: "12", label: "Shop 12" },
-  { id: "13", label: "Shop 13" },
-];
 
 const ProductAdd = () => {
-  const [shopName, setShopName] = useState("");
-  const [categoryName, setCategoryName] = useState("");
-  const [TypeName, setTypeName] = useState("");
+  const [shop, setShop] = useState<Shop | null>(null);
+  const [category, setCategory] = useState<Category | null>(null);
+  const [type, setType] = useState<Type | null>(null);
+  const [productName, setProductName] = useState("");
+  const [barCode, setBarCode] = useState("");
+  const repo = ProductRepo;
+
+  useEffect(() => {
+    console.log(shop);
+  }, [shop]);
+  const shops = repo.listShops();
+  const categories = repo.listCategories();
+  const types = repo.listTypes();
+
+  const handleSelectShop = (item: Shop | Category | Type) => {
+    if (!("shop" in item) && !("category" in item)) {
+      setShop(item as Shop);
+    }
+  };
+
+  const handleCreateShop = (name: string) => {
+    const trimmedName = name.trim();
+    if (!trimmedName) return;
+
+    const newShop = repo.createShop({ name: trimmedName });
+    setShop(newShop);
+  };
+
+  const handleSelectCategory = (item: Shop | Category | Type) => {
+    if (typeof item === "object" && item !== null && "shop" in item) {
+      setCategory(item as Category);
+      setShop((item as Category).shop);
+    }
+  };
+
+  const handleCreateCategory = (name: string) => {
+    if (shop === null) {
+      alert("No shop selected for this category");
+      return;
+    }
+    const newCategory = repo.createCategory({ name: name, shop: shop });
+    setCategory(newCategory);
+  };
+
+  const handleSelectType = (item: Shop | Category | Type) => {
+    if (typeof item === "object" && item !== null && "category" in item) {
+      setType(item as Type);
+    }
+  };
+
+  const handleCreateCategor = (name: string) => {
+    if (category === null) {
+      alert("No category selected for this shop");
+      return;
+    }
+    const newType = repo.createType({ name: name, category: category });
+    setType(newType);
+  };
   return (
     <SafeAreaView style={styles.container}>
-        <Text style={globalStyles.h1pro}>Create Product</Text>
-        <ScanProducts />
+      <Text style={globalStyles.h1pro}>Create Product</Text>
+      <ScanProducts barcode={barCode} setBarcode={setBarCode} />
 
-        <View style={globalStyles.inputContainer}>
+      <View style={globalStyles.inputContainer}>
         <Text style={globalStyles.h5}>Product Name</Text>
         <BottomSheetTextInput
-            style={globalStyles.input}
-            placeholder="Product Name"
-            placeholderTextColor={"#ffffff80"}
+          style={globalStyles.input}
+          placeholder="Product Name"
+          placeholderTextColor={"#ffffff80"}
+          value={productName}
+          onChangeText={setProductName}
         />
-        </View>
+      </View>
 
-        <View style={globalStyles.inputContainer}>
+      <View style={globalStyles.inputContainer}>
         <Text style={globalStyles.h5}>Barcode Number</Text>
         <View style={[globalStyles.input, { justifyContent: "center" }]}>
+          {barCode ? (
             <Text style={[globalStyles.h5, { color: "#ffffff80" }]}>
-            Barcode Number
+              {barCode}
             </Text>
+          ) : (
+            <Text style={[globalStyles.h5, { color: "#ffffff80" }]}>
+              Barcode Number
+            </Text>
+          )}
         </View>
-        </View>
+      </View>
 
-        <View style={globalStyles.inputContainer}>
+      <View style={globalStyles.inputContainer}>
         <Text style={globalStyles.h5}>Shop Name</Text>
         <DropDown
-            data={ShopOptions}
-            value={shopName}
-            placeholder="Search or Create Shop"
-            onSelect={(item) => setShopName(item.label)}
-            noDataMessage="No matching Shop"
+          data={shops}
+          value={shop?.name ?? ""}
+          placeholder="Search or Create Shop"
+          onSelect={(item) => handleSelectShop(item)}
+          noDataMessage="No matching Shop"
+          onCreate={(name) => handleCreateShop(name)}
         />
-        </View>
-        <View style={globalStyles.inputContainer}>
+      </View>
+
+      <View style={globalStyles.inputContainer}>
         <Text style={globalStyles.h5}>Category Name</Text>
         <DropDown
-            data={CatOptions}
-            value={categoryName}
-            placeholder="Search or Create Category"
-            onSelect={(item) => setCategoryName(item.label)}
-            noDataMessage="No matching Category"
+          data={categories}
+          value={category?.name ?? ""}
+          placeholder="Search or Create Category"
+          onSelect={(item) => handleSelectCategory(item)}
+          noDataMessage="No matching Category"
+          onCreate={(name) => handleCreateCategory(name)}
         />
-        </View>
+      </View>
 
-        <View style={globalStyles.inputContainer}>
+      <View style={globalStyles.inputContainer}>
         <Text style={globalStyles.h5}>Type Name</Text>
         <DropDown
-            data={TypeOptions}
-            value={TypeName}
-            placeholder="Search or Create Type"
-            onSelect={(item) => setTypeName(item.label)}
-            noDataMessage="No matching Type"
+          data={types}
+          value={type?.name ?? ""}
+          placeholder="Search or Create Type"
+          onSelect={(item) => handleSelectType(item)}
+          noDataMessage="No matching Type"
         />
-        </View>
-        <Pressable style={globalStyles.btn}>
+      </View>
+
+      <Pressable style={globalStyles.btn}>
         <Text style={[globalStyles.h2, { fontWeight: "bold" }]}>
-            CREATE PRODUCT
+          CREATE PRODUCT
         </Text>
-        </Pressable>
+      </Pressable>
     </SafeAreaView>
   );
 };
@@ -134,4 +151,5 @@ const styles = StyleSheet.create({
     gap: 20,
   },
 });
+
 export default ProductAdd;

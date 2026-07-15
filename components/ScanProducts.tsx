@@ -3,17 +3,22 @@ import { globalStyles } from "@/constants/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function ScanProducts() {
+interface ScanProductType {
+  barcode: string;
+  setBarcode: Dispatch<SetStateAction<string>>;
+}
+
+export default function ScanProducts({ barcode, setBarcode }: ScanProductType) {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
 
   if (!permission) return <View />;
   if (!permission.granted) {
     return (
-       <TouchableOpacity style={{ alignItems: "center" }}>
+       <TouchableOpacity style={{ alignItems: "center" }} onPress={requestPermission}>
             <LinearGradient
                 colors={["#07439F", "#031e47", "#021025"]}
                 start={[0, 0]}
@@ -37,6 +42,7 @@ export default function ScanProducts() {
             alert(
               `Bar code with type ${type} and data ${data} has been scanned!`,
             );
+            setBarcode(data)
             // Add your logic here (e.g., fetch data or navigate)
           }
         }}
