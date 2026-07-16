@@ -14,7 +14,7 @@ export interface Product {
   current_stock: number;
   total_purchased: number;
   total_sold: number;
-  current_batch: BatchItem;
-  batch_count: number;
+  current_batch?: BatchItem;
+  batch_count?: number;
   unit: "Unit" | "Kg" | "Litre";
 }

@@ -1,10 +1,11 @@
+import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
 import { Category } from "@/databases/models/products/Category";
 import { Shop } from "@/databases/models/products/Shop";
 import { Type } from "@/databases/models/products/Type";
 import { ProductRepo } from "@/databases/repositories/ProductRepo";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDown from "../sales/DropDown";
@@ -17,10 +18,9 @@ const ProductAdd = () => {
   const [productName, setProductName] = useState("");
   const [barCode, setBarCode] = useState("");
   const repo = ProductRepo;
+  const units = ["Unit", "Kg", "Litre"];
+  const [selectUnit, setSelectUnit] = useState("Unit");
 
-  useEffect(() => {
-    console.log(shop);
-  }, [shop]);
   const shops = repo.listShops();
   const categories = repo.listCategories();
   const types = repo.listTypes();
@@ -61,13 +61,48 @@ const ProductAdd = () => {
     }
   };
 
-  const handleCreateCategor = (name: string) => {
+  const handleCreateType = (name: string) => {
     if (category === null) {
       alert("No category selected for this shop");
       return;
     }
     const newType = repo.createType({ name: name, category: category });
     setType(newType);
+  };
+
+  const handleCreateProduct = () => {
+    if (!productName.trim()) {
+      alert("Please enter a product name");
+      return;
+    }
+
+    if (!shop || !category || !type) {
+      alert("Please select a shop, category, and type");
+      return;
+    }
+
+    repo.createProduct({
+      name: productName.trim(),
+      barcode: barCode || undefined,
+      shop,
+      category,
+      type,
+      created_at: new Date().toISOString(),
+      current_stock: 0,
+      total_purchased: 0,
+      total_sold: 0,
+      current_batch: undefined as never,
+      batch_count: 0,
+      unit: selectUnit as "Unit" | "Kg" | "Litre",
+    });
+
+    alert("Product created successfully");
+    setProductName("");
+    setBarCode("");
+    setShop(null);
+    setCategory(null);
+    setType(null);
+    setSelectUnit("Unit");
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -132,10 +167,26 @@ const ProductAdd = () => {
           placeholder="Search or Create Type"
           onSelect={(item) => handleSelectType(item)}
           noDataMessage="No matching Type"
+          onCreate={(name) => handleCreateType(name)}
         />
       </View>
 
-      <Pressable style={globalStyles.btn}>
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.h5}>Units</Text>
+        <View style={styles.units}>
+          {units.map((unit, index) => (
+            <Pressable
+              style={selectUnit === unit ? styles.unitFocus : styles.unit}
+              key={index}
+              onPress={() => setSelectUnit(unit)}
+            >
+              <Text style={globalStyles.text}>{unit}</Text>
+            </Pressable>
+          ))}
+        </View>
+      </View>
+
+      <Pressable style={globalStyles.btn} onPress={handleCreateProduct}>
         <Text style={[globalStyles.h2, { fontWeight: "bold" }]}>
           CREATE PRODUCT
         </Text>
@@ -149,6 +200,25 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 24,
     gap: 20,
+  },
+  units: {
+    flexDirection: "row",
+    gap: 20,
+  },
+  unit: {
+    borderWidth: 1,
+    borderColor: Colors.brand.LIGHT_BLUE,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  unitFocus: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    backgroundColor: Colors.brand.ORANGE,
+    alignItems: "center",
   },
 });
 
