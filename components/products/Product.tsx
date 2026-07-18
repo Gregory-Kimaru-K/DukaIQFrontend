@@ -4,12 +4,14 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import type { Product as ProductModel } from '@/databases/models/products/Product'
 
 type ProductProps = {
     isFocused?: boolean;
+    product: ProductModel;
 };
 
-const Product = ({ isFocused: isFocusedProp = false }: ProductProps) => {
+const Product = ({ isFocused: isFocusedProp = false, product }: ProductProps) => {
     const [isFocusedState, setIsFocusedState] = useState(false);
     const isFocused = isFocusedProp || isFocusedState;
 
@@ -20,8 +22,8 @@ const Product = ({ isFocused: isFocusedProp = false }: ProductProps) => {
             onBlur={() => setIsFocusedState(false)}
             onLongPress={() => setIsFocusedState(!isFocused)}
             style={[
-            styles.container,
-            isFocused ? styles.containerFocused : styles.containerDefault,
+                styles.container,
+                isFocused ? styles.containerFocused : styles.containerDefault,
             ]}
         >
             <View style={isFocused ? styles.image_cont_focused : styles.image_cont}>
@@ -33,18 +35,21 @@ const Product = ({ isFocused: isFocusedProp = false }: ProductProps) => {
             <View style={{ width: "72%", gap: 12 }}>
                 <View style={styles.row}>
                     <Text
-                        style={[ globalStyles.h4,{ fontWeight: "bold",color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}
+                        style={[ globalStyles.h4, { fontWeight: "bold", color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}
                         >
-                        PRODUCT-XXXX
+                        {product.name}
                     </Text>
-                    <View style={{ backgroundColor: isFocused ? Colors.brand.LIGHT_BLUE : "#07449f92", padding: 3.2, borderRadius: 5}}>
-                        <Text style={globalStyles.text}>Shop_1</Text>
+                    <View style={{ backgroundColor: isFocused ? Colors.brand.LIGHT_BLUE : "#07449f92", padding: 3.2, borderRadius: 5 }}>
+                        <Text style={globalStyles.text}>{product.shop.name}</Text>
                     </View>
                 </View>
 
                 <View style={styles.row}>
-                    <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE }, ]} >20 Unit</Text>
-                    <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}>Updated at 5:12PM</Text>
+                    <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE }, ]} >{product.current_stock} {product.unit}</Text>
+                    <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}>
+                        Updated at {new Date(product.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second:"2-digit", hour12: true }).toUpperCase()}
+                    </Text>
+               
                 </View>
             </View>
             <Pressable>

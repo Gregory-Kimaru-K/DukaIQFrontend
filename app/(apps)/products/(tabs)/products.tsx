@@ -1,23 +1,45 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomStackTwo from '@/components/stacks/CustomStackTwo'
 import { useRouter } from 'expo-router'
 import Product from '@/components/products/Product'
+import type { Product as ProductModel } from '@/databases/models/products/Product'
 import Search from '@/components/Search'
 import { useSheetOne } from '@/hooks/useSheetOne'
 import BottomSheetWrapper from '@/components/wrappers/BottomSheetWrapper'
 import ProductAdd from '@/components/drawerproduct/ProductAdd'
 import { globalStyles } from '@/constants/styles'
+import { ProductRepo } from '@/databases/repositories/ProductRepo'
+import Products404 from '@/components/products/Products404'
 
 const products = () => {
   const router = useRouter()
   const proddets = useSheetOne()
+  const repoProducts = ProductRepo
+  const [products, setProducts] = useState<ProductModel[]>([])
+
+  useEffect(() => {
+    const products = repoProducts.listProducts()
+    setProducts(products)
+  }, [repoProducts])
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <CustomStackTwo header="PRODUCTS" desc="Add, View Products" icon='add' onIconPress={() => proddets.openSheetOne(3)}/>
-      <Search />
-      <Product />
+      <ScrollView
+        style={globalStyles.container}
+        contentContainerStyle={{ gap: 12 }}
+      >
+        <Search />
+        {products.length > 0 ? (
+          products.map((product) => (
+            <Product key={product.id} product={product} />
+          ))
+        ) : (
+          <Products404 />
+        )}
+      </ScrollView>
       {proddets.isOpenOne && (
         <BottomSheetWrapper
           bottomSheetRef={proddets.bottomSheetRef}

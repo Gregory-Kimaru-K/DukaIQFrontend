@@ -11,6 +11,7 @@ export interface Product {
   category: Category;
   type: Type;
   created_at: string;
+  updated_at: string;
   current_stock: number;
   total_purchased: number;
   total_sold: number;

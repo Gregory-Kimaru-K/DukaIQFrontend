@@ -94,6 +94,7 @@ const ProductAdd = () => {
       current_batch: undefined as never,
       batch_count: 0,
       unit: selectUnit as "Unit" | "Kg" | "Litre",
+      updated_at: new Date().toISOString(),
     });
 
     alert("Product created successfully");
