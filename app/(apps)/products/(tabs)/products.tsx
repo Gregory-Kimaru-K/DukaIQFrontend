@@ -15,7 +15,7 @@ import Products404 from '@/components/products/Products404'
 
 const products = () => {
   const router = useRouter()
-  const proddets = useSheetOne()
+  const proddets = useSheetOne({snapPoints: ["100%"]})
   const repoProducts = ProductRepo
   const [products, setProducts] = useState<ProductModel[]>([])
 
@@ -26,7 +26,7 @@ const products = () => {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <CustomStackTwo header="PRODUCTS" desc="Add, View Products" icon='add' onIconPress={() => proddets.openSheetOne(3)}/>
+      <CustomStackTwo header="PRODUCTS" desc="Add, View Products" icon='add' onIconPress={() => proddets.openSheetOne(0)}/>
       <ScrollView
         style={globalStyles.container}
         contentContainerStyle={{ gap: 12 }}

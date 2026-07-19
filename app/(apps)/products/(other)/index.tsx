@@ -32,11 +32,11 @@ const Index = () => {
       />
       <Search />
       <ScrollView contentContainerStyle={{ gap: 12 }}>
-        <Product  />
+        {/* <Product  />
         <Product />
         <Product />
         <Product />
-        <Product />
+        <Product /> */}
       </ScrollView>
       <Pressable
         style={[globalStyles.add_btn, { position: "fixed", bottom: 10 }]}

@@ -1,27 +1,42 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { globalStyles } from '@/constants/styles'
 import Search from '../Search'
-import { LinearGradient } from 'expo-linear-gradient'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { Colors } from '@/constants/colors'
 import CheckHead from '../sales/CheckHead'
+import ScanProducts from '../ScanProducts'
+import { ScrollView } from 'react-native-gesture-handler'
+import { ProductRepo } from '@/databases/repositories/ProductRepo'
+import { Product as ProductModel } from '@/databases/models/products/Product'
+import Product from '../products/Product'
+import Products404 from '../products/Products404'
 
 const ProductDraw = () => {
+  const [barcode, setBarcode] = useState('')
+  const [search, setSearch] = useState('')
+  const repoProducts = ProductRepo
+  const [products, setProducts] = useState<ProductModel[]>([])
+
+  useEffect(() => {
+    const products = repoProducts.listProducts()
+    setProducts(products)
+  }, [repoProducts])
+  
   return (
     <View style={styles.container}>
       <CheckHead head='Draft Products' />
-      <Pressable style={{ alignItems: "center" }}>
-        <LinearGradient
-        colors={["#07439F", "#031e47", "#021025"]}
-        start={[0, 0]}
-        end={[0, 1]}
-        style={globalStyles.scan}
-        >
-          <Ionicons name="image" size={56} color={Colors.brand.ORANGE} />
-        </LinearGradient>
-      </Pressable>
+     <ScanProducts barcode={barcode} setBarcode={setBarcode} />
       <Search />
+      <ScrollView contentContainerStyle={{ gap: 12 }}>
+        {products.length > 0 ? (
+          products.map((product) => (
+            <Product key={product.id} product={product} />
+          ))
+        ) : (
+          <Products404 />
+        )}
+      </ScrollView>
     </View>
   )
 }
@@ -31,12 +46,6 @@ const styles = StyleSheet.create({
     gap: 4,
     paddingTop: 12
   },
-    image_cont: {
-      backgroundColor: "rgba(230, 100, 19, 0.48)",
-      padding: 12,
-      alignSelf: "center",
-      borderRadius: 16,
-    },
 })
 
 export default ProductDraw

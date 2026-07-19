@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "flex-end",
         paddingHorizontal: 12,
+        marginBottom: 12,
     },
 })
 export default CheckHead

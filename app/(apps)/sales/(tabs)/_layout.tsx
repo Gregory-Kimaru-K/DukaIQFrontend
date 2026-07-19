@@ -2,10 +2,9 @@ import { TabButton } from "@/components/TabButton";
 import { Colors } from "@/constants/colors";
 import { useSegments } from "expo-router";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
-import { AnimatePresence, MotiView } from "moti";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Easing } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOut } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const tabOrder = ["statistics", "index", ,"transactions"];
@@ -34,26 +33,14 @@ const TabsLayout = () => {
   return (
     <SafeAreaView style={styles.wrapper} edges={["bottom"]}>
       <Tabs style={{ backgroundColor: Colors.brand.DARK_BLUE, flex: 1 }}>
-        <AnimatePresence exitBeforeEnter>
-          <MotiView
-            key={animationKey}
-            style={styles.contentWrapper}
-            from={{ opacity: 0, translateY: 500 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            transition={{
-              type: "timing",
-              duration: 500,
-              // easing: Easing.inOut(Easing.ease),
-            }}
-            exit={{ opacity: 0 }}
-            exitTransition={{
-              type: "timing",
-              duration: 10
-            }}
-          >
-            <TabSlot />
-          </MotiView>
-        </AnimatePresence>
+        <Animated.View
+          key={animationKey}
+          style={styles.contentWrapper}
+          entering={FadeInUp.duration(500)}
+          exiting={FadeOut.duration(10)}
+        >
+          <TabSlot />
+        </Animated.View>
         <TabList style={styles.tab}>
           <TabTrigger name="statistics" href="./statistics" asChild>
             <TabButton icon="stats-chart-outline" />

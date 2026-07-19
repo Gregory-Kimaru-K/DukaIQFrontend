@@ -1,9 +1,10 @@
 import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
 import React, { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ProductDets = () => {
@@ -104,7 +105,7 @@ const ProductDets = () => {
               <Ionicons name="remove" size={16} color={"#ffffff"} />
             </Pressable>
 
-            <TextInput
+            <BottomSheetTextInput
               keyboardType="numeric"
               value={buyingPrice.toString()}
               style={[globalStyles.text]}
@@ -133,7 +134,7 @@ const ProductDets = () => {
             >
               <Ionicons name="remove" size={16} color={"#ffffff"} />
             </Pressable>
-            <TextInput
+            <BottomSheetTextInput
               keyboardType="numeric"
               value={quantity.toString()}
               style={[globalStyles.text]}
@@ -161,7 +162,7 @@ const ProductDets = () => {
                 <Ionicons name="remove" size={16} color={"#ffffff"} />
               </Pressable>
 
-              <TextInput
+              <BottomSheetTextInput
                 keyboardType="numeric"
                 value={packQuantity.toString()}
                 style={[globalStyles.text]}
@@ -211,7 +212,7 @@ const ProductDets = () => {
               <Ionicons name="remove" size={16} color={"#ffffff"} />
             </Pressable>
 
-            <TextInput
+            <BottomSheetTextInput
               keyboardType="numeric"
               value={selling.toString()}
               style={[globalStyles.text]}

@@ -1,28 +1,44 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-
 type UseBottomSheetProps = {
   initialIndex?: number;
   snapPoints?: string[];
 };
 
-
 export const useSheetOne = ({
-    initialIndex=1, 
-    snapPoints = ["40%", "60%", "75%", "100%"]}: UseBottomSheetProps = {}) => {
+  initialIndex = 1,
+  snapPoints = ["40%", "60%", "75%", "100%"],
+}: UseBottomSheetProps = {}) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isOpenOne, setIsOpenOne] = useState(false);
-  const [snap, setSnap] = useState(initialIndex);
 
-  const openSheetOne = useCallback((index = initialIndex) => {
-    setSnap(index);
-    setIsOpenOne(true);
-  }, []);
+  const clampIndex = (i: number) => {
+    const max = Math.max(0, snapPoints.length - 1);
+    return Math.max(-1, Math.min(i, max));
+  };
 
-  const onSheetChange = useCallback((index=initialIndex) => {
-    setSnap(index);
-  }, []);
+  const effectiveInitial = clampIndex(initialIndex);
+  const [snap, setSnap] = useState<number>(effectiveInitial);
+
+  const openSheetOne = useCallback(
+    (index?: number) => {
+      const idx =
+        typeof index === "number" ? clampIndex(index) : effectiveInitial;
+      setSnap(idx);
+      setIsOpenOne(true);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [effectiveInitial, snapPoints],
+  );
+
+  const onSheetChange = useCallback(
+    (index?: number) => {
+      if (typeof index === "number") setSnap(clampIndex(index));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [snapPoints],
+  );
 
   const onClose = useCallback(() => {
     setIsOpenOne(false);
@@ -30,7 +46,9 @@ export const useSheetOne = ({
 
   useEffect(() => {
     if (isOpenOne && bottomSheetRef.current) {
-      bottomSheetRef.current.snapToIndex(snap);
+      const idx = clampIndex(snap);
+      // @ts-ignore
+      bottomSheetRef.current.snapToIndex(idx);
     }
   }, [isOpenOne, snap]);
 
