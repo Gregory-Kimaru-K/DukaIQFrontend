@@ -12,8 +12,8 @@ const ProdOthLayout = () => {
       }}
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="drafts/[draftid]" />
-      <Stack.Screen name="batches/[batchid]" />
+      <Stack.Screen name="drafts/[draftid]" options={{ headerShown: false }} />
+      <Stack.Screen name="batches/[batchid]" options={{ headerShown: false }} />
     </Stack>
   );
 };

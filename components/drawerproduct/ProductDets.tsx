@@ -12,6 +12,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 type ProductDetsProps = {
   draftItem?: DraftItem | null;
   onSaved?: () => void | Promise<void>;
+  quaintity?: number;
+  setQuantity?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const ProductDets = ({ draftItem, onSaved }: ProductDetsProps) => {

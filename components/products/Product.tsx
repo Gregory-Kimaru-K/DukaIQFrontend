@@ -9,10 +9,12 @@ import type { Product as ProductModel } from '@/databases/models/products/Produc
 type ProductProps = {
     isFocused?: boolean;
     product: ProductModel;
+    draft?: boolean;
+    quantity?: number;
     onPress?: (product: ProductModel) => void;
 };
 
-const Product = ({ isFocused: isFocusedProp = false, product, onPress }: ProductProps) => {
+const Product = ({ isFocused: isFocusedProp = false, product, onPress, quantity, draft }: ProductProps) => {
     const [isFocusedState, setIsFocusedState] = useState(false);
     const isFocused = isFocusedProp || isFocusedState;
 
@@ -47,7 +49,7 @@ const Product = ({ isFocused: isFocusedProp = false, product, onPress }: Product
                 </View>
 
                 <View style={styles.row}>
-                    <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE }, ]} >{product.current_stock} {product.unit}</Text>
+                    <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE }, ]} >{draft ? quantity : product.current_stock} {product.unit}</Text>
                     <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}>
                         Updated at {new Date(product.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second:"2-digit", hour12: true }).toUpperCase()}
                     </Text>

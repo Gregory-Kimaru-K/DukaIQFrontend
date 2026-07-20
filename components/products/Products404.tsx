@@ -1,11 +1,19 @@
 import React from "react";
 import { View, Text } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-
 import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
 
-const Products404 = () => {
+interface Products404Props {
+  icon?: React.ComponentProps<typeof Ionicons>["name"] | "";
+  title?: string;
+  desc?: string;
+}
+
+const Products404 = ({ icon, title, desc }: Products404Props) => {
+  const iconName: React.ComponentProps<typeof Ionicons>["name"] =
+    icon || "cube-outline";
+
   return (
     <View
       style={[
@@ -28,7 +36,7 @@ const Products404 = () => {
         }}
       >
         <Ionicons
-          name="cube-outline"
+          name={iconName}
           size={64}
           color={Colors.brand.LIGHT_BLUE}
         />
@@ -39,7 +47,7 @@ const Products404 = () => {
             bottom: 12,
             right: 12,
             backgroundColor: Colors.text.WHITE,
-            borderRadius: 20,
+            borderRadius: "50%",
             padding: 4,
           }}
         >
@@ -62,7 +70,7 @@ const Products404 = () => {
           },
         ]}
       >
-        No Products
+        {title || "No Products"}
       </Text>
 
       <Text
@@ -75,7 +83,7 @@ const Products404 = () => {
           },
         ]}
       >
-        Add your first product.
+        {desc || "Add your first product."}
       </Text>
     </View>
   );

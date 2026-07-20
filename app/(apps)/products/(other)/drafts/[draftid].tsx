@@ -28,6 +28,7 @@ const DraftView = () => {
   const [draft, setDraft] = useState<DraftBatch | null>(null);
   const [draftItems, setDraftItems] = useState<DraftItem[]>([]);
   const [selectedDraftItem, setSelectedDraftItem] = useState<DraftItem | null>(null);
+  const [quantity, setQuantity] = useState(0);
 
   const loadDraft = async () => {
     if (!draftid) return undefined;
@@ -160,6 +161,8 @@ const DraftView = () => {
           <ProductDets
             draftItem={selectedDraftItem}
             onSaved={handleSavedDetails}
+            quaintity={quantity}
+            setQuantity={setQuantity}
           />
         </BottomSheetWrapper>
       )}

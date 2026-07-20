@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "@/constants/styles";
+import Products404 from "@/components/products/Products404";
 
 const batch = () => {
   const router = useRouter();
@@ -57,9 +58,7 @@ const batch = () => {
             />
           ))
         ) : (
-          <Text style={[globalStyles.text, { textAlign: "center", marginTop: 24 }]}>
-            No saved batches yet
-          </Text>
+          <Products404 icon={"file-tray-stacked-outline"} title="No Batches" desc="You have no saved batches to display." />
         )}
       </ScrollView>
     </SafeAreaView>

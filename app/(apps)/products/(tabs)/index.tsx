@@ -1,4 +1,5 @@
 import Draft from "@/components/products/Draft";
+import Products404 from "@/components/products/Products404";
 import CustomStackTwo from "@/components/stacks/CustomStackTwo";
 import { globalStyles } from "@/constants/styles";
 import { DraftBatch } from "@/databases/models/stock/Draft";
@@ -57,9 +58,7 @@ const index = () => {
             />
           ))
         ) : (
-          <Text style={[globalStyles.text, { textAlign: "center", marginTop: 24 }]}>
-            No draft batches yet
-          </Text>
+          <Products404 icon={"clipboard-outline"} title="No Drafts" desc="You have no drafts to display." />
         )}
       </ScrollView>
     </SafeAreaView>

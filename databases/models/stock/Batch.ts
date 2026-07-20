@@ -7,6 +7,4 @@ export interface Batch {
     vendor:string;
     updated_at:string;
     created_at:string;
-    draft?:boolean;
-    drafted_at?:string;
 }
