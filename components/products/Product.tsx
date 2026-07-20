@@ -9,9 +9,10 @@ import type { Product as ProductModel } from '@/databases/models/products/Produc
 type ProductProps = {
     isFocused?: boolean;
     product: ProductModel;
+    onPress?: (product: ProductModel) => void;
 };
 
-const Product = ({ isFocused: isFocusedProp = false, product }: ProductProps) => {
+const Product = ({ isFocused: isFocusedProp = false, product, onPress }: ProductProps) => {
     const [isFocusedState, setIsFocusedState] = useState(false);
     const isFocused = isFocusedProp || isFocusedState;
 
@@ -20,6 +21,7 @@ const Product = ({ isFocused: isFocusedProp = false, product }: ProductProps) =>
             focusable
             onFocus={() => setIsFocusedState(true)}
             onBlur={() => setIsFocusedState(false)}
+            onPress={() => onPress?.(product)}
             onLongPress={() => setIsFocusedState(!isFocused)}
             style={[
                 styles.container,
@@ -35,7 +37,7 @@ const Product = ({ isFocused: isFocusedProp = false, product }: ProductProps) =>
             <View style={{ width: "72%", gap: 12 }}>
                 <View style={styles.row}>
                     <Text
-                        style={[ globalStyles.h4, { fontWeight: "bold", color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}
+                        style={[ globalStyles.h4, styles.wrap, { fontWeight: "bold", color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}
                         >
                         {product.name}
                     </Text>
@@ -52,7 +54,7 @@ const Product = ({ isFocused: isFocusedProp = false, product }: ProductProps) =>
                
                 </View>
             </View>
-            <Pressable>
+            <Pressable onPress={() => onPress?.(product)}>
             <Ionicons
                 name={"chevron-forward"}
                 size={32}
@@ -107,6 +109,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  wrap: {
+    width: "50%",
+    flexWrap: "wrap",
   },
 });
 

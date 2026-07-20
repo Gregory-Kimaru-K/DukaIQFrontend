@@ -4,19 +4,26 @@ import type Collection from "@nozbe/watermelondb/Collection";
 import { Credit } from "../models/products/Credit";
 import { Batch } from "../models/stock/Batch";
 import { BatchItem } from "../models/stock/BatchItem";
+import { DraftBatch } from "../models/stock/Draft";
+import { DraftItem } from "../models/stock/DraftItem";
 import { database } from "../watermelon/database";
 import {
   BatchItemRecord,
   BatchRecord,
   CreditBatchRecord,
   CreditRecord,
+  DraftItemRecord,
+  DraftRecord,
   ProductRecord,
   VendorRecord,
 } from "../watermelon/models";
 import { toProductDto, toVendorDto } from "./ProductRepo";
 
 const now = () => new Date().toISOString();
+const createDraftName = () => `DRAFT-${Date.now().toString().slice(-6)}`;
 
+const draftsCollection = () => database.get<DraftRecord>("drafts");
+const draftItemsCollection = () => database.get<DraftItemRecord>("draft_items");
 const batchesCollection = () => database.get<BatchRecord>("batches");
 const batchItemsCollection = () => database.get<BatchItemRecord>("batch_items");
 const creditsCollection = () => database.get<CreditRecord>("credits");
@@ -36,17 +43,45 @@ const findRecord = async <T extends { id: string }>(
   }
 };
 
+export const toDraftDto = (draft: DraftRecord): DraftBatch => ({
+  id: draft.id,
+  name: draft.name,
+  created_at: draft.createdAt,
+  updated_at: draft.updatedAt,
+});
+
 export const toBatchDto = (batch: BatchRecord): Batch => ({
   id: batch.id,
+  draft_id: batch.draftId,
   payment_method: batch.paymentMethod,
   price: batch.price,
   payment: batch.payment,
   vendor: batch.vendor,
   updated_at: batch.updatedAt,
   created_at: batch.createdAt,
-  draft: batch.draft,
-  drafted_at: batch.draftedAt,
 });
+
+export const toDraftItemDto = async (
+  item: DraftItemRecord,
+): Promise<DraftItem> => {
+  const [draft, product] = await Promise.all([
+    draftsCollection().find(item.draftId),
+    productsCollection().find(item.productId),
+  ]);
+
+  return {
+    id: item.id,
+    draft: toDraftDto(draft),
+    product: await toProductDto(product),
+    quantity: item.quantity,
+    expiry: item.expiry,
+    price: item.price,
+    vat: item.vat,
+    exercise_duty: item.exerciseDuty,
+    profit: item.profit,
+    updated_at: item.updatedAt,
+  };
+};
 
 export const toBatchItemDto = async (
   item: BatchItemRecord,
@@ -91,10 +126,169 @@ const toCreditDto = async (credit: CreditRecord): Promise<Credit> => {
 };
 
 export const BatchRepo = {
+  listDrafts: async (): Promise<DraftBatch[]> => {
+    const drafts = await draftsCollection().query().fetch();
+    return drafts.map(toDraftDto);
+  },
+  getDraftById: async (id: string): Promise<DraftBatch | undefined> => {
+    const draft = await findRecord<DraftRecord>(draftsCollection(), id);
+    return draft ? toDraftDto(draft) : undefined;
+  },
+  createDraft: async (name = createDraftName()): Promise<DraftBatch> =>
+    database.write(async () => {
+      const timestamp = now();
+      const record = await draftsCollection().create((draft) => {
+        draft.name = name;
+        draft.createdAt = timestamp;
+        draft.updatedAt = timestamp;
+      });
+      return toDraftDto(record);
+    }),
+  updateDraft: async (
+    id: string,
+    updates: Partial<Omit<DraftBatch, "id" | "created_at" | "updated_at">>,
+  ): Promise<DraftBatch | undefined> =>
+    database.write(async () => {
+      const draft = await findRecord<DraftRecord>(draftsCollection(), id);
+      if (!draft) return undefined;
+      await draft.update((record) => {
+        if (updates.name !== undefined) record.name = updates.name;
+        record.updatedAt = now();
+      });
+      return toDraftDto(draft);
+    }),
+  deleteDraft: async (id: string): Promise<boolean> =>
+    database.write(async () => {
+      const draft = await findRecord<DraftRecord>(draftsCollection(), id);
+      if (!draft) return false;
+      const items = await draftItemsCollection()
+        .query(Q.where("draft_id", id))
+        .fetch();
+      await database.batch(
+        items.map((item) => item.prepareDestroyPermanently()),
+        draft.prepareDestroyPermanently(),
+      );
+      return true;
+    }),
+  listDraftItems: async (draftId: string): Promise<DraftItem[]> => {
+    const items = await draftItemsCollection()
+      .query(Q.where("draft_id", draftId))
+      .fetch();
+    return Promise.all(items.map(toDraftItemDto));
+  },
+  getDraftItemById: async (id: string): Promise<DraftItem | undefined> => {
+    const item = await findRecord<DraftItemRecord>(draftItemsCollection(), id);
+    return item ? toDraftItemDto(item) : undefined;
+  },
+  addProductToDraft: async (
+    draft: DraftBatch,
+    productId: string,
+  ): Promise<DraftItem> => {
+    const existingItems = await draftItemsCollection()
+      .query(Q.where("draft_id", draft.id), Q.where("product_id", productId))
+      .fetch();
+    if (existingItems[0]) return toDraftItemDto(existingItems[0]);
+
+    const product = await toProductDto(await productsCollection().find(productId));
+    return database.write(async () => {
+      const record = await draftItemsCollection().create((item) => {
+        item.draftId = draft.id;
+        item.productId = product.id;
+        item.quantity = 0;
+        item.price = 0;
+        item.exerciseDuty = 0;
+        item.profit = 0;
+        item.updatedAt = now();
+      });
+      return toDraftItemDto(record);
+    });
+  },
+  updateDraftItem: async (
+    id: string,
+    updates: Partial<Omit<DraftItem, "id" | "draft" | "product">>,
+  ): Promise<DraftItem | undefined> =>
+    database.write(async () => {
+      const item = await findRecord<DraftItemRecord>(draftItemsCollection(), id);
+      if (!item) return undefined;
+      await item.update((record) => {
+        if (updates.quantity !== undefined) record.quantity = updates.quantity;
+        if (updates.expiry !== undefined) record.expiry = updates.expiry;
+        if (updates.price !== undefined) record.price = updates.price;
+        if (updates.vat !== undefined) record.vat = updates.vat;
+        if (updates.exercise_duty !== undefined) {
+          record.exerciseDuty = updates.exercise_duty;
+        }
+        if (updates.profit !== undefined) record.profit = updates.profit;
+        record.updatedAt = updates.updated_at ?? now();
+      });
+      return toDraftItemDto(item);
+    }),
+  completeDraft: async (
+    draftId: string,
+    batchDetails: {
+      payment_method?: string;
+      payment?: string;
+      vendor?: string;
+    } = {},
+  ): Promise<Batch | undefined> =>
+    database.write(async () => {
+      const draft = await findRecord<DraftRecord>(draftsCollection(), draftId);
+      if (!draft) return undefined;
+      const draftItems = await draftItemsCollection()
+        .query(Q.where("draft_id", draftId))
+        .fetch();
+      if (draftItems.length === 0) return undefined;
+
+      const totalPrice = draftItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0,
+      );
+      const timestamp = now();
+      const batch = await batchesCollection().create((record) => {
+        record.draftId = draft.id;
+        record.paymentMethod = batchDetails.payment_method ?? "";
+        record.price = totalPrice.toString();
+        record.payment = batchDetails.payment ?? "0";
+        record.vendor = batchDetails.vendor ?? draft.name;
+        record.createdAt = timestamp;
+        record.updatedAt = timestamp;
+      });
+
+      const batchItems = draftItems.map((draftItem) =>
+        batchItemsCollection().prepareCreate((item) => {
+          item.batchId = batch.id;
+          item.productId = draftItem.productId;
+          item.quantity = draftItem.quantity;
+          item.expiry = draftItem.expiry;
+          item.price = draftItem.price;
+          item.vat = draftItem.vat;
+          item.exerciseDuty = draftItem.exerciseDuty;
+          item.profit = draftItem.profit;
+          item.updatedAt = timestamp;
+        }),
+      );
+      const productUpdates = await Promise.all(
+        draftItems.map(async (draftItem) => {
+          const product = await productsCollection().find(draftItem.productId);
+          return product.prepareUpdate((record) => {
+            record.currentStock = product.currentStock + draftItem.quantity;
+            record.totalPurchased = product.totalPurchased + draftItem.quantity;
+            record.currentBatchId = batch.id;
+            record.batchCount = (product.batchCount ?? 0) + 1;
+            record.updatedAt = timestamp;
+          });
+        }),
+      );
+
+      await database.batch(batchItems, productUpdates);
+      return toBatchDto(batch);
+    }),
+
   listBatches: async (): Promise<Batch[]> => {
     const batches = await batchesCollection().query().fetch();
     return batches.map(toBatchDto);
   },
+  listSavedBatches: async (): Promise<Batch[]> => BatchRepo.listBatches(),
   getBatchById: async (id: string): Promise<Batch | undefined> => {
     const batch = await findRecord<BatchRecord>(batchesCollection(), id);
     return batch ? toBatchDto(batch) : undefined;
@@ -105,14 +299,13 @@ export const BatchRepo = {
     database.write(async () => {
       const timestamp = now();
       const record = await batchesCollection().create((newBatch) => {
+        newBatch.draftId = batch.draft_id;
         newBatch.paymentMethod = batch.payment_method;
         newBatch.price = batch.price;
         newBatch.payment = batch.payment;
         newBatch.vendor = batch.vendor;
         newBatch.createdAt = timestamp;
         newBatch.updatedAt = timestamp;
-        newBatch.draft = batch.draft;
-        newBatch.draftedAt = batch.drafted_at;
       });
       return toBatchDto(record);
     }),
@@ -124,14 +317,13 @@ export const BatchRepo = {
       const batch = await findRecord<BatchRecord>(batchesCollection(), id);
       if (!batch) return undefined;
       await batch.update((record) => {
+        if (updates.draft_id !== undefined) record.draftId = updates.draft_id;
         if (updates.payment_method !== undefined) {
           record.paymentMethod = updates.payment_method;
         }
         if (updates.price !== undefined) record.price = updates.price;
         if (updates.payment !== undefined) record.payment = updates.payment;
         if (updates.vendor !== undefined) record.vendor = updates.vendor;
-        if (updates.draft !== undefined) record.draft = updates.draft;
-        if (updates.drafted_at !== undefined) record.draftedAt = updates.drafted_at;
         record.updatedAt = now();
       });
       return toBatchDto(batch);
@@ -146,6 +338,12 @@ export const BatchRepo = {
 
   listBatchItems: async (): Promise<BatchItem[]> => {
     const items = await batchItemsCollection().query().fetch();
+    return Promise.all(items.map(toBatchItemDto));
+  },
+  listBatchItemsByBatch: async (batchId: string): Promise<BatchItem[]> => {
+    const items = await batchItemsCollection()
+      .query(Q.where("batch_id", batchId))
+      .fetch();
     return Promise.all(items.map(toBatchItemDto));
   },
   getBatchItemById: async (id: string): Promise<BatchItem | undefined> => {
@@ -172,10 +370,7 @@ export const BatchRepo = {
     updates: Partial<Omit<BatchItem, "id">>,
   ): Promise<BatchItem | undefined> =>
     database.write(async () => {
-      const item = await findRecord<BatchItemRecord>(
-        batchItemsCollection(),
-        id,
-      );
+      const item = await findRecord<BatchItemRecord>(batchItemsCollection(), id);
       if (!item) return undefined;
       await item.update((record) => {
         if (updates.batch !== undefined) record.batchId = updates.batch.id;
@@ -213,7 +408,6 @@ export const BatchRepo = {
       const record = await creditsCollection().create((newCredit) => {
         newCredit.vendorId = credit.vendor.id;
       });
-
       const links = credit.batch.map((batch) =>
         creditBatchesCollection().prepareCreate((link) => {
           link.creditId = record.id;
@@ -221,7 +415,6 @@ export const BatchRepo = {
         }),
       );
       await database.batch(links);
-
       return toCreditDto(record);
     }),
   updateCredit: async (

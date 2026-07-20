@@ -5,6 +5,9 @@ const BASE_TEXT = {
     color: Colors.text.WHITE
 }
 export const globalStyles = StyleSheet.create({
+    bold: {
+        fontWeight: "bold"
+    },
     h1pro: {
         ...BASE_TEXT,
         fontSize: 32,

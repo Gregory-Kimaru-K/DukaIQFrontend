@@ -116,6 +116,8 @@ export class ProductRecord extends DukaModel {
 export class BatchRecord extends DukaModel {
   static table = "batches";
 
+  get draftId() { return this.getOptionalString("draft_id"); }
+  set draftId(value: string | undefined) { this.setValue("draft_id", value ?? null); }
   get paymentMethod() { return this.getString("payment_method"); }
   set paymentMethod(value: string) { this.setValue("payment_method", value); }
   get price() { return this.getString("price"); }
@@ -128,10 +130,6 @@ export class BatchRecord extends DukaModel {
   set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
   get createdAt(): string { return this.getTimestamp("created_at"); }
   set createdAt(value: string) { this.setTimestamp("created_at", value); }
-  get draft() { return this.getBoolean("draft"); }
-  set draft(value: boolean) { this.setValue("draft", value); }
-  get draftedAt() { return this.getString("drafted_at"); }
-  set draftedAt(value: string) { this.setValue("drafted_at", value); }
 }
 
 export class BatchItemRecord extends DukaModel {
@@ -139,6 +137,40 @@ export class BatchItemRecord extends DukaModel {
 
   get batchId() { return this.getString("batch_id"); }
   set batchId(value: string) { this.setValue("batch_id", value); }
+  get productId() { return this.getString("product_id"); }
+  set productId(value: string) { this.setValue("product_id", value); }
+  get quantity() { return this.getNumber("quantity"); }
+  set quantity(value: number) { this.setValue("quantity", value); }
+  get expiry() { return this.getOptionalString("expiry"); }
+  set expiry(value: string | undefined) { this.setValue("expiry", value ?? null); }
+  get price() { return this.getNumber("price"); }
+  set price(value: number) { this.setValue("price", value); }
+  get vat() { return this.getOptionalNumber("vat"); }
+  set vat(value: number | undefined) { this.setValue("vat", value ?? null); }
+  get exerciseDuty() { return this.getNumber("exercise_duty"); }
+  set exerciseDuty(value: number) { this.setValue("exercise_duty", value); }
+  get profit() { return this.getNumber("profit"); }
+  set profit(value: number) { this.setValue("profit", value); }
+  get updatedAt(): string { return this.getTimestamp("updated_at"); }
+  set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
+}
+
+export class DraftRecord extends DukaModel {
+  static table = "drafts";
+
+  get name() { return this.getString("name"); }
+  set name(value: string) { this.setValue("name", value); }
+  get createdAt(): string { return this.getTimestamp("created_at"); }
+  set createdAt(value: string) { this.setTimestamp("created_at", value); }
+  get updatedAt(): string { return this.getTimestamp("updated_at"); }
+  set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
+}
+
+export class DraftItemRecord extends DukaModel {
+  static table = "draft_items";
+
+  get draftId() { return this.getString("draft_id"); }
+  set draftId(value: string) { this.setValue("draft_id", value); }
   get productId() { return this.getString("product_id"); }
   set productId(value: string) { this.setValue("product_id", value); }
   get quantity() { return this.getNumber("quantity"); }
@@ -226,6 +258,8 @@ export const modelClasses = [
   CategoryRecord,
   TypeRecord,
   VendorRecord,
+  DraftRecord,
+  DraftItemRecord,
   ProductRecord,
   BatchRecord,
   BatchItemRecord,

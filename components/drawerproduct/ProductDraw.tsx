@@ -12,7 +12,11 @@ import { Product as ProductModel } from '@/databases/models/products/Product'
 import Product from '../products/Product'
 import Products404 from '../products/Products404'
 
-const ProductDraw = () => {
+type ProductDrawProps = {
+  onSelectProduct?: (product: ProductModel) => void;
+};
+
+const ProductDraw = ({ onSelectProduct }: ProductDrawProps) => {
   const [barcode, setBarcode] = useState('')
   const [search, setSearch] = useState('')
   const repoProducts = ProductRepo
@@ -35,7 +39,11 @@ const ProductDraw = () => {
       <ScrollView contentContainerStyle={{ gap: 12 }}>
         {products.length > 0 ? (
           products.map((product) => (
-            <Product key={product.id} product={product} />
+            <Product
+              key={product.id}
+              product={product}
+              onPress={onSelectProduct}
+            />
           ))
         ) : (
           <Products404 />

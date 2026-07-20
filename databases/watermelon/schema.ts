@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from "@nozbe/watermelondb";
 
 export const databaseSchema = appSchema({
-  version: 1,
+  version: 2,
   tables: [
     tableSchema({
       name: "shops",
@@ -55,16 +55,37 @@ export const databaseSchema = appSchema({
       ],
     }),
     tableSchema({
+      name: "drafts",
+      columns: [
+        { name: "name", type: "string" },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
+      ],
+    }),
+    tableSchema({
+      name: "draft_items",
+      columns: [
+        { name: "draft_id", type: "string", isIndexed: true },
+        { name: "product_id", type: "string", isIndexed: true },
+        { name: "quantity", type: "number" },
+        { name: "expiry", type: "string", isOptional: true },
+        { name: "price", type: "number" },
+        { name: "vat", type: "number", isOptional: true },
+        { name: "exercise_duty", type: "number" },
+        { name: "profit", type: "number" },
+        { name: "updated_at", type: "number" },
+      ],
+    }),
+    tableSchema({
       name: "batches",
       columns: [
+        { name: "draft_id", type: "string", isIndexed: true, isOptional: true },
         { name: "payment_method", type: "string" },
         { name: "price", type: "string" },
         { name: "payment", type: "string" },
         { name: "vendor", type: "string" },
-        { name: "updated_at", type: "number" },
         { name: "created_at", type: "number" },
-        { name: "draft", type: "boolean" },
-        { name: "drafted_at", type: "string" },
+        { name: "updated_at", type: "number" },
       ],
     }),
     tableSchema({

@@ -148,7 +148,7 @@ const ProductAdd = ({ onCreated }: ProductAddProps) => {
         <Text style={globalStyles.h5}>Barcode Number</Text>
         <View style={[globalStyles.input, { justifyContent: "center" }]}>
           {barCode ? (
-            <Text style={[globalStyles.h5, { color: "#ffffff80" }]}>
+            <Text style={[globalStyles.h5, { color: "#ffffff" }]}>
               {barCode}
             </Text>
           ) : (

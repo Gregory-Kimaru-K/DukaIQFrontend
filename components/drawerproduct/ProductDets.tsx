@@ -1,5 +1,7 @@
 import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
+import { DraftItem } from "@/databases/models/stock/DraftItem";
+import { BatchRepo } from "@/databases/repositories/BatchRepo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
@@ -7,7 +9,12 @@ import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const ProductDets = () => {
+type ProductDetsProps = {
+  draftItem?: DraftItem | null;
+  onSaved?: () => void | Promise<void>;
+};
+
+const ProductDets = ({ draftItem, onSaved }: ProductDetsProps) => {
   const [stockType, setStockType] = useState("UNITS");
   const [buyingPrice, setBuyingPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -16,15 +23,52 @@ const ProductDets = () => {
   const [selling, setSelling] = useState(0);
   const [profiting, setProfiting] = useState("UNIT")
 
+  useEffect(() => {
+    if (!draftItem) return;
+
+    setQuantity(draftItem.quantity);
+    setBuyingPrice(draftItem.price);
+    setSelling(draftItem.profit);
+  }, [draftItem]);
+
   const handlePrice = () => {
     if (stockType === "PACKET") {
+      if (packQuantity <= 0) {
+        setPrice(0);
+        return;
+      }
       const buying = Math.ceil(buyingPrice / packQuantity)
       setPrice(isNaN(buying) ? 0 : buying)
     }
   }
 
+  const handleSave = async () => {
+    if (!draftItem) {
+      alert("Select a product before adding details");
+      return;
+    }
+
+    if (quantity <= 0) {
+      alert("Quantity must be greater than zero");
+      return;
+    }
+
+    await BatchRepo.updateDraftItem(draftItem.id, {
+      quantity,
+      price: stockType === "PACKET" && profiting === "UNIT" ? price : buyingPrice,
+      profit: selling,
+      updated_at: new Date().toISOString(),
+    });
+    await onSaved?.();
+    alert("Draft product details saved");
+  };
+
   const handleProfit = () => {
     if (stockType === "PACKET") {
+      if (packQuantity <= 0) {
+        setSelling(0);
+        return;
+      }
       const buying = Math.ceil(buyingPrice / packQuantity)
       if (profiting === "UNIT") {
         setSelling(isNaN(buying) ? 0 : buying)
@@ -54,7 +98,7 @@ const ProductDets = () => {
         />
       </View>
       <Text style={[globalStyles.h1pro, { textAlign: "center" }]}>
-        Product Details
+        {draftItem?.product.name ?? "Product Details"}
       </Text>
       <View style={styles.quantity_type}>
         <Text
@@ -229,7 +273,7 @@ const ProductDets = () => {
           </View>
         </View>
       </View>
-      <Pressable style={globalStyles.btn}>
+      <Pressable style={globalStyles.btn} onPress={handleSave}>
         <Text style={[globalStyles.h2]}>Save</Text>
       </Pressable>
     </SafeAreaView>

@@ -1,30 +1,42 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import { Image } from 'expo-image'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { globalStyles } from '@/constants/styles'
 import { Colors } from '@/constants/colors'
+import { Batch } from '@/databases/models/stock/Batch'
+import { DraftBatch } from '@/databases/models/stock/Draft'
 
-const Draft = () => {
+type DraftProps = {
+    batch: Batch | DraftBatch;
+    itemCount?: number;
+    onPress?: () => void;
+};
+
+const Draft = ({ batch, itemCount = 0, onPress }: DraftProps) => {
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={onPress}>
             <View style={styles.image_cont}>
                 <Image source={require("../../assets/Inscription.png")} style={styles.image} />
             </View>
             <View style={{ width: "72%", gap: 12 }}>
                 <View style={styles.row}>
-                    <Text style={[globalStyles.h4, {fontWeight: "bold"}]}>DRAFT-XXXX</Text>
+                    <Text style={[globalStyles.h4, {fontWeight: "bold"}]}>
+                        {"name" in batch ? batch.name : batch.vendor}
+                    </Text>
                     <View style={{ backgroundColor: "#07449f92", padding: 3.2, borderRadius: 5 }}>
-                        <Text style={globalStyles.text}>Shop_1</Text>
+                        <Text style={globalStyles.text}>{"name" in batch ? "Draft" : "Batch"}</Text>
                     </View>
                 </View>
                 <View style={styles.row}>
-                    <Text style={globalStyles.text}>20 Products</Text>
-                    <Text style={globalStyles.text}>Updated at 5:12PM</Text>
+                    <Text style={globalStyles.text}>{itemCount} Products</Text>
+                    <Text style={globalStyles.text}>
+                        Updated at {new Date(batch.updated_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true }).toUpperCase()}
+                    </Text>
                 </View>
             </View>
             <Ionicons name='chevron-forward' size={32} color={"#ffffff"} style={{ alignSelf: "center" }} />
-        </View>
+        </Pressable>
     )
 }
 

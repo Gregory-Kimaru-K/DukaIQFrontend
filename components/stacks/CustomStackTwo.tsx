@@ -14,8 +14,9 @@ type StackProps = {
   onIconPress: () => void;
   count?:boolean;
   countNo?: number;
+  draft?: boolean;
 };
-const CustomStackTwo = ({ header, desc, icon, onIconPress, count=false, countNo=0 }: StackProps) => {
+const CustomStackTwo = ({ header, desc, icon, onIconPress, count=false, countNo=0, draft=false }: StackProps) => {
   const router = useRouter()
   return (
     <View style={styles.container}>
@@ -25,7 +26,7 @@ const CustomStackTwo = ({ header, desc, icon, onIconPress, count=false, countNo=
       <View style={styles.text_cont}>
         <MaskedView
           maskElement={
-            <Text style={[globalStyles.h1pro, styles.maskedText]}>
+            <Text style={draft ? [styles.draftStyle, styles.maskedText] : [globalStyles.h1pro, styles.maskedText]}>
               {header}
             </Text>
           }
@@ -36,7 +37,7 @@ const CustomStackTwo = ({ header, desc, icon, onIconPress, count=false, countNo=
             end={[0.5, 0]}
             style={styles.gradient}
           >
-            <Text style={[globalStyles.h1pro, styles.gradientText]}>
+            <Text style={draft ? [styles.draftStyle, styles.gradientText] : [globalStyles.h1pro, styles.gradientText]}>
               {header}
             </Text>
           </LinearGradient>
@@ -113,5 +114,9 @@ const styles = StyleSheet.create({
   gradientText: {
     color: "rgba(255,255,255,0)",
   },
+  draftStyle: {
+    ...globalStyles.h1,
+    fontWeight: "700",
+  }
 });
 export default CustomStackTwo;
