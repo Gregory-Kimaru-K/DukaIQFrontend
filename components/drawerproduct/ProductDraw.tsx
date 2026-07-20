@@ -19,9 +19,13 @@ const ProductDraw = () => {
   const [products, setProducts] = useState<ProductModel[]>([])
 
   useEffect(() => {
-    const products = repoProducts.listProducts()
-    setProducts(products)
-  }, [repoProducts])
+    const loadProducts = async () => {
+      const nextProducts = await repoProducts.listProducts()
+      setProducts(nextProducts)
+    }
+
+    loadProducts()
+  }, [])
   
   return (
     <View style={styles.container}>

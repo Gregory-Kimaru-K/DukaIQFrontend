@@ -19,10 +19,14 @@ const products = () => {
   const repoProducts = ProductRepo
   const [products, setProducts] = useState<ProductModel[]>([])
 
+  const loadProducts = async () => {
+    const nextProducts = await repoProducts.listProducts()
+    setProducts(nextProducts)
+  }
+
   useEffect(() => {
-    const products = repoProducts.listProducts()
-    setProducts(products)
-  }, [repoProducts])
+    loadProducts()
+  }, [])
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -48,7 +52,7 @@ const products = () => {
           onSheetChange={proddets.onSheetChange}
           onClose={proddets.onClose}
         >
-          <ProductAdd />
+          <ProductAdd onCreated={loadProducts} />
         </BottomSheetWrapper>
       )}
     </SafeAreaView>

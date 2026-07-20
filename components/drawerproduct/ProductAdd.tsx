@@ -11,7 +11,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import DropDown from "../sales/DropDown";
 import ScanProducts from "../ScanProducts";
 
-const ProductAdd = () => {
+type ProductAddProps = {
+  onCreated?: () => void | Promise<void>;
+};
+
+const ProductAdd = ({ onCreated }: ProductAddProps) => {
   const [shop, setShop] = useState<Shop | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
   const [type, setType] = useState<Type | null>(null);
@@ -20,10 +24,25 @@ const ProductAdd = () => {
   const repo = ProductRepo;
   const units = ["Unit", "Kg", "Litre"];
   const [selectUnit, setSelectUnit] = useState("Unit");
+  const [shops, setShops] = useState<Shop[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [types, setTypes] = useState<Type[]>([]);
 
-  const shops = repo.listShops();
-  const categories = repo.listCategories();
-  const types = repo.listTypes();
+  const loadOptions = async () => {
+    const [nextShops, nextCategories, nextTypes] = await Promise.all([
+      repo.listShops(),
+      repo.listCategories(),
+      repo.listTypes(),
+    ]);
+
+    setShops(nextShops);
+    setCategories(nextCategories);
+    setTypes(nextTypes);
+  };
+
+  React.useEffect(() => {
+    loadOptions();
+  }, []);
 
   const handleSelectShop = (item: Shop | Category | Type) => {
     if (!("shop" in item) && !("category" in item)) {
@@ -31,12 +50,13 @@ const ProductAdd = () => {
     }
   };
 
-  const handleCreateShop = (name: string) => {
+  const handleCreateShop = async (name: string) => {
     const trimmedName = name.trim();
     if (!trimmedName) return;
 
-    const newShop = repo.createShop({ name: trimmedName });
+    const newShop = await repo.createShop({ name: trimmedName });
     setShop(newShop);
+    await loadOptions();
   };
 
   const handleSelectCategory = (item: Shop | Category | Type) => {
@@ -46,13 +66,14 @@ const ProductAdd = () => {
     }
   };
 
-  const handleCreateCategory = (name: string) => {
+  const handleCreateCategory = async (name: string) => {
     if (shop === null) {
       alert("No shop selected for this category");
       return;
     }
-    const newCategory = repo.createCategory({ name: name, shop: shop });
+    const newCategory = await repo.createCategory({ name: name, shop: shop });
     setCategory(newCategory);
+    await loadOptions();
   };
 
   const handleSelectType = (item: Shop | Category | Type) => {
@@ -61,16 +82,17 @@ const ProductAdd = () => {
     }
   };
 
-  const handleCreateType = (name: string) => {
+  const handleCreateType = async (name: string) => {
     if (category === null) {
       alert("No category selected for this shop");
       return;
     }
-    const newType = repo.createType({ name: name, category: category });
+    const newType = await repo.createType({ name: name, category: category });
     setType(newType);
+    await loadOptions();
   };
 
-  const handleCreateProduct = () => {
+  const handleCreateProduct = async () => {
     if (!productName.trim()) {
       alert("Please enter a product name");
       return;
@@ -81,7 +103,7 @@ const ProductAdd = () => {
       return;
     }
 
-    repo.createProduct({
+    await repo.createProduct({
       name: productName.trim(),
       barcode: barCode || undefined,
       shop,
@@ -97,6 +119,7 @@ const ProductAdd = () => {
       updated_at: new Date().toISOString(),
     });
 
+    await onCreated?.();
     alert("Product created successfully");
     setProductName("");
     setBarCode("");
