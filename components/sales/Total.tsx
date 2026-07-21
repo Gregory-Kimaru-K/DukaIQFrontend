@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         padding: 12,
         paddingVertical: 20,
         justifyContent: "space-between",
-        borderBottomWidth: 3,
+        borderBottomWidth: 1,
         borderColor: Colors.brand.ORANGE,
         alignItems: "center",
       },
