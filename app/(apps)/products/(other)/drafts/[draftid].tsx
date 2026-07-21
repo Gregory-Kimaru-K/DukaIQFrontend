@@ -2,7 +2,6 @@ import Search from "@/components/Search";
 import ProductAdd from "@/components/drawerproduct/ProductAdd";
 import ProductDets from "@/components/drawerproduct/ProductDets";
 import ProductDraw from "@/components/drawerproduct/ProductDraw";
-import RestockDraw from "@/components/drawerproduct/RestockDraw";
 import Payments from "@/components/drawerssale/Payments";
 import Product from "@/components/products/Product";
 import Products404 from "@/components/products/Products404";
@@ -20,6 +19,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {ProductRepo} from "@/databases/repositories/ProductRepo";
+import RestockDraw from "@/components/drawerproduct/RestockDraw";
 
 const DraftView = () => {
   const { draftid } = useLocalSearchParams<{ draftid: string }>();
@@ -212,7 +212,13 @@ const DraftView = () => {
           onSheetChange={restock.onSheetChange}
           onClose={restock.onClose}
         >
-          <RestockDraw openPay={handleCompleteDraft} />
+          <RestockDraw
+            openPay={handleCompleteDraft}
+            draftId={draftid || ""}
+            onDraftChanged={async () => {
+              await loadDraft();
+            }}
+             />
         </BottomSheetWrapper>
       )}
       {paymentStock.isOpenOne && (
