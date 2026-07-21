@@ -10,7 +10,6 @@ const Statistics = () => {
       <CustomStack
         header="STATISTICS"
         desc="Analyze, View sales visually"
-        stackType="type1"
       />
       <Text style={globalStyles.h1}>Statistics</Text>
     </SafeAreaView>

@@ -3,7 +3,13 @@ import React from 'react'
 import { Colors } from '@/constants/colors'
 import { globalStyles } from '@/constants/styles'
 
-const Total = ({ handlePayments }: {handlePayments: () => void}) => {
+interface TotalProps {
+    handlePayments: () => void;
+    draft?: boolean;
+    label?: string;
+}
+
+const Total = ({ handlePayments, draft=false, label }: TotalProps) => {
     return (
     <View style={styles.total}>
         <Text style={[globalStyles.h2, { fontWeight: "bold" }]}>TOTAL</Text>
@@ -16,7 +22,7 @@ const Total = ({ handlePayments }: {handlePayments: () => void}) => {
                 { fontWeight: "bold", color: Colors.brand.ORANGE },
                 ]}
             >
-                KSH. 1,800
+                {label ?? (draft ? "0 Products" : "KSH. 1,800")}
             </Text>
         </Pressable>
     </View>

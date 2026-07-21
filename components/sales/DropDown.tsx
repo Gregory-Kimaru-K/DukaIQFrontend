@@ -9,23 +9,28 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-interface DropDownProps {
-  data: Shop[] | Category[] | Type[];
+type DropDownItem = { id: string | number; name?: string; label?: string };
+
+interface DropDownProps<T extends DropDownItem> {
+  data: T[];
   value?: string;
   placeholder?: string;
-  onSelect: (item: Shop | Category | Type) => void;
+  onSelect: (item: T) => void;
   noDataMessage?: string;
   onCreate?: (item: string) => void;
 }
 
-const DropDown = ({
+const getItemLabel = (item: DropDownItem) =>
+  item.name ?? item.label ?? "";
+
+const DropDown = <T extends DropDownItem>({
   data,
   value = "",
   placeholder = "Search...",
   onSelect,
   noDataMessage = "No results found",
   onCreate,
-}: DropDownProps) => {
+}: DropDownProps<T>) => {
   const [searchText, setSearchText] = useState(value || "");
   const [open, setOpen] = useState(false);
 
@@ -39,13 +44,13 @@ const DropDown = ({
     const query = searchText.trim().toLowerCase();
     if (!query) return data;
     return data.filter((item) => {
-      const label = item.name.toLowerCase();
+      const label = getItemLabel(item).toLowerCase();
       return label.includes(query);
     });
   }, [data, searchText]);
 
-  const handleSelect = (item: Shop | Category | Type) => {
-    const nextText = item.name;
+  const handleSelect = (item: T) => {
+    const nextText = getItemLabel(item);
     console.log("Selected value:", nextText);
     setSearchText(nextText);
     setOpen(false);
@@ -100,7 +105,7 @@ const DropDown = ({
                   style={styles.item}
                   onPress={() => handleSelect(item)}
                 >
-                  <Text style={styles.itemText}>{item.name}</Text>
+                  <Text style={styles.itemText}>{getItemLabel(item)}</Text>
                 </Pressable>
               ))}
             </BottomSheetScrollView>

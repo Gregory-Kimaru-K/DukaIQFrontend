@@ -6,7 +6,7 @@ import { globalStyles } from '@/constants/styles';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const index = () => {
+const AppsIndex = () => {
     const router = useRouter()
     return (
         <View style={styles.container}>
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
         height: 52
     },
 })
-export default index
+export default AppsIndex

@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "@/constants/styles";
 import Products404 from "@/components/products/Products404";
 
-const batch = () => {
+const BatchIndex = () => {
   const router = useRouter();
   const [batches, setBatches] = useState<Array<{ batch: Batch; itemCount: number }>>([]);
 
@@ -65,4 +65,4 @@ const batch = () => {
   );
 };
 
-export default batch;
+export default BatchIndex;

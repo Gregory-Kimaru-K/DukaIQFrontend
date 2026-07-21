@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const index = () => {
+const DraftsIndex = () => {
   const router = useRouter();
   const [drafts, setDrafts] = useState<Array<{ draft: DraftBatch; itemCount: number }>>([]);
 
@@ -65,4 +65,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default DraftsIndex;

@@ -12,10 +12,11 @@ type ProductProps = {
     draft?: boolean;
     quantity?: number;
     onPress?: (product: ProductModel) => void;
+    onLongPress?: (product: ProductModel) => void;
     updated_at?: string;
 };
 
-const Product = ({ isFocused: isFocusedProp = false, product, onPress, quantity, draft, updated_at }: ProductProps) => {
+const Product = ({ isFocused: isFocusedProp = false, product, onPress, onLongPress, quantity, draft, updated_at }: ProductProps) => {
     const [isFocusedState, setIsFocusedState] = useState(false);
     const isFocused = isFocusedProp || isFocusedState;
 
@@ -25,7 +26,13 @@ const Product = ({ isFocused: isFocusedProp = false, product, onPress, quantity,
             onFocus={() => setIsFocusedState(true)}
             onBlur={() => setIsFocusedState(false)}
             onPress={() => onPress?.(product)}
-            onLongPress={() => setIsFocusedState(!isFocused)}
+            onLongPress={() => {
+                if (onLongPress) {
+                    onLongPress(product);
+                    return;
+                }
+                setIsFocusedState(!isFocused);
+            }}
             style={[
                 styles.container,
                 isFocused ? styles.containerFocused : styles.containerDefault,

@@ -8,7 +8,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const ViewSalesScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <CustomStackTwo header="SELL" desc="Tap, search or scan barcode" icon="cart-outline"/>
+      <CustomStackTwo
+        header="SELL"
+        desc="Tap, search or scan barcode"
+        icon="cart-outline"
+        onIconPress={() => {}}
+      />
       <View style={styles.card}>
         <Text style={[globalStyles.h2, styles.title]}>Created Sales</Text>
         <Text style={[globalStyles.text, styles.subtitle]}>

@@ -16,7 +16,7 @@ import { BatchRepo } from "@/databases/repositories/BatchRepo";
 import { useSheetOne } from "@/hooks/useSheetOne";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const DraftView = () => {
@@ -28,6 +28,7 @@ const DraftView = () => {
   const [draft, setDraft] = useState<DraftBatch | null>(null);
   const [draftItems, setDraftItems] = useState<DraftItem[]>([]);
   const [selectedDraftItem, setSelectedDraftItem] = useState<DraftItem | null>(null);
+  const [selectedDraftItemIds, setSelectedDraftItemIds] = useState<string[]>([]);
   const [quantity, setQuantity] = useState(0);
 
   const loadDraft = async () => {
@@ -56,9 +57,57 @@ const DraftView = () => {
     productDetails.openSheetOne(3);
   };
 
+  const handleSelectProducts = async (products: ProductModel[]) => {
+    const currentDraft = draft ?? (await loadDraft());
+    if (!currentDraft) return;
+
+    const draftItems = await Promise.all(
+      products.map((product) => BatchRepo.addProductToDraft(currentDraft, product.id)),
+    );
+    const firstDraftItem = draftItems[0];
+    if (firstDraftItem) setSelectedDraftItem(firstDraftItem);
+
+    productAdd.onClose();
+    await loadDraft();
+    productDetails.openSheetOne(3);
+  };
+
   const handleOpenDraftItem = (item: DraftItem) => {
+    if (selectedDraftItemIds.length > 0) {
+      toggleSelectedDraftItem(item);
+      return;
+    }
+
     setSelectedDraftItem(item);
     productDetails.openSheetOne(3);
+  };
+
+  const toggleSelectedDraftItem = (item: DraftItem) => {
+    setSelectedDraftItemIds((currentIds) =>
+      currentIds.includes(item.id)
+        ? currentIds.filter((id) => id !== item.id)
+        : [...currentIds, item.id],
+    );
+  };
+
+  const handleClearDraftItems = async () => {
+    if (!draft) return;
+
+    const clearedCount = await BatchRepo.clearDraftItems(
+      draft.id,
+      selectedDraftItemIds.length > 0 ? selectedDraftItemIds : undefined,
+    );
+    setSelectedDraftItemIds([]);
+    setSelectedDraftItem(null);
+    await loadDraft();
+
+    if (clearedCount > 0) {
+      alert(
+        selectedDraftItemIds.length > 0
+          ? "Selected products cleared"
+          : "Draft products cleared",
+      );
+    }
   };
 
   const handleSavedDetails = async () => {
@@ -90,12 +139,23 @@ const DraftView = () => {
         draft={true}
       />
       <Search />
+      {draftItems.length > 0 && (
+        <Pressable onPress={handleClearDraftItems}>
+          <Text style={styles.clear}>
+            {selectedDraftItemIds.length > 0
+              ? `Clear - ${selectedDraftItemIds.length}`
+              : "Clear All"}
+          </Text>
+        </Pressable>
+      )}
       <ScrollView contentContainerStyle={{ gap: 12 }}>
         {draftItems.length > 0 ? (
           draftItems.map((item) => (
               <Product
                 product={item.product}
                 onPress={() => handleOpenDraftItem(item)}
+                onLongPress={() => toggleSelectedDraftItem(item)}
+                isFocused={selectedDraftItemIds.includes(item.id)}
                 draft={true}
                 quantity={item.quantity}
                 updated_at={item.updated_at}
@@ -120,7 +180,10 @@ const DraftView = () => {
           onSheetChange={productAdd.onSheetChange}
           onClose={productAdd.onClose}
         >
-          <ProductDraw onSelectProduct={handleSelectProduct} />
+          <ProductDraw
+            onSelectProduct={handleSelectProduct}
+            onSelectProducts={handleSelectProducts}
+          />
         </BottomSheetWrapper>
       )}
 
@@ -168,5 +231,15 @@ const DraftView = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  clear: {
+    ...globalStyles.h5,
+    color: "red",
+    textAlign: "right",
+    paddingHorizontal: 24,
+    marginBottom: 12
+  }
+})
 
 export default DraftView;

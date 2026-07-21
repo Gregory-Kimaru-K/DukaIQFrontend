@@ -14,7 +14,7 @@ const MiniSummary = () => {
           start={[0, 0]}
           end={[0, 1]}
           style={styles.sale}>
-          <Text style={globalStyles.text}>Today's Sales</Text>
+          <Text style={globalStyles.text}>Today&apos;s Sales</Text>
           <Text style={[globalStyles.text, {fontWeight: "bold"}]}>KSH. 600</Text>
           <Text style={globalStyles.text}>1 Transaction</Text>
         </LinearGradient>
@@ -26,7 +26,7 @@ const MiniSummary = () => {
           
           style={styles.profit}>
           <Image source={require("../../assets/Profit.png")} style={styles.icon} />
-          <Text style={globalStyles.text}>Today's Net Profit</Text>
+          <Text style={globalStyles.text}>Today&apos;s Net Profit</Text>
           <Text style={[globalStyles.text, {fontWeight: "bold"}]}>KSH. 300</Text>
         </LinearGradient>
       </View>

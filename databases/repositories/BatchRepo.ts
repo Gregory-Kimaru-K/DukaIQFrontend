@@ -276,6 +276,36 @@ export const BatchRepo = {
     const item = await findRecord<DraftItemRecord>(draftItemsCollection(), id);
     return item ? toDraftItemDto(item) : undefined;
   },
+  deleteDraftItem: async (id: string): Promise<boolean> =>
+    database.write(async () => {
+      const item = await findRecord<DraftItemRecord>(draftItemsCollection(), id);
+      if (!item) return false;
+      await item.destroyPermanently();
+      return true;
+    }),
+  clearDraftItems: async (
+    draftId: string,
+    draftItemIds?: string[],
+  ): Promise<number> =>
+    database.write(async () => {
+      const items =
+        draftItemIds && draftItemIds.length > 0
+          ? (
+              await Promise.all(
+                draftItemIds.map((id) =>
+                  findRecord<DraftItemRecord>(draftItemsCollection(), id),
+                ),
+              )
+            ).filter((item): item is DraftItemRecord => Boolean(item))
+          : await draftItemsCollection()
+              .query(Q.where("draft_id", draftId))
+              .fetch();
+
+      await database.batch(
+        items.map((item) => item.prepareDestroyPermanently()),
+      );
+      return items.length;
+    }),
   addProductToDraft: async (
     draft: DraftBatch,
     productId: string,

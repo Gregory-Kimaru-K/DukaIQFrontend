@@ -9,7 +9,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CoutryPickerComp from "../sales/CoutryPickerComp";
 import DropDown from "../sales/DropDown";
 
-const customerOptions = [
+type CustomerOption = {
+  id: string;
+  label: string;
+};
+
+const customerOptions: CustomerOption[] = [
   { id: "1", label: "John Doe" },
   { id: "2", label: "Jane Kamau" },
   { id: "3", label: "David Mwangi" },

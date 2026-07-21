@@ -13,7 +13,7 @@ import { globalStyles } from '@/constants/styles'
 import { ProductRepo } from '@/databases/repositories/ProductRepo'
 import Products404 from '@/components/products/Products404'
 
-const products = () => {
+const ProductsIndex = () => {
   const router = useRouter()
   const proddets = useSheetOne({snapPoints: ["100%"]})
   const repoProducts = ProductRepo
@@ -59,4 +59,4 @@ const products = () => {
   )
 }
 
-export default products
+export default ProductsIndex
