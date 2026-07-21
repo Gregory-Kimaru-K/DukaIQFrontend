@@ -1,4 +1,5 @@
 import Search from "@/components/Search";
+import ProductAdd from "@/components/drawerproduct/ProductAdd";
 import ProductDets from "@/components/drawerproduct/ProductDets";
 import ProductDraw from "@/components/drawerproduct/ProductDraw";
 import RestockDraw from "@/components/drawerproduct/RestockDraw";
@@ -18,6 +19,7 @@ import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {ProductRepo} from "@/databases/repositories/ProductRepo";
 
 const DraftView = () => {
   const { draftid } = useLocalSearchParams<{ draftid: string }>();
@@ -25,12 +27,23 @@ const DraftView = () => {
   const restock = useSheetOne();
   const paymentStock = useSheetOne();
   const productDetails = useSheetOne();
+  const ProductCreate = useSheetOne();
   const [draft, setDraft] = useState<DraftBatch | null>(null);
   const [draftItems, setDraftItems] = useState<DraftItem[]>([]);
   const [selectedDraftItem, setSelectedDraftItem] = useState<DraftItem | null>(null);
   const [selectedDraftItemIds, setSelectedDraftItemIds] = useState<string[]>([]);
   const [quantity, setQuantity] = useState(0);
+  const [products, setProducts] = useState<ProductModel[]>([]);
+  const repoProducts = ProductRepo;
 
+  const loadProducts = async () => {
+      const nextProducts = await repoProducts.listProducts()
+      setProducts(nextProducts)
+    }
+  
+    useEffect(() => {
+      loadProducts()
+    }, [])
   const loadDraft = async () => {
     if (!draftid) return undefined;
     const nextDraft = await BatchRepo.getDraftById(draftid);
@@ -183,6 +196,10 @@ const DraftView = () => {
           <ProductDraw
             onSelectProduct={handleSelectProduct}
             onSelectProducts={handleSelectProducts}
+            onIconPress={() => {
+              productAdd.onClose();
+              ProductCreate.openSheetOne(3);
+            }}
           />
         </BottomSheetWrapper>
       )}
@@ -226,6 +243,18 @@ const DraftView = () => {
             quaintity={quantity}
             setQuantity={setQuantity}
           />
+        </BottomSheetWrapper>
+      )}
+
+      {ProductCreate.isOpenOne && (
+        <BottomSheetWrapper
+          bottomSheetRef={ProductCreate.bottomSheetRef}
+          snap={ProductCreate.snap}
+          snapPoints={ProductCreate.snapPoints}
+          onSheetChange={ProductCreate.onSheetChange}
+          onClose={ProductCreate.onClose}
+        >
+          <ProductAdd onCreated={loadProducts} />
         </BottomSheetWrapper>
       )}
     </SafeAreaView>

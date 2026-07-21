@@ -9,13 +9,15 @@ import Product from '../products/Product'
 import Products404 from '../products/Products404'
 import Total from '../sales/Total'
 import { globalStyles } from '@/constants/styles'
+import CustomHeader from '../products/CustomHeader'
 
 type ProductDrawProps = {
   onSelectProduct?: (product: ProductModel) => void;
   onSelectProducts?: (products: ProductModel[]) => void | Promise<void>;
+  onIconPress?: () => void;
 };
 
-const ProductDraw = ({ onSelectProduct, onSelectProducts }: ProductDrawProps) => {
+const ProductDraw = ({ onSelectProduct, onSelectProducts, onIconPress }: ProductDrawProps) => {
   const [barcode, setBarcode] = useState('')
   const repoProducts = ProductRepo
   const [products, setProducts] = useState<ProductModel[]>([])
@@ -85,8 +87,8 @@ const ProductDraw = ({ onSelectProduct, onSelectProducts }: ProductDrawProps) =>
   
   return (
     <View style={styles.container}>
-      <CheckHead head='Draft Products' />
-     <ScanProducts barcode={barcode} setBarcode={setBarcode} />
+      <CustomHeader title="Draft Products" icon='add' handleIconPress={onIconPress} />
+      <ScanProducts barcode={barcode} setBarcode={setBarcode} />
       {selectedProducts.length > 0 && (
         <Total
           draft
