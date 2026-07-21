@@ -82,6 +82,23 @@ export class VendorRecord extends DukaModel {
   set phoneNumber(value: string) { this.setValue("phone_number", value); }
 }
 
+export class TaxTypeRecord extends DukaModel {
+  static table = "tax_types";
+
+  get name() { return this.getString("name"); }
+  set name(value: string) { this.setValue("name", value); }
+  get code() { return this.getString("code"); }
+  set code(value: string) { this.setValue("code", value); }
+  get rate() { return this.getNumber("rate"); }
+  set rate(value: number) { this.setValue("rate", value); }
+  get active() { return this.getBoolean("active"); }
+  set active(value: boolean) { this.setValue("active", value); }
+  get createdAt(): string { return this.getTimestamp("created_at"); }
+  set createdAt(value: string) { this.setTimestamp("created_at", value); }
+  get updatedAt(): string { return this.getTimestamp("updated_at"); }
+  set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
+}
+
 export class ProductRecord extends DukaModel {
   static table = "products";
 
@@ -147,6 +164,8 @@ export class BatchItemRecord extends DukaModel {
   set price(value: number) { this.setValue("price", value); }
   get vat() { return this.getOptionalNumber("vat"); }
   set vat(value: number | undefined) { this.setValue("vat", value ?? null); }
+  get taxTypeId() { return this.getOptionalString("tax_type_id"); }
+  set taxTypeId(value: string | undefined) { this.setValue("tax_type_id", value ?? null); }
   get exerciseDuty() { return this.getNumber("exercise_duty"); }
   set exerciseDuty(value: number) { this.setValue("exercise_duty", value); }
   get profit() { return this.getNumber("profit"); }
@@ -181,6 +200,8 @@ export class DraftItemRecord extends DukaModel {
   set price(value: number) { this.setValue("price", value); }
   get vat() { return this.getOptionalNumber("vat"); }
   set vat(value: number | undefined) { this.setValue("vat", value ?? null); }
+  get taxTypeId() { return this.getOptionalString("tax_type_id"); }
+  set taxTypeId(value: string | undefined) { this.setValue("tax_type_id", value ?? null); }
   get exerciseDuty() { return this.getNumber("exercise_duty"); }
   set exerciseDuty(value: number) { this.setValue("exercise_duty", value); }
   get profit() { return this.getNumber("profit"); }
@@ -258,6 +279,7 @@ export const modelClasses = [
   CategoryRecord,
   TypeRecord,
   VendorRecord,
+  TaxTypeRecord,
   DraftRecord,
   DraftItemRecord,
   ProductRecord,

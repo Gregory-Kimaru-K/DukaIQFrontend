@@ -39,5 +39,33 @@ export const migrations = schemaMigrations({
         }),
       ],
     },
+    {
+      toVersion: 3,
+      steps: [
+        createTable({
+          name: "tax_types",
+          columns: [
+            { name: "name", type: "string" },
+            { name: "code", type: "string" },
+            { name: "rate", type: "number" },
+            { name: "active", type: "boolean" },
+            { name: "created_at", type: "number" },
+            { name: "updated_at", type: "number" },
+          ],
+        }),
+        addColumns({
+          table: "draft_items",
+          columns: [
+            { name: "tax_type_id", type: "string", isOptional: true, isIndexed: true },
+          ],
+        }),
+        addColumns({
+          table: "batch_items",
+          columns: [
+            { name: "tax_type_id", type: "string", isOptional: true, isIndexed: true },
+          ],
+        }),
+      ],
+    },
   ],
 });

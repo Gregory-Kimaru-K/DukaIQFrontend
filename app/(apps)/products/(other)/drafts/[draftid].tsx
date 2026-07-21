@@ -93,15 +93,14 @@ const DraftView = () => {
       <ScrollView contentContainerStyle={{ gap: 12 }}>
         {draftItems.length > 0 ? (
           draftItems.map((item) => (
-            <View key={item.id}>
               <Product
                 product={item.product}
                 onPress={() => handleOpenDraftItem(item)}
+                draft={true}
+                quantity={item.quantity}
+                updated_at={item.updated_at}
+                key={item.id}
               />
-              <Text style={[globalStyles.text, { paddingHorizontal: 18 }]}>
-                {item.quantity} {item.product.unit} - Buy KSH.{item.price} - Sell KSH.{item.profit}
-              </Text>
-            </View>
           ))
         ) : (
           <Products404 />

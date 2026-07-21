@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from "@nozbe/watermelondb";
 
 export const databaseSchema = appSchema({
-  version: 2,
+  version: 3,
   tables: [
     tableSchema({
       name: "shops",
@@ -34,6 +34,17 @@ export const databaseSchema = appSchema({
       columns: [
         { name: "name", type: "string" },
         { name: "phone_number", type: "string" },
+      ],
+    }),
+    tableSchema({
+      name: "tax_types",
+      columns: [
+        { name: "name", type: "string" },
+        { name: "code", type: "string" },
+        { name: "rate", type: "number" },
+        { name: "active", type: "boolean" },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
       ],
     }),
     tableSchema({
@@ -71,6 +82,7 @@ export const databaseSchema = appSchema({
         { name: "expiry", type: "string", isOptional: true },
         { name: "price", type: "number" },
         { name: "vat", type: "number", isOptional: true },
+        { name: "tax_type_id", type: "string", isIndexed: true, isOptional: true },
         { name: "exercise_duty", type: "number" },
         { name: "profit", type: "number" },
         { name: "updated_at", type: "number" },
@@ -97,6 +109,7 @@ export const databaseSchema = appSchema({
         { name: "expiry", type: "string", isOptional: true },
         { name: "price", type: "number" },
         { name: "vat", type: "number", isOptional: true },
+        { name: "tax_type_id", type: "string", isIndexed: true, isOptional: true },
         { name: "exercise_duty", type: "number" },
         { name: "profit", type: "number" },
         { name: "updated_at", type: "number" },

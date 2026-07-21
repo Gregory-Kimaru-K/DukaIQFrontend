@@ -6,6 +6,7 @@ import { Batch } from "../models/stock/Batch";
 import { BatchItem } from "../models/stock/BatchItem";
 import { DraftBatch } from "../models/stock/Draft";
 import { DraftItem } from "../models/stock/DraftItem";
+import { TaxType } from "../models/stock/TaxType";
 import { database } from "../watermelon/database";
 import {
   BatchItemRecord,
@@ -15,6 +16,7 @@ import {
   DraftItemRecord,
   DraftRecord,
   ProductRecord,
+  TaxTypeRecord,
   VendorRecord,
 } from "../watermelon/models";
 import { toProductDto, toVendorDto } from "./ProductRepo";
@@ -31,6 +33,14 @@ const creditBatchesCollection = () =>
   database.get<CreditBatchRecord>("credit_batches");
 const vendorsCollection = () => database.get<VendorRecord>("vendors");
 const productsCollection = () => database.get<ProductRecord>("products");
+const taxTypesCollection = () => database.get<TaxTypeRecord>("tax_types");
+
+const defaultTaxTypes = [
+  { name: "No Tax", code: "NO_TAX", rate: 0 },
+  { name: "VAT", code: "VAT", rate: 16 },
+  { name: "Zero Rated", code: "ZERO_RATED", rate: 0 },
+  { name: "Exempt", code: "EXEMPT", rate: 0 },
+];
 
 const findRecord = async <T extends { id: string }>(
   collection: Collection<any>,
@@ -61,12 +71,34 @@ export const toBatchDto = (batch: BatchRecord): Batch => ({
   created_at: batch.createdAt,
 });
 
+export const toTaxTypeDto = (taxType: TaxTypeRecord): TaxType => ({
+  id: taxType.id,
+  name: taxType.name,
+  code: taxType.code,
+  rate: taxType.rate,
+  active: taxType.active,
+  created_at: taxType.createdAt,
+  updated_at: taxType.updatedAt,
+});
+
+const getTaxTypeDto = async (
+  taxTypeId?: string,
+): Promise<TaxType | undefined> => {
+  if (!taxTypeId) return undefined;
+  const taxType = await findRecord<TaxTypeRecord>(
+    taxTypesCollection(),
+    taxTypeId,
+  );
+  return taxType ? toTaxTypeDto(taxType) : undefined;
+};
+
 export const toDraftItemDto = async (
   item: DraftItemRecord,
 ): Promise<DraftItem> => {
-  const [draft, product] = await Promise.all([
+  const [draft, product, taxType] = await Promise.all([
     draftsCollection().find(item.draftId),
     productsCollection().find(item.productId),
+    getTaxTypeDto(item.taxTypeId),
   ]);
 
   return {
@@ -77,6 +109,8 @@ export const toDraftItemDto = async (
     expiry: item.expiry,
     price: item.price,
     vat: item.vat,
+    tax_type_id: item.taxTypeId,
+    tax_type: taxType,
     exercise_duty: item.exerciseDuty,
     profit: item.profit,
     updated_at: item.updatedAt,
@@ -86,9 +120,10 @@ export const toDraftItemDto = async (
 export const toBatchItemDto = async (
   item: BatchItemRecord,
 ): Promise<BatchItem> => {
-  const [batch, product] = await Promise.all([
+  const [batch, product, taxType] = await Promise.all([
     batchesCollection().find(item.batchId),
     productsCollection().find(item.productId),
+    getTaxTypeDto(item.taxTypeId),
   ]);
 
   return {
@@ -99,6 +134,8 @@ export const toBatchItemDto = async (
     expiry: item.expiry,
     price: item.price,
     vat: item.vat,
+    tax_type_id: item.taxTypeId,
+    tax_type: taxType,
     exercise_duty: item.exerciseDuty,
     profit: item.profit,
     updated_at: item.updatedAt,
@@ -125,7 +162,66 @@ const toCreditDto = async (credit: CreditRecord): Promise<Credit> => {
   };
 };
 
+const ensureDefaultTaxTypes = async (): Promise<void> => {
+  const existing = await taxTypesCollection().query().fetch();
+  if (existing.length > 0) return;
+
+  await database.write(async () => {
+    const timestamp = now();
+    await database.batch(
+      defaultTaxTypes.map((taxType) =>
+        taxTypesCollection().prepareCreate((record) => {
+          record.name = taxType.name;
+          record.code = taxType.code;
+          record.rate = taxType.rate;
+          record.active = true;
+          record.createdAt = timestamp;
+          record.updatedAt = timestamp;
+        }),
+      ),
+    );
+  });
+};
+
 export const BatchRepo = {
+  listTaxTypes: async (): Promise<TaxType[]> => {
+    await ensureDefaultTaxTypes();
+    const taxTypes = await taxTypesCollection()
+      .query(Q.where("active", true))
+      .fetch();
+    return taxTypes.map(toTaxTypeDto);
+  },
+  createTaxType: async (
+    taxType: Omit<TaxType, "id" | "created_at" | "updated_at">,
+  ): Promise<TaxType> =>
+    database.write(async () => {
+      const timestamp = now();
+      const record = await taxTypesCollection().create((newTaxType) => {
+        newTaxType.name = taxType.name;
+        newTaxType.code = taxType.code;
+        newTaxType.rate = taxType.rate;
+        newTaxType.active = taxType.active;
+        newTaxType.createdAt = timestamp;
+        newTaxType.updatedAt = timestamp;
+      });
+      return toTaxTypeDto(record);
+    }),
+  updateTaxType: async (
+    id: string,
+    updates: Partial<Omit<TaxType, "id" | "created_at" | "updated_at">>,
+  ): Promise<TaxType | undefined> =>
+    database.write(async () => {
+      const taxType = await findRecord<TaxTypeRecord>(taxTypesCollection(), id);
+      if (!taxType) return undefined;
+      await taxType.update((record) => {
+        if (updates.name !== undefined) record.name = updates.name;
+        if (updates.code !== undefined) record.code = updates.code;
+        if (updates.rate !== undefined) record.rate = updates.rate;
+        if (updates.active !== undefined) record.active = updates.active;
+        record.updatedAt = now();
+      });
+      return toTaxTypeDto(taxType);
+    }),
   listDrafts: async (): Promise<DraftBatch[]> => {
     const drafts = await draftsCollection().query().fetch();
     return drafts.map(toDraftDto);
@@ -212,9 +308,10 @@ export const BatchRepo = {
       if (!item) return undefined;
       await item.update((record) => {
         if (updates.quantity !== undefined) record.quantity = updates.quantity;
-        if (updates.expiry !== undefined) record.expiry = updates.expiry;
+        if ("expiry" in updates) record.expiry = updates.expiry;
         if (updates.price !== undefined) record.price = updates.price;
-        if (updates.vat !== undefined) record.vat = updates.vat;
+        if ("vat" in updates) record.vat = updates.vat;
+        if ("tax_type_id" in updates) record.taxTypeId = updates.tax_type_id;
         if (updates.exercise_duty !== undefined) {
           record.exerciseDuty = updates.exercise_duty;
         }
@@ -262,6 +359,7 @@ export const BatchRepo = {
           item.expiry = draftItem.expiry;
           item.price = draftItem.price;
           item.vat = draftItem.vat;
+          item.taxTypeId = draftItem.taxTypeId;
           item.exerciseDuty = draftItem.exerciseDuty;
           item.profit = draftItem.profit;
           item.updatedAt = timestamp;
@@ -359,6 +457,7 @@ export const BatchRepo = {
         newItem.expiry = item.expiry;
         newItem.price = item.price;
         newItem.vat = item.vat;
+        newItem.taxTypeId = item.tax_type_id;
         newItem.exerciseDuty = item.exercise_duty;
         newItem.profit = item.profit;
         newItem.updatedAt = item.updated_at;
@@ -376,9 +475,10 @@ export const BatchRepo = {
         if (updates.batch !== undefined) record.batchId = updates.batch.id;
         if (updates.product !== undefined) record.productId = updates.product.id;
         if (updates.quantity !== undefined) record.quantity = updates.quantity;
-        if (updates.expiry !== undefined) record.expiry = updates.expiry;
+        if ("expiry" in updates) record.expiry = updates.expiry;
         if (updates.price !== undefined) record.price = updates.price;
-        if (updates.vat !== undefined) record.vat = updates.vat;
+        if ("vat" in updates) record.vat = updates.vat;
+        if ("tax_type_id" in updates) record.taxTypeId = updates.tax_type_id;
         if (updates.exercise_duty !== undefined) {
           record.exerciseDuty = updates.exercise_duty;
         }

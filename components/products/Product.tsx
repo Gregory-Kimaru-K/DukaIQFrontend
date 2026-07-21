@@ -12,9 +12,10 @@ type ProductProps = {
     draft?: boolean;
     quantity?: number;
     onPress?: (product: ProductModel) => void;
+    updated_at?: string;
 };
 
-const Product = ({ isFocused: isFocusedProp = false, product, onPress, quantity, draft }: ProductProps) => {
+const Product = ({ isFocused: isFocusedProp = false, product, onPress, quantity, draft, updated_at }: ProductProps) => {
     const [isFocusedState, setIsFocusedState] = useState(false);
     const isFocused = isFocusedProp || isFocusedState;
 
@@ -51,8 +52,15 @@ const Product = ({ isFocused: isFocusedProp = false, product, onPress, quantity,
                 <View style={styles.row}>
                     <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE }, ]} >{draft ? quantity : product.current_stock} {product.unit}</Text>
                     <Text style={[ globalStyles.text, { color: isFocused ? Colors.brand.LIGHT_BLUE : Colors.text.WHITE } ]}>
-                        Updated at {new Date(product.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second:"2-digit", hour12: true }).toUpperCase()}
-                    </Text>
+                        Updated at {
+                          (() => {
+                            const raw = draft ? updated_at : product.updated_at;
+                            return raw
+                              ? new Date(raw).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase()
+                              : "--:--";
+                          })()
+                        }
+                      </Text>
                
                 </View>
             </View>
