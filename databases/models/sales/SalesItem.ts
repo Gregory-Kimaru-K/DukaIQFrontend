@@ -7,4 +7,7 @@ export interface SalesItem {
     sale:Sales;
     quantity:number;
     price:number;
+    unit_cost?: number;
+    unit_selling_price?: number;
+    line_total?: number;
 }

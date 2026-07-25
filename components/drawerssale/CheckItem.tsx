@@ -17,7 +17,8 @@ const CheckItem = ({ restock=false, item, onRemove }: CheckItemProps) => {
     const displayName = item?.product.name ?? "Prod_1";
     const displayQuantity = item?.quantity ?? quantity;
     const unitPrice = item?.price ?? 200;
-    const lineTotal = unitPrice * displayQuantity;
+    const tax = item?.vat ?? 0;
+    const lineTotal = (unitPrice * displayQuantity) + tax;
     return (
         <View style={styles.item}>
             <View style={styles.itemsCont}>

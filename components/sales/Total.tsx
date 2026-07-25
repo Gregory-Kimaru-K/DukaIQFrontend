@@ -11,23 +11,23 @@ interface TotalProps {
 
 const Total = ({ handlePayments, draft=false, label }: TotalProps) => {
     return (
-    <View style={styles.total}>
-        <Text style={[globalStyles.h2, { fontWeight: "bold" }]}>TOTAL</Text>
-        <Pressable
-            style={styles.btn}
-            onPress={handlePayments}>
-            <Text
-                style={[
-                globalStyles.h2,
-                { fontWeight: "bold", color: Colors.brand.ORANGE },
-                ]}
-            >
-                {label ?? (draft ? "0 Products" : "KSH. 1,800")}
-            </Text>
-        </Pressable>
-    </View>
+        <View style={styles.total}>
+            <Text style={[globalStyles.h2, { fontWeight: "bold" }]}>TOTAL</Text>
+            <Pressable
+                style={styles.btn}
+                onPress={handlePayments}>
+                <Text
+                    style={[
+                    globalStyles.h2,
+                    { fontWeight: "bold", color: Colors.brand.ORANGE },
+                    ]}
+                >
+                    {label ?? (draft ? "0 Products" : "KSH. 1,800")}
+                </Text>
+            </Pressable>
+        </View>
     )
-    }
+}
 
 const styles = StyleSheet.create({
     total: {

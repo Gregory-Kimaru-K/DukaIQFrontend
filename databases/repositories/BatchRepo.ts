@@ -16,6 +16,7 @@ import {
   DraftItemRecord,
   DraftRecord,
   ProductRecord,
+  StockMovementRecord,
   TaxTypeRecord,
   VendorRecord,
 } from "../watermelon/models";
@@ -34,6 +35,8 @@ const creditBatchesCollection = () =>
 const vendorsCollection = () => database.get<VendorRecord>("vendors");
 const productsCollection = () => database.get<ProductRecord>("products");
 const taxTypesCollection = () => database.get<TaxTypeRecord>("tax_types");
+const stockMovementsCollection = () =>
+  database.get<StockMovementRecord>("stock_movements");
 
 const defaultTaxTypes = [
   { name: "No Tax", code: "NO_TAX", rate: 0 },
@@ -63,10 +66,15 @@ export const toDraftDto = (draft: DraftRecord): DraftBatch => ({
 export const toBatchDto = (batch: BatchRecord): Batch => ({
   id: batch.id,
   draft_id: batch.draftId,
+  vendor_id: batch.vendorId,
   payment_method: batch.paymentMethod,
   price: batch.price,
   payment: batch.payment,
+  total_amount: batch.totalAmount,
+  amount_paid: batch.amountPaid,
+  balance: batch.balance,
   vendor: batch.vendor,
+  status: batch.status,
   updated_at: batch.updatedAt,
   created_at: batch.createdAt,
 });
@@ -321,6 +329,12 @@ export const BatchRepo = {
         item.draftId = draft.id;
         item.productId = product.id;
         item.quantity = 0;
+        item.purchaseUnit = "UNIT";
+        item.unitsPerPack = 1;
+        item.unitCost = 0;
+        item.unitSellingPrice = 0;
+        item.profitAmount = 0;
+        item.profitScope = "UNIT";
         item.price = 0;
         item.exerciseDuty = 0;
         item.profit = 0;
@@ -339,13 +353,19 @@ export const BatchRepo = {
       await item.update((record) => {
         if (updates.quantity !== undefined) record.quantity = updates.quantity;
         if ("expiry" in updates) record.expiry = updates.expiry;
-        if (updates.price !== undefined) record.price = updates.price;
+        if (updates.price !== undefined) {
+          record.price = updates.price;
+          record.unitCost = updates.price;
+        }
         if ("vat" in updates) record.vat = updates.vat;
         if ("tax_type_id" in updates) record.taxTypeId = updates.tax_type_id;
         if (updates.exercise_duty !== undefined) {
           record.exerciseDuty = updates.exercise_duty;
         }
-        if (updates.profit !== undefined) record.profit = updates.profit;
+        if (updates.profit !== undefined) {
+          record.profit = updates.profit;
+          record.unitSellingPrice = updates.profit;
+        }
         record.updatedAt = updates.updated_at ?? now();
       });
       return toDraftItemDto(item);
@@ -356,6 +376,7 @@ export const BatchRepo = {
       payment_method?: string;
       payment?: string;
       vendor?: string;
+      vendor_id?: string;
     } = {},
   ): Promise<Batch | undefined> =>
     database.write(async () => {
@@ -373,10 +394,15 @@ export const BatchRepo = {
       const timestamp = now();
       const batch = await batchesCollection().create((record) => {
         record.draftId = draft.id;
+        record.vendorId = batchDetails.vendor_id;
         record.paymentMethod = batchDetails.payment_method ?? "";
-        record.price = totalPrice.toString();
-        record.payment = batchDetails.payment ?? "0";
+        record.totalAmount = totalPrice;
+        record.amountPaid = Number(batchDetails.payment ?? 0);
+        record.balance = Math.max(0, totalPrice - Number(batchDetails.payment ?? 0));
+        record.price = totalPrice;
+        record.payment = Number(batchDetails.payment ?? 0);
         record.vendor = batchDetails.vendor ?? draft.name;
+        record.status = "completed";
         record.createdAt = timestamp;
         record.updatedAt = timestamp;
       });
@@ -386,7 +412,13 @@ export const BatchRepo = {
           item.batchId = batch.id;
           item.productId = draftItem.productId;
           item.quantity = draftItem.quantity;
+          item.purchaseUnit = draftItem.purchaseUnit || "UNIT";
+          item.unitsPerPack = draftItem.unitsPerPack || 1;
           item.expiry = draftItem.expiry;
+          item.unitCost = draftItem.unitCost || draftItem.price;
+          item.unitSellingPrice = draftItem.unitSellingPrice || draftItem.profit;
+          item.profitAmount = draftItem.profitAmount;
+          item.profitScope = draftItem.profitScope || "UNIT";
           item.price = draftItem.price;
           item.vat = draftItem.vat;
           item.taxTypeId = draftItem.taxTypeId;
@@ -401,14 +433,25 @@ export const BatchRepo = {
           return product.prepareUpdate((record) => {
             record.currentStock = product.currentStock + draftItem.quantity;
             record.totalPurchased = product.totalPurchased + draftItem.quantity;
-            record.currentBatchId = batch.id;
+        record.currentBatchId = batch.id;
             record.batchCount = (product.batchCount ?? 0) + 1;
             record.updatedAt = timestamp;
           });
         }),
       );
+      const stockMovements = draftItems.map((draftItem) =>
+        stockMovementsCollection().prepareCreate((movement) => {
+          movement.productId = draftItem.productId;
+          movement.quantityDelta = draftItem.quantity;
+          movement.reasonType = "batch";
+          movement.reasonId = batch.id;
+          movement.unitCost = draftItem.unitCost || draftItem.price;
+          movement.unitSellingPrice = draftItem.unitSellingPrice || draftItem.profit;
+          movement.createdAt = timestamp;
+        }),
+      );
 
-      await database.batch(batchItems, productUpdates);
+      await database.batch(batchItems, productUpdates, stockMovements);
       return toBatchDto(batch);
     }),
 
@@ -428,10 +471,15 @@ export const BatchRepo = {
       const timestamp = now();
       const record = await batchesCollection().create((newBatch) => {
         newBatch.draftId = batch.draft_id;
+        newBatch.vendorId = batch.vendor_id;
         newBatch.paymentMethod = batch.payment_method;
+        newBatch.totalAmount = batch.total_amount ?? batch.price;
+        newBatch.amountPaid = batch.amount_paid ?? batch.payment;
+        newBatch.balance = batch.balance ?? 0;
         newBatch.price = batch.price;
         newBatch.payment = batch.payment;
         newBatch.vendor = batch.vendor;
+        newBatch.status = batch.status ?? "completed";
         newBatch.createdAt = timestamp;
         newBatch.updatedAt = timestamp;
       });
@@ -446,12 +494,17 @@ export const BatchRepo = {
       if (!batch) return undefined;
       await batch.update((record) => {
         if (updates.draft_id !== undefined) record.draftId = updates.draft_id;
+        if (updates.vendor_id !== undefined) record.vendorId = updates.vendor_id;
         if (updates.payment_method !== undefined) {
           record.paymentMethod = updates.payment_method;
         }
+        if (updates.total_amount !== undefined) record.totalAmount = updates.total_amount;
+        if (updates.amount_paid !== undefined) record.amountPaid = updates.amount_paid;
+        if (updates.balance !== undefined) record.balance = updates.balance;
         if (updates.price !== undefined) record.price = updates.price;
         if (updates.payment !== undefined) record.payment = updates.payment;
         if (updates.vendor !== undefined) record.vendor = updates.vendor;
+        if (updates.status !== undefined) record.status = updates.status;
         record.updatedAt = now();
       });
       return toBatchDto(batch);
@@ -484,7 +537,13 @@ export const BatchRepo = {
         newItem.batchId = item.batch.id;
         newItem.productId = item.product.id;
         newItem.quantity = item.quantity;
+        newItem.purchaseUnit = "UNIT";
+        newItem.unitsPerPack = 1;
         newItem.expiry = item.expiry;
+        newItem.unitCost = item.price;
+        newItem.unitSellingPrice = item.profit;
+        newItem.profitAmount = Math.max(0, item.profit - item.price);
+        newItem.profitScope = "UNIT";
         newItem.price = item.price;
         newItem.vat = item.vat;
         newItem.taxTypeId = item.tax_type_id;
@@ -506,13 +565,19 @@ export const BatchRepo = {
         if (updates.product !== undefined) record.productId = updates.product.id;
         if (updates.quantity !== undefined) record.quantity = updates.quantity;
         if ("expiry" in updates) record.expiry = updates.expiry;
-        if (updates.price !== undefined) record.price = updates.price;
+        if (updates.price !== undefined) {
+          record.price = updates.price;
+          record.unitCost = updates.price;
+        }
         if ("vat" in updates) record.vat = updates.vat;
         if ("tax_type_id" in updates) record.taxTypeId = updates.tax_type_id;
         if (updates.exercise_duty !== undefined) {
           record.exerciseDuty = updates.exercise_duty;
         }
-        if (updates.profit !== undefined) record.profit = updates.profit;
+        if (updates.profit !== undefined) {
+          record.profit = updates.profit;
+          record.unitSellingPrice = updates.profit;
+        }
         record.updatedAt = updates.updated_at ?? now();
       });
       return toBatchItemDto(item);
@@ -535,8 +600,23 @@ export const BatchRepo = {
   },
   createCredit: async (credit: Omit<Credit, "id">): Promise<Credit> =>
     database.write(async () => {
+      const timestamp = now();
+      const totalAmount = credit.batch.reduce(
+        (total, batch) => total + (batch.total_amount ?? batch.price),
+        0,
+      );
+      const amountPaid = credit.batch.reduce(
+        (total, batch) => total + (batch.amount_paid ?? batch.payment),
+        0,
+      );
       const record = await creditsCollection().create((newCredit) => {
         newCredit.vendorId = credit.vendor.id;
+        newCredit.totalAmount = totalAmount;
+        newCredit.amountPaid = amountPaid;
+        newCredit.balance = Math.max(0, totalAmount - amountPaid);
+        newCredit.status = totalAmount - amountPaid > 0 ? "open" : "paid";
+        newCredit.createdAt = timestamp;
+        newCredit.updatedAt = timestamp;
       });
       const links = credit.batch.map((batch) =>
         creditBatchesCollection().prepareCreate((link) => {

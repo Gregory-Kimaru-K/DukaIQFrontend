@@ -20,6 +20,7 @@ const creditorsCollection = () => database.get<CreditorRecord>("creditors");
 const creditorSalesCollection = () =>
   database.get<CreditorSaleRecord>("creditor_sales");
 const productsCollection = () => database.get<ProductRecord>("products");
+const now = () => new Date().toISOString();
 
 const findRecord = async <T extends { id: string }>(
   collection: Collection<any>,
@@ -39,6 +40,15 @@ export const toSaleDto = (sale: SalesRecord): Sales => ({
   price: sale.price,
   done: sale.done,
   payee: sale.payee,
+  subtotal: sale.subtotal,
+  discount: sale.discount,
+  tax: sale.tax,
+  total: sale.total,
+  balance: sale.balance,
+  status: sale.status,
+  reversal_reason: sale.reversalReason,
+  created_at: sale.createdAt,
+  updated_at: sale.updatedAt,
 });
 
 export const toSalesItemDto = async (
@@ -55,6 +65,9 @@ export const toSalesItemDto = async (
     sale: toSaleDto(sale),
     quantity: item.quantity,
     price: item.price,
+    unit_cost: item.unitCost,
+    unit_selling_price: item.unitSellingPrice,
+    line_total: item.lineTotal,
   };
 };
 
@@ -86,12 +99,23 @@ export const SalesRepo = {
   },
   createSale: async (sale: Omit<Sales, "id">): Promise<Sales> =>
     database.write(async () => {
+      const timestamp = now();
+      const total = sale.total ?? sale.price;
       const record = await salesCollection().create((newSale) => {
         newSale.payment = sale.payment;
         newSale.paymentMethod = sale.payment_method;
+        newSale.subtotal = sale.subtotal ?? total;
+        newSale.discount = sale.discount ?? 0;
+        newSale.tax = sale.tax ?? 0;
+        newSale.total = total;
+        newSale.balance = sale.balance ?? Math.max(0, total - sale.payment);
         newSale.price = sale.price;
         newSale.done = sale.done;
         newSale.payee = sale.payee;
+        newSale.status = sale.status ?? (sale.done ? "completed" : "draft");
+        newSale.reversalReason = sale.reversal_reason;
+        newSale.createdAt = sale.created_at ?? timestamp;
+        newSale.updatedAt = sale.updated_at ?? timestamp;
       });
       return toSaleDto(record);
     }),
@@ -108,8 +132,18 @@ export const SalesRepo = {
           record.paymentMethod = updates.payment_method;
         }
         if (updates.price !== undefined) record.price = updates.price;
+        if (updates.subtotal !== undefined) record.subtotal = updates.subtotal;
+        if (updates.discount !== undefined) record.discount = updates.discount;
+        if (updates.tax !== undefined) record.tax = updates.tax;
+        if (updates.total !== undefined) record.total = updates.total;
+        if (updates.balance !== undefined) record.balance = updates.balance;
         if (updates.done !== undefined) record.done = updates.done;
         if (updates.payee !== undefined) record.payee = updates.payee;
+        if (updates.status !== undefined) record.status = updates.status;
+        if ("reversal_reason" in updates) {
+          record.reversalReason = updates.reversal_reason;
+        }
+        record.updatedAt = updates.updated_at ?? now();
       });
       return toSaleDto(sale);
     }),
@@ -135,6 +169,9 @@ export const SalesRepo = {
         newItem.productId = item.product.id;
         newItem.saleId = item.sale.id;
         newItem.quantity = item.quantity;
+        newItem.unitCost = item.unit_cost ?? 0;
+        newItem.unitSellingPrice = item.unit_selling_price ?? item.price;
+        newItem.lineTotal = item.line_total ?? item.quantity * item.price;
         newItem.price = item.price;
       });
       return toSalesItemDto(record);
@@ -150,6 +187,11 @@ export const SalesRepo = {
         if (updates.product !== undefined) record.productId = updates.product.id;
         if (updates.sale !== undefined) record.saleId = updates.sale.id;
         if (updates.quantity !== undefined) record.quantity = updates.quantity;
+        if (updates.unit_cost !== undefined) record.unitCost = updates.unit_cost;
+        if (updates.unit_selling_price !== undefined) {
+          record.unitSellingPrice = updates.unit_selling_price;
+        }
+        if (updates.line_total !== undefined) record.lineTotal = updates.line_total;
         if (updates.price !== undefined) record.price = updates.price;
       });
       return toSalesItemDto(item);
@@ -175,10 +217,13 @@ export const SalesRepo = {
   },
   createCreditor: async (creditor: Omit<Creditors, "id">): Promise<Creditors> =>
     database.write(async () => {
+      const timestamp = now();
       const record = await creditorsCollection().create((newCreditor) => {
         newCreditor.name = creditor.name;
         newCreditor.phoneNumber = creditor.phone_number;
         newCreditor.location = creditor.location;
+        newCreditor.createdAt = timestamp;
+        newCreditor.updatedAt = timestamp;
       });
       const links = creditor.sales.map((sale) =>
         creditorSalesCollection().prepareCreate((link) => {
@@ -205,6 +250,7 @@ export const SalesRepo = {
           record.phoneNumber = updates.phone_number;
         }
         if (updates.location !== undefined) record.location = updates.location;
+        record.updatedAt = now();
       });
       if (updates.sales !== undefined) {
         const currentLinks = await creditorSalesCollection()

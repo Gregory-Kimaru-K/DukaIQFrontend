@@ -80,6 +80,10 @@ export class VendorRecord extends DukaModel {
   set name(value: string) { this.setValue("name", value); }
   get phoneNumber() { return this.getString("phone_number"); }
   set phoneNumber(value: string) { this.setValue("phone_number", value); }
+  get createdAt(): string { return this.getTimestamp("created_at"); }
+  set createdAt(value: string) { this.setTimestamp("created_at", value); }
+  get updatedAt(): string { return this.getTimestamp("updated_at"); }
+  set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
 }
 
 export class TaxTypeRecord extends DukaModel {
@@ -128,6 +132,8 @@ export class ProductRecord extends DukaModel {
   set batchCount(value: number | undefined) { this.setValue("batch_count", value ?? null); }
   get unit() { return this.getString("unit"); }
   set unit(value: string) { this.setValue("unit", value); }
+  get active() { return this.getBoolean("active"); }
+  set active(value: boolean) { this.setValue("active", value); }
 }
 
 export class BatchRecord extends DukaModel {
@@ -135,14 +141,24 @@ export class BatchRecord extends DukaModel {
 
   get draftId() { return this.getOptionalString("draft_id"); }
   set draftId(value: string | undefined) { this.setValue("draft_id", value ?? null); }
+  get vendorId() { return this.getOptionalString("vendor_id"); }
+  set vendorId(value: string | undefined) { this.setValue("vendor_id", value ?? null); }
   get paymentMethod() { return this.getString("payment_method"); }
   set paymentMethod(value: string) { this.setValue("payment_method", value); }
-  get price() { return this.getString("price"); }
-  set price(value: string) { this.setValue("price", value); }
-  get payment() { return this.getString("payment"); }
-  set payment(value: string) { this.setValue("payment", value); }
+  get totalAmount() { return this.getNumber("total_amount"); }
+  set totalAmount(value: number) { this.setValue("total_amount", value); }
+  get amountPaid() { return this.getNumber("amount_paid"); }
+  set amountPaid(value: number) { this.setValue("amount_paid", value); }
+  get balance() { return this.getNumber("balance"); }
+  set balance(value: number) { this.setValue("balance", value); }
+  get price() { return this.getNumber("price"); }
+  set price(value: number) { this.setValue("price", value); }
+  get payment() { return this.getNumber("payment"); }
+  set payment(value: number) { this.setValue("payment", value); }
   get vendor() { return this.getString("vendor"); }
   set vendor(value: string) { this.setValue("vendor", value); }
+  get status() { return this.getString("status"); }
+  set status(value: string) { this.setValue("status", value); }
   get updatedAt(): string { return this.getTimestamp("updated_at"); }
   set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
   get createdAt(): string { return this.getTimestamp("created_at"); }
@@ -158,8 +174,20 @@ export class BatchItemRecord extends DukaModel {
   set productId(value: string) { this.setValue("product_id", value); }
   get quantity() { return this.getNumber("quantity"); }
   set quantity(value: number) { this.setValue("quantity", value); }
+  get purchaseUnit() { return this.getString("purchase_unit"); }
+  set purchaseUnit(value: string) { this.setValue("purchase_unit", value); }
+  get unitsPerPack() { return this.getNumber("units_per_pack"); }
+  set unitsPerPack(value: number) { this.setValue("units_per_pack", value); }
   get expiry() { return this.getOptionalString("expiry"); }
   set expiry(value: string | undefined) { this.setValue("expiry", value ?? null); }
+  get unitCost() { return this.getNumber("unit_cost"); }
+  set unitCost(value: number) { this.setValue("unit_cost", value); }
+  get unitSellingPrice() { return this.getNumber("unit_selling_price"); }
+  set unitSellingPrice(value: number) { this.setValue("unit_selling_price", value); }
+  get profitAmount() { return this.getNumber("profit_amount"); }
+  set profitAmount(value: number) { this.setValue("profit_amount", value); }
+  get profitScope() { return this.getString("profit_scope"); }
+  set profitScope(value: string) { this.setValue("profit_scope", value); }
   get price() { return this.getNumber("price"); }
   set price(value: number) { this.setValue("price", value); }
   get vat() { return this.getOptionalNumber("vat"); }
@@ -194,8 +222,20 @@ export class DraftItemRecord extends DukaModel {
   set productId(value: string) { this.setValue("product_id", value); }
   get quantity() { return this.getNumber("quantity"); }
   set quantity(value: number) { this.setValue("quantity", value); }
+  get purchaseUnit() { return this.getString("purchase_unit"); }
+  set purchaseUnit(value: string) { this.setValue("purchase_unit", value); }
+  get unitsPerPack() { return this.getNumber("units_per_pack"); }
+  set unitsPerPack(value: number) { this.setValue("units_per_pack", value); }
   get expiry() { return this.getOptionalString("expiry"); }
   set expiry(value: string | undefined) { this.setValue("expiry", value ?? null); }
+  get unitCost() { return this.getNumber("unit_cost"); }
+  set unitCost(value: number) { this.setValue("unit_cost", value); }
+  get unitSellingPrice() { return this.getNumber("unit_selling_price"); }
+  set unitSellingPrice(value: number) { this.setValue("unit_selling_price", value); }
+  get profitAmount() { return this.getNumber("profit_amount"); }
+  set profitAmount(value: number) { this.setValue("profit_amount", value); }
+  get profitScope() { return this.getString("profit_scope"); }
+  set profitScope(value: string) { this.setValue("profit_scope", value); }
   get price() { return this.getNumber("price"); }
   set price(value: number) { this.setValue("price", value); }
   get vat() { return this.getOptionalNumber("vat"); }
@@ -215,6 +255,18 @@ export class CreditRecord extends DukaModel {
 
   get vendorId() { return this.getString("vendor_id"); }
   set vendorId(value: string) { this.setValue("vendor_id", value); }
+  get totalAmount() { return this.getNumber("total_amount"); }
+  set totalAmount(value: number) { this.setValue("total_amount", value); }
+  get amountPaid() { return this.getNumber("amount_paid"); }
+  set amountPaid(value: number) { this.setValue("amount_paid", value); }
+  get balance() { return this.getNumber("balance"); }
+  set balance(value: number) { this.setValue("balance", value); }
+  get status() { return this.getString("status"); }
+  set status(value: string) { this.setValue("status", value); }
+  get createdAt(): string { return this.getTimestamp("created_at"); }
+  set createdAt(value: string) { this.setTimestamp("created_at", value); }
+  get updatedAt(): string { return this.getTimestamp("updated_at"); }
+  set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
 }
 
 export class CreditBatchRecord extends DukaModel {
@@ -229,16 +281,34 @@ export class CreditBatchRecord extends DukaModel {
 export class SalesRecord extends DukaModel {
   static table = "sales";
 
-  get payment() { return this.getString("payment"); }
-  set payment(value: string) { this.setValue("payment", value); }
+  get payment() { return this.getNumber("payment"); }
+  set payment(value: number) { this.setValue("payment", value); }
   get paymentMethod() { return this.getString("payment_method"); }
   set paymentMethod(value: string) { this.setValue("payment_method", value); }
-  get price() { return this.getString("price"); }
-  set price(value: string) { this.setValue("price", value); }
+  get subtotal() { return this.getNumber("subtotal"); }
+  set subtotal(value: number) { this.setValue("subtotal", value); }
+  get discount() { return this.getNumber("discount"); }
+  set discount(value: number) { this.setValue("discount", value); }
+  get tax() { return this.getNumber("tax"); }
+  set tax(value: number) { this.setValue("tax", value); }
+  get total() { return this.getNumber("total"); }
+  set total(value: number) { this.setValue("total", value); }
+  get balance() { return this.getNumber("balance"); }
+  set balance(value: number) { this.setValue("balance", value); }
+  get price() { return this.getNumber("price"); }
+  set price(value: number) { this.setValue("price", value); }
   get done() { return this.getBoolean("done"); }
   set done(value: boolean) { this.setValue("done", value); }
   get payee() { return this.getString("payee"); }
   set payee(value: string) { this.setValue("payee", value); }
+  get status() { return this.getString("status"); }
+  set status(value: string) { this.setValue("status", value); }
+  get reversalReason() { return this.getOptionalString("reversal_reason"); }
+  set reversalReason(value: string | undefined) { this.setValue("reversal_reason", value ?? null); }
+  get createdAt(): string { return this.getTimestamp("created_at"); }
+  set createdAt(value: string) { this.setTimestamp("created_at", value); }
+  get updatedAt(): string { return this.getTimestamp("updated_at"); }
+  set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
 }
 
 export class SalesItemRecord extends DukaModel {
@@ -250,6 +320,12 @@ export class SalesItemRecord extends DukaModel {
   set saleId(value: string) { this.setValue("sale_id", value); }
   get quantity() { return this.getNumber("quantity"); }
   set quantity(value: number) { this.setValue("quantity", value); }
+  get unitCost() { return this.getNumber("unit_cost"); }
+  set unitCost(value: number) { this.setValue("unit_cost", value); }
+  get unitSellingPrice() { return this.getNumber("unit_selling_price"); }
+  set unitSellingPrice(value: number) { this.setValue("unit_selling_price", value); }
+  get lineTotal() { return this.getNumber("line_total"); }
+  set lineTotal(value: number) { this.setValue("line_total", value); }
   get price() { return this.getNumber("price"); }
   set price(value: number) { this.setValue("price", value); }
 }
@@ -263,6 +339,10 @@ export class CreditorRecord extends DukaModel {
   set phoneNumber(value: string) { this.setValue("phone_number", value); }
   get location() { return this.getString("location"); }
   set location(value: string) { this.setValue("location", value); }
+  get createdAt(): string { return this.getTimestamp("created_at"); }
+  set createdAt(value: string) { this.setTimestamp("created_at", value); }
+  get updatedAt(): string { return this.getTimestamp("updated_at"); }
+  set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
 }
 
 export class CreditorSaleRecord extends DukaModel {
@@ -272,6 +352,25 @@ export class CreditorSaleRecord extends DukaModel {
   set creditorId(value: string) { this.setValue("creditor_id", value); }
   get saleId() { return this.getString("sale_id"); }
   set saleId(value: string) { this.setValue("sale_id", value); }
+}
+
+export class StockMovementRecord extends DukaModel {
+  static table = "stock_movements";
+
+  get productId() { return this.getString("product_id"); }
+  set productId(value: string) { this.setValue("product_id", value); }
+  get quantityDelta() { return this.getNumber("quantity_delta"); }
+  set quantityDelta(value: number) { this.setValue("quantity_delta", value); }
+  get reasonType() { return this.getString("reason_type"); }
+  set reasonType(value: string) { this.setValue("reason_type", value); }
+  get reasonId() { return this.getString("reason_id"); }
+  set reasonId(value: string) { this.setValue("reason_id", value); }
+  get unitCost() { return this.getNumber("unit_cost"); }
+  set unitCost(value: number) { this.setValue("unit_cost", value); }
+  get unitSellingPrice() { return this.getNumber("unit_selling_price"); }
+  set unitSellingPrice(value: number) { this.setValue("unit_selling_price", value); }
+  get createdAt(): string { return this.getTimestamp("created_at"); }
+  set createdAt(value: string) { this.setTimestamp("created_at", value); }
 }
 
 export const modelClasses = [
@@ -291,4 +390,5 @@ export const modelClasses = [
   SalesItemRecord,
   CreditorRecord,
   CreditorSaleRecord,
+  StockMovementRecord,
 ];

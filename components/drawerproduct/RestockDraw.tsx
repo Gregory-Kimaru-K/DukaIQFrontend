@@ -36,7 +36,7 @@ const RestockDraw = ({ openPay, draftId, onDraftChanged }: RestockDrawProps) => 
     }
 
     const totalAmount = draftItems.reduce(
-        (total, item) => total + item.price * item.quantity,
+        (total, item) => total + ((item.price * item.quantity) + (item.vat ?? 0)),
         0,
     )
 

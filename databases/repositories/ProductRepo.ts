@@ -242,9 +242,12 @@ export const ProductRepo = {
   },
   createVendor: async (vendor: Omit<Vendor, "id">): Promise<Vendor> =>
     database.write(async () => {
+      const timestamp = now();
       const record = await vendorsCollection().create((newVendor) => {
         newVendor.name = vendor.name;
         newVendor.phoneNumber = vendor.phone_number;
+        newVendor.createdAt = timestamp;
+        newVendor.updatedAt = timestamp;
       });
       return toVendorDto(record);
     }),
@@ -260,6 +263,7 @@ export const ProductRepo = {
         if (updates.phone_number !== undefined) {
           record.phoneNumber = updates.phone_number;
         }
+        record.updatedAt = now();
       });
       return toVendorDto(vendor);
     }),
@@ -295,6 +299,7 @@ export const ProductRepo = {
         newProduct.currentBatchId = product.current_batch?.id;
         newProduct.batchCount = product.batch_count;
         newProduct.unit = product.unit;
+        newProduct.active = true;
       });
       return toProductDto(record);
     }),

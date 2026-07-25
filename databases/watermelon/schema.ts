@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from "@nozbe/watermelondb";
 
 export const databaseSchema = appSchema({
-  version: 3,
+  version: 1,
   tables: [
     tableSchema({
       name: "shops",
@@ -34,6 +34,8 @@ export const databaseSchema = appSchema({
       columns: [
         { name: "name", type: "string" },
         { name: "phone_number", type: "string" },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
       ],
     }),
     tableSchema({
@@ -63,6 +65,7 @@ export const databaseSchema = appSchema({
         { name: "current_batch_id", type: "string", isOptional: true },
         { name: "batch_count", type: "number", isOptional: true },
         { name: "unit", type: "string" },
+        { name: "active", type: "boolean" },
       ],
     }),
     tableSchema({
@@ -79,7 +82,13 @@ export const databaseSchema = appSchema({
         { name: "draft_id", type: "string", isIndexed: true },
         { name: "product_id", type: "string", isIndexed: true },
         { name: "quantity", type: "number" },
+        { name: "purchase_unit", type: "string" },
+        { name: "units_per_pack", type: "number" },
         { name: "expiry", type: "string", isOptional: true },
+        { name: "unit_cost", type: "number" },
+        { name: "unit_selling_price", type: "number" },
+        { name: "profit_amount", type: "number" },
+        { name: "profit_scope", type: "string" },
         { name: "price", type: "number" },
         { name: "vat", type: "number", isOptional: true },
         { name: "tax_type_id", type: "string", isIndexed: true, isOptional: true },
@@ -92,10 +101,15 @@ export const databaseSchema = appSchema({
       name: "batches",
       columns: [
         { name: "draft_id", type: "string", isIndexed: true, isOptional: true },
+        { name: "vendor_id", type: "string", isIndexed: true, isOptional: true },
         { name: "payment_method", type: "string" },
-        { name: "price", type: "string" },
-        { name: "payment", type: "string" },
+        { name: "total_amount", type: "number" },
+        { name: "amount_paid", type: "number" },
+        { name: "balance", type: "number" },
+        { name: "price", type: "number" },
+        { name: "payment", type: "number" },
         { name: "vendor", type: "string" },
+        { name: "status", type: "string" },
         { name: "created_at", type: "number" },
         { name: "updated_at", type: "number" },
       ],
@@ -106,7 +120,13 @@ export const databaseSchema = appSchema({
         { name: "batch_id", type: "string", isIndexed: true },
         { name: "product_id", type: "string", isIndexed: true },
         { name: "quantity", type: "number" },
+        { name: "purchase_unit", type: "string" },
+        { name: "units_per_pack", type: "number" },
         { name: "expiry", type: "string", isOptional: true },
+        { name: "unit_cost", type: "number" },
+        { name: "unit_selling_price", type: "number" },
+        { name: "profit_amount", type: "number" },
+        { name: "profit_scope", type: "string" },
         { name: "price", type: "number" },
         { name: "vat", type: "number", isOptional: true },
         { name: "tax_type_id", type: "string", isIndexed: true, isOptional: true },
@@ -117,7 +137,15 @@ export const databaseSchema = appSchema({
     }),
     tableSchema({
       name: "credits",
-      columns: [{ name: "vendor_id", type: "string", isIndexed: true }],
+      columns: [
+        { name: "vendor_id", type: "string", isIndexed: true },
+        { name: "total_amount", type: "number" },
+        { name: "amount_paid", type: "number" },
+        { name: "balance", type: "number" },
+        { name: "status", type: "string" },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
+      ],
     }),
     tableSchema({
       name: "credit_batches",
@@ -129,11 +157,20 @@ export const databaseSchema = appSchema({
     tableSchema({
       name: "sales",
       columns: [
-        { name: "payment", type: "string" },
+        { name: "payment", type: "number" },
         { name: "payment_method", type: "string" },
-        { name: "price", type: "string" },
+        { name: "subtotal", type: "number" },
+        { name: "discount", type: "number" },
+        { name: "tax", type: "number" },
+        { name: "total", type: "number" },
+        { name: "balance", type: "number" },
+        { name: "price", type: "number" },
         { name: "done", type: "boolean" },
         { name: "payee", type: "string" },
+        { name: "status", type: "string" },
+        { name: "reversal_reason", type: "string", isOptional: true },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
       ],
     }),
     tableSchema({
@@ -142,6 +179,9 @@ export const databaseSchema = appSchema({
         { name: "product_id", type: "string", isIndexed: true },
         { name: "sale_id", type: "string", isIndexed: true },
         { name: "quantity", type: "number" },
+        { name: "unit_cost", type: "number" },
+        { name: "unit_selling_price", type: "number" },
+        { name: "line_total", type: "number" },
         { name: "price", type: "number" },
       ],
     }),
@@ -151,6 +191,8 @@ export const databaseSchema = appSchema({
         { name: "name", type: "string" },
         { name: "phone_number", type: "string" },
         { name: "location", type: "string" },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
       ],
     }),
     tableSchema({
@@ -158,6 +200,18 @@ export const databaseSchema = appSchema({
       columns: [
         { name: "creditor_id", type: "string", isIndexed: true },
         { name: "sale_id", type: "string", isIndexed: true },
+      ],
+    }),
+    tableSchema({
+      name: "stock_movements",
+      columns: [
+        { name: "product_id", type: "string", isIndexed: true },
+        { name: "quantity_delta", type: "number" },
+        { name: "reason_type", type: "string" },
+        { name: "reason_id", type: "string", isIndexed: true },
+        { name: "unit_cost", type: "number" },
+        { name: "unit_selling_price", type: "number" },
+        { name: "created_at", type: "number" },
       ],
     }),
   ],

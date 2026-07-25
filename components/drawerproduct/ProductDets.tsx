@@ -90,7 +90,7 @@ const ProductDets = ({ draftItem, onSaved }: ProductDetsProps) => {
         )}
 
         <NumberStepperField
-          label="Selling Price"
+          label="Profit Margin"
           prefix="KSH."
           value={form.selling}
           onChange={form.setSelling}
