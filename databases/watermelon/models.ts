@@ -139,8 +139,6 @@ export class ProductRecord extends DukaModel {
 export class BatchRecord extends DukaModel {
   static table = "batches";
 
-  get draftId() { return this.getOptionalString("draft_id"); }
-  set draftId(value: string | undefined) { this.setValue("draft_id", value ?? null); }
   get vendorId() { return this.getOptionalString("vendor_id"); }
   set vendorId(value: string | undefined) { this.setValue("vendor_id", value ?? null); }
   get paymentMethod() { return this.getString("payment_method"); }
@@ -151,16 +149,27 @@ export class BatchRecord extends DukaModel {
   set amountPaid(value: number) { this.setValue("amount_paid", value); }
   get balance() { return this.getNumber("balance"); }
   set balance(value: number) { this.setValue("balance", value); }
-  get price() { return this.getNumber("price"); }
-  set price(value: number) { this.setValue("price", value); }
-  get payment() { return this.getNumber("payment"); }
-  set payment(value: number) { this.setValue("payment", value); }
   get vendor() { return this.getString("vendor"); }
   set vendor(value: string) { this.setValue("vendor", value); }
   get status() { return this.getString("status"); }
   set status(value: string) { this.setValue("status", value); }
   get updatedAt(): string { return this.getTimestamp("updated_at"); }
   set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
+  get createdAt(): string { return this.getTimestamp("created_at"); }
+  set createdAt(value: string) { this.setTimestamp("created_at", value); }
+}
+
+export class BatchPaymentRecord extends DukaModel {
+  static table = "batch_payments";
+
+  get batchId() { return this.getString("batch_id"); }
+  set batchId(value: string) { this.setValue("batch_id", value); }
+  get paymentMethod() { return this.getString("payment_method"); }
+  set paymentMethod(value: string) { this.setValue("payment_method", value); }
+  get amount() { return this.getNumber("amount"); }
+  set amount(value: number) { this.setValue("amount", value); }
+  get reference() { return this.getOptionalString("reference"); }
+  set reference(value: string | undefined) { this.setValue("reference", value ?? null); }
   get createdAt(): string { return this.getTimestamp("created_at"); }
   set createdAt(value: string) { this.setTimestamp("created_at", value); }
 }
@@ -248,34 +257,6 @@ export class DraftItemRecord extends DukaModel {
   set profit(value: number) { this.setValue("profit", value); }
   get updatedAt(): string { return this.getTimestamp("updated_at"); }
   set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
-}
-
-export class CreditRecord extends DukaModel {
-  static table = "credits";
-
-  get vendorId() { return this.getString("vendor_id"); }
-  set vendorId(value: string) { this.setValue("vendor_id", value); }
-  get totalAmount() { return this.getNumber("total_amount"); }
-  set totalAmount(value: number) { this.setValue("total_amount", value); }
-  get amountPaid() { return this.getNumber("amount_paid"); }
-  set amountPaid(value: number) { this.setValue("amount_paid", value); }
-  get balance() { return this.getNumber("balance"); }
-  set balance(value: number) { this.setValue("balance", value); }
-  get status() { return this.getString("status"); }
-  set status(value: string) { this.setValue("status", value); }
-  get createdAt(): string { return this.getTimestamp("created_at"); }
-  set createdAt(value: string) { this.setTimestamp("created_at", value); }
-  get updatedAt(): string { return this.getTimestamp("updated_at"); }
-  set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
-}
-
-export class CreditBatchRecord extends DukaModel {
-  static table = "credit_batches";
-
-  get creditId() { return this.getString("credit_id"); }
-  set creditId(value: string) { this.setValue("credit_id", value); }
-  get batchId() { return this.getString("batch_id"); }
-  set batchId(value: string) { this.setValue("batch_id", value); }
 }
 
 export class SalesRecord extends DukaModel {
@@ -383,9 +364,8 @@ export const modelClasses = [
   DraftItemRecord,
   ProductRecord,
   BatchRecord,
+  BatchPaymentRecord,
   BatchItemRecord,
-  CreditRecord,
-  CreditBatchRecord,
   SalesRecord,
   SalesItemRecord,
   CreditorRecord,

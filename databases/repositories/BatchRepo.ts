@@ -1,26 +1,24 @@
 import { Q } from "@nozbe/watermelondb";
 import type Collection from "@nozbe/watermelondb/Collection";
 
-import { Credit } from "../models/products/Credit";
 import { Batch } from "../models/stock/Batch";
 import { BatchItem } from "../models/stock/BatchItem";
+import { BatchPayment } from "../models/stock/BatchPayment";
 import { DraftBatch } from "../models/stock/Draft";
 import { DraftItem } from "../models/stock/DraftItem";
 import { TaxType } from "../models/stock/TaxType";
 import { database } from "../watermelon/database";
 import {
   BatchItemRecord,
+  BatchPaymentRecord,
   BatchRecord,
-  CreditBatchRecord,
-  CreditRecord,
   DraftItemRecord,
   DraftRecord,
   ProductRecord,
   StockMovementRecord,
   TaxTypeRecord,
-  VendorRecord,
 } from "../watermelon/models";
-import { toProductDto, toVendorDto } from "./ProductRepo";
+import { toProductDto } from "./ProductRepo";
 
 const now = () => new Date().toISOString();
 const createDraftName = () => `DRAFT-${Date.now().toString().slice(-6)}`;
@@ -29,10 +27,8 @@ const draftsCollection = () => database.get<DraftRecord>("drafts");
 const draftItemsCollection = () => database.get<DraftItemRecord>("draft_items");
 const batchesCollection = () => database.get<BatchRecord>("batches");
 const batchItemsCollection = () => database.get<BatchItemRecord>("batch_items");
-const creditsCollection = () => database.get<CreditRecord>("credits");
-const creditBatchesCollection = () =>
-  database.get<CreditBatchRecord>("credit_batches");
-const vendorsCollection = () => database.get<VendorRecord>("vendors");
+const batchPaymentsCollection = () =>
+  database.get<BatchPaymentRecord>("batch_payments");
 const productsCollection = () => database.get<ProductRecord>("products");
 const taxTypesCollection = () => database.get<TaxTypeRecord>("tax_types");
 const stockMovementsCollection = () =>
@@ -65,11 +61,8 @@ export const toDraftDto = (draft: DraftRecord): DraftBatch => ({
 
 export const toBatchDto = (batch: BatchRecord): Batch => ({
   id: batch.id,
-  draft_id: batch.draftId,
   vendor_id: batch.vendorId,
   payment_method: batch.paymentMethod,
-  price: batch.price,
-  payment: batch.payment,
   total_amount: batch.totalAmount,
   amount_paid: batch.amountPaid,
   balance: batch.balance,
@@ -78,6 +71,21 @@ export const toBatchDto = (batch: BatchRecord): Batch => ({
   updated_at: batch.updatedAt,
   created_at: batch.createdAt,
 });
+
+export const toBatchPaymentDto = async (
+  payment: BatchPaymentRecord,
+): Promise<BatchPayment> => {
+  const batch = await batchesCollection().find(payment.batchId);
+
+  return {
+    id: payment.id,
+    batch: toBatchDto(batch),
+    payment_method: payment.paymentMethod,
+    amount: payment.amount,
+    reference: payment.reference,
+    created_at: payment.createdAt,
+  };
+};
 
 export const toTaxTypeDto = (taxType: TaxTypeRecord): TaxType => ({
   id: taxType.id,
@@ -147,26 +155,6 @@ export const toBatchItemDto = async (
     exercise_duty: item.exerciseDuty,
     profit: item.profit,
     updated_at: item.updatedAt,
-  };
-};
-
-const toCreditDto = async (credit: CreditRecord): Promise<Credit> => {
-  const [vendor, creditBatchLinks] = await Promise.all([
-    vendorsCollection().find(credit.vendorId),
-    creditBatchesCollection()
-      .query(Q.where("credit_id", credit.id))
-      .fetch(),
-  ]);
-  const batches = await Promise.all(
-    creditBatchLinks.map(async (link) =>
-      toBatchDto(await batchesCollection().find(link.batchId)),
-    ),
-  );
-
-  return {
-    id: credit.id,
-    vendor: toVendorDto(vendor),
-    batch: batches,
   };
 };
 
@@ -393,14 +381,11 @@ export const BatchRepo = {
       );
       const timestamp = now();
       const batch = await batchesCollection().create((record) => {
-        record.draftId = draft.id;
         record.vendorId = batchDetails.vendor_id;
         record.paymentMethod = batchDetails.payment_method ?? "";
         record.totalAmount = totalPrice;
         record.amountPaid = Number(batchDetails.payment ?? 0);
         record.balance = Math.max(0, totalPrice - Number(batchDetails.payment ?? 0));
-        record.price = totalPrice;
-        record.payment = Number(batchDetails.payment ?? 0);
         record.vendor = batchDetails.vendor ?? draft.name;
         record.status = "completed";
         record.createdAt = timestamp;
@@ -451,7 +436,25 @@ export const BatchRepo = {
         }),
       );
 
-      await database.batch(batchItems, productUpdates, stockMovements);
+      const initialPayment = Number(batchDetails.payment ?? 0);
+      const batchPayments =
+        initialPayment > 0
+          ? [
+              batchPaymentsCollection().prepareCreate((payment) => {
+                payment.batchId = batch.id;
+                payment.paymentMethod = batchDetails.payment_method ?? "";
+                payment.amount = initialPayment;
+                payment.createdAt = timestamp;
+              }),
+            ]
+          : [];
+
+      await database.batch(
+        batchItems,
+        productUpdates,
+        stockMovements,
+        batchPayments,
+      );
       return toBatchDto(batch);
     }),
 
@@ -470,14 +473,12 @@ export const BatchRepo = {
     database.write(async () => {
       const timestamp = now();
       const record = await batchesCollection().create((newBatch) => {
-        newBatch.draftId = batch.draft_id;
         newBatch.vendorId = batch.vendor_id;
         newBatch.paymentMethod = batch.payment_method;
-        newBatch.totalAmount = batch.total_amount ?? batch.price;
-        newBatch.amountPaid = batch.amount_paid ?? batch.payment;
-        newBatch.balance = batch.balance ?? 0;
-        newBatch.price = batch.price;
-        newBatch.payment = batch.payment;
+        newBatch.totalAmount = batch.total_amount ?? 0;
+        newBatch.amountPaid = batch.amount_paid ?? 0;
+        newBatch.balance =
+          batch.balance ?? Math.max(0, newBatch.totalAmount - newBatch.amountPaid);
         newBatch.vendor = batch.vendor;
         newBatch.status = batch.status ?? "completed";
         newBatch.createdAt = timestamp;
@@ -493,7 +494,6 @@ export const BatchRepo = {
       const batch = await findRecord<BatchRecord>(batchesCollection(), id);
       if (!batch) return undefined;
       await batch.update((record) => {
-        if (updates.draft_id !== undefined) record.draftId = updates.draft_id;
         if (updates.vendor_id !== undefined) record.vendorId = updates.vendor_id;
         if (updates.payment_method !== undefined) {
           record.paymentMethod = updates.payment_method;
@@ -501,8 +501,6 @@ export const BatchRepo = {
         if (updates.total_amount !== undefined) record.totalAmount = updates.total_amount;
         if (updates.amount_paid !== undefined) record.amountPaid = updates.amount_paid;
         if (updates.balance !== undefined) record.balance = updates.balance;
-        if (updates.price !== undefined) record.price = updates.price;
-        if (updates.payment !== undefined) record.payment = updates.payment;
         if (updates.vendor !== undefined) record.vendor = updates.vendor;
         if (updates.status !== undefined) record.status = updates.status;
         record.updatedAt = now();
@@ -513,7 +511,15 @@ export const BatchRepo = {
     database.write(async () => {
       const batch = await findRecord<BatchRecord>(batchesCollection(), id);
       if (!batch) return false;
-      await batch.destroyPermanently();
+      const [items, payments] = await Promise.all([
+        batchItemsCollection().query(Q.where("batch_id", id)).fetch(),
+        batchPaymentsCollection().query(Q.where("batch_id", id)).fetch(),
+      ]);
+      await database.batch(
+        items.map((item) => item.prepareDestroyPermanently()),
+        payments.map((payment) => payment.prepareDestroyPermanently()),
+        batch.prepareDestroyPermanently(),
+      );
       return true;
     }),
 
@@ -590,80 +596,100 @@ export const BatchRepo = {
       return true;
     }),
 
-  listCredits: async (): Promise<Credit[]> => {
-    const credits = await creditsCollection().query().fetch();
-    return Promise.all(credits.map(toCreditDto));
+  listBatchPayments: async (): Promise<BatchPayment[]> => {
+    const payments = await batchPaymentsCollection().query().fetch();
+    return Promise.all(payments.map(toBatchPaymentDto));
   },
-  getCreditById: async (id: string): Promise<Credit | undefined> => {
-    const credit = await findRecord<CreditRecord>(creditsCollection(), id);
-    return credit ? toCreditDto(credit) : undefined;
+  listBatchPaymentsByBatch: async (
+    batchId: string,
+  ): Promise<BatchPayment[]> => {
+    const payments = await batchPaymentsCollection()
+      .query(Q.where("batch_id", batchId))
+      .fetch();
+    return Promise.all(payments.map(toBatchPaymentDto));
   },
-  createCredit: async (credit: Omit<Credit, "id">): Promise<Credit> =>
+  getBatchPaymentById: async (
+    id: string,
+  ): Promise<BatchPayment | undefined> => {
+    const payment = await findRecord<BatchPaymentRecord>(
+      batchPaymentsCollection(),
+      id,
+    );
+    return payment ? toBatchPaymentDto(payment) : undefined;
+  },
+  createBatchPayment: async (
+    payment: Omit<BatchPayment, "id" | "created_at">,
+  ): Promise<BatchPayment> =>
     database.write(async () => {
       const timestamp = now();
-      const totalAmount = credit.batch.reduce(
-        (total, batch) => total + (batch.total_amount ?? batch.price),
-        0,
-      );
-      const amountPaid = credit.batch.reduce(
-        (total, batch) => total + (batch.amount_paid ?? batch.payment),
-        0,
-      );
-      const record = await creditsCollection().create((newCredit) => {
-        newCredit.vendorId = credit.vendor.id;
-        newCredit.totalAmount = totalAmount;
-        newCredit.amountPaid = amountPaid;
-        newCredit.balance = Math.max(0, totalAmount - amountPaid);
-        newCredit.status = totalAmount - amountPaid > 0 ? "open" : "paid";
-        newCredit.createdAt = timestamp;
-        newCredit.updatedAt = timestamp;
+      const batch = await batchesCollection().find(payment.batch.id);
+      const record = await batchPaymentsCollection().create((newPayment) => {
+        newPayment.batchId = payment.batch.id;
+        newPayment.paymentMethod = payment.payment_method;
+        newPayment.amount = payment.amount;
+        newPayment.reference = payment.reference;
+        newPayment.createdAt = timestamp;
       });
-      const links = credit.batch.map((batch) =>
-        creditBatchesCollection().prepareCreate((link) => {
-          link.creditId = record.id;
-          link.batchId = batch.id;
-        }),
-      );
-      await database.batch(links);
-      return toCreditDto(record);
-    }),
-  updateCredit: async (
-    id: string,
-    updates: Partial<Omit<Credit, "id">>,
-  ): Promise<Credit | undefined> =>
-    database.write(async () => {
-      const credit = await findRecord<CreditRecord>(creditsCollection(), id);
-      if (!credit) return undefined;
-      await credit.update((record) => {
-        if (updates.vendor !== undefined) record.vendorId = updates.vendor.id;
-      });
-      if (updates.batch !== undefined) {
-        const currentLinks = await creditBatchesCollection()
-          .query(Q.where("credit_id", credit.id))
-          .fetch();
-        await database.batch(
-          currentLinks.map((link) => link.prepareDestroyPermanently()),
-          updates.batch.map((batch) =>
-            creditBatchesCollection().prepareCreate((link) => {
-              link.creditId = credit.id;
-              link.batchId = batch.id;
-            }),
-          ),
+      await batch.update((recordBatch) => {
+        recordBatch.amountPaid = batch.amountPaid + payment.amount;
+        recordBatch.balance = Math.max(
+          0,
+          recordBatch.totalAmount - recordBatch.amountPaid,
         );
-      }
-      return toCreditDto(credit);
+        recordBatch.paymentMethod = payment.payment_method;
+        recordBatch.updatedAt = timestamp;
+      });
+      return toBatchPaymentDto(record);
     }),
-  deleteCredit: async (id: string): Promise<boolean> =>
+  updateBatchPayment: async (
+    id: string,
+    updates: Partial<Omit<BatchPayment, "id" | "batch" | "created_at">>,
+  ): Promise<BatchPayment | undefined> =>
     database.write(async () => {
-      const credit = await findRecord<CreditRecord>(creditsCollection(), id);
-      if (!credit) return false;
-      const links = await creditBatchesCollection()
-        .query(Q.where("credit_id", credit.id))
-        .fetch();
-      await database.batch(
-        links.map((link) => link.prepareDestroyPermanently()),
-        credit.prepareDestroyPermanently(),
+      const payment = await findRecord<BatchPaymentRecord>(
+        batchPaymentsCollection(),
+        id,
       );
+      if (!payment) return undefined;
+      const previousAmount = payment.amount;
+      const batch = await batchesCollection().find(payment.batchId);
+      await payment.update((record) => {
+        if (updates.payment_method !== undefined) {
+          record.paymentMethod = updates.payment_method;
+        }
+        if (updates.amount !== undefined) record.amount = updates.amount;
+        if ("reference" in updates) record.reference = updates.reference;
+      });
+      if (updates.amount !== undefined) {
+        const delta = updates.amount - previousAmount;
+        await batch.update((recordBatch) => {
+          recordBatch.amountPaid = Math.max(0, recordBatch.amountPaid + delta);
+          recordBatch.balance = Math.max(
+            0,
+            recordBatch.totalAmount - recordBatch.amountPaid,
+          );
+          recordBatch.updatedAt = now();
+        });
+      }
+      return toBatchPaymentDto(payment);
+    }),
+  deleteBatchPayment: async (id: string): Promise<boolean> =>
+    database.write(async () => {
+      const payment = await findRecord<BatchPaymentRecord>(
+        batchPaymentsCollection(),
+        id,
+      );
+      if (!payment) return false;
+      const batch = await batchesCollection().find(payment.batchId);
+      await batch.update((recordBatch) => {
+        recordBatch.amountPaid = Math.max(0, recordBatch.amountPaid - payment.amount);
+        recordBatch.balance = Math.max(
+          0,
+          recordBatch.totalAmount - recordBatch.amountPaid,
+        );
+        recordBatch.updatedAt = now();
+      });
+      await payment.destroyPermanently();
       return true;
     }),
 };
