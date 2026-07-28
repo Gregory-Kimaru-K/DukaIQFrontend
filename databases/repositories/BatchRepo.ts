@@ -7,6 +7,10 @@ import { BatchPayment } from "../models/stock/BatchPayment";
 import { DraftBatch } from "../models/stock/Draft";
 import { DraftItem } from "../models/stock/DraftItem";
 import { TaxType } from "../models/stock/TaxType";
+import {
+  VendorCredit,
+  VendorCreditPayment,
+} from "../models/stock/VendorCredit";
 import { database } from "../watermelon/database";
 import {
   BatchItemRecord,
@@ -17,6 +21,8 @@ import {
   ProductRecord,
   StockMovementRecord,
   TaxTypeRecord,
+  VendorCreditPaymentRecord,
+  VendorCreditRecord,
 } from "../watermelon/models";
 import { toProductDto } from "./ProductRepo";
 
@@ -29,6 +35,10 @@ const batchesCollection = () => database.get<BatchRecord>("batches");
 const batchItemsCollection = () => database.get<BatchItemRecord>("batch_items");
 const batchPaymentsCollection = () =>
   database.get<BatchPaymentRecord>("batch_payments");
+const vendorCreditsCollection = () =>
+  database.get<VendorCreditRecord>("vendor_credits");
+const vendorCreditPaymentsCollection = () =>
+  database.get<VendorCreditPaymentRecord>("vendor_credit_payments");
 const productsCollection = () => database.get<ProductRecord>("products");
 const taxTypesCollection = () => database.get<TaxTypeRecord>("tax_types");
 const stockMovementsCollection = () =>
@@ -80,6 +90,50 @@ export const toBatchPaymentDto = async (
   return {
     id: payment.id,
     batch: toBatchDto(batch),
+    payment_method: payment.paymentMethod,
+    amount: payment.amount,
+    reference: payment.reference,
+    created_at: payment.createdAt,
+  };
+};
+
+export const toVendorCreditDto = async (
+  credit: VendorCreditRecord,
+): Promise<VendorCredit> => {
+  const batch = await batchesCollection().find(credit.batchId);
+
+  return {
+    id: credit.id,
+    vendor_id: credit.vendorId,
+    batch: toBatchDto(batch),
+    original_amount: credit.originalAmount,
+    amount_paid: credit.amountPaid,
+    balance: credit.balance,
+    status: credit.status,
+    created_at: credit.createdAt,
+    settled_at: credit.settledAt,
+  };
+};
+
+export const toVendorCreditPaymentDto = async (
+  payment: VendorCreditPaymentRecord,
+): Promise<VendorCreditPayment> => {
+  const [vendorCredit, batchPayment] = await Promise.all([
+    vendorCreditsCollection().find(payment.vendorCreditId),
+    payment.batchPaymentId
+      ? findRecord<BatchPaymentRecord>(
+          batchPaymentsCollection(),
+          payment.batchPaymentId,
+        )
+      : undefined,
+  ]);
+
+  return {
+    id: payment.id,
+    vendor_credit: await toVendorCreditDto(vendorCredit),
+    batch_payment: batchPayment
+      ? await toBatchPaymentDto(batchPayment)
+      : undefined,
     payment_method: payment.paymentMethod,
     amount: payment.amount,
     reference: payment.reference,
@@ -437,6 +491,7 @@ export const BatchRepo = {
       );
 
       const initialPayment = Number(batchDetails.payment ?? 0);
+      const batchBalance = Math.max(0, totalPrice - initialPayment);
       const batchPayments =
         initialPayment > 0
           ? [
@@ -448,12 +503,27 @@ export const BatchRepo = {
               }),
             ]
           : [];
+      const vendorCredits =
+        batchBalance > 0
+          ? [
+              vendorCreditsCollection().prepareCreate((credit) => {
+                credit.vendorId = batchDetails.vendor_id ?? "";
+                credit.batchId = batch.id;
+                credit.originalAmount = batchBalance;
+                credit.amountPaid = 0;
+                credit.balance = batchBalance;
+                credit.status = "open";
+                credit.createdAt = timestamp;
+              }),
+            ]
+          : [];
 
       await database.batch(
         batchItems,
         productUpdates,
         stockMovements,
         batchPayments,
+        vendorCredits,
       );
       return toBatchDto(batch);
     }),
@@ -484,6 +554,17 @@ export const BatchRepo = {
         newBatch.createdAt = timestamp;
         newBatch.updatedAt = timestamp;
       });
+      if ((record.balance ?? 0) > 0) {
+        await vendorCreditsCollection().create((credit) => {
+          credit.vendorId = batch.vendor_id ?? "";
+          credit.batchId = record.id;
+          credit.originalAmount = record.balance;
+          credit.amountPaid = 0;
+          credit.balance = record.balance;
+          credit.status = "open";
+          credit.createdAt = timestamp;
+        });
+      }
       return toBatchDto(record);
     }),
   updateBatch: async (
@@ -515,9 +596,23 @@ export const BatchRepo = {
         batchItemsCollection().query(Q.where("batch_id", id)).fetch(),
         batchPaymentsCollection().query(Q.where("batch_id", id)).fetch(),
       ]);
+      const vendorCredits = await vendorCreditsCollection()
+        .query(Q.where("batch_id", id))
+        .fetch();
+      const vendorCreditPayments = await Promise.all(
+        vendorCredits.map((credit) =>
+          vendorCreditPaymentsCollection()
+            .query(Q.where("vendor_credit_id", credit.id))
+            .fetch(),
+        ),
+      );
       await database.batch(
         items.map((item) => item.prepareDestroyPermanently()),
         payments.map((payment) => payment.prepareDestroyPermanently()),
+        vendorCreditPayments
+          .flat()
+          .map((payment) => payment.prepareDestroyPermanently()),
+        vendorCredits.map((credit) => credit.prepareDestroyPermanently()),
         batch.prepareDestroyPermanently(),
       );
       return true;
@@ -639,6 +734,28 @@ export const BatchRepo = {
         recordBatch.paymentMethod = payment.payment_method;
         recordBatch.updatedAt = timestamp;
       });
+      const vendorCredits = await vendorCreditsCollection()
+        .query(Q.where("batch_id", batch.id))
+        .fetch();
+      const openVendorCredit = vendorCredits.find(
+        (credit) => credit.status !== "paid" && credit.status !== "cancelled",
+      );
+      if (openVendorCredit) {
+        await vendorCreditPaymentsCollection().create((creditPayment) => {
+          creditPayment.vendorCreditId = openVendorCredit.id;
+          creditPayment.batchPaymentId = record.id;
+          creditPayment.paymentMethod = payment.payment_method;
+          creditPayment.amount = payment.amount;
+          creditPayment.reference = payment.reference;
+          creditPayment.createdAt = timestamp;
+        });
+        await openVendorCredit.update((credit) => {
+          credit.amountPaid = openVendorCredit.amountPaid + payment.amount;
+          credit.balance = Math.max(0, openVendorCredit.originalAmount - credit.amountPaid);
+          credit.status = credit.balance > 0 ? "partially_paid" : "paid";
+          credit.settledAt = credit.balance > 0 ? undefined : timestamp;
+        });
+      }
       return toBatchPaymentDto(record);
     }),
   updateBatchPayment: async (
@@ -691,5 +808,66 @@ export const BatchRepo = {
       });
       await payment.destroyPermanently();
       return true;
+    }),
+
+  listVendorCredits: async (): Promise<VendorCredit[]> => {
+    const credits = await vendorCreditsCollection().query().fetch();
+    return Promise.all(credits.map(toVendorCreditDto));
+  },
+  listVendorCreditsByBatch: async (batchId: string): Promise<VendorCredit[]> => {
+    const credits = await vendorCreditsCollection()
+      .query(Q.where("batch_id", batchId))
+      .fetch();
+    return Promise.all(credits.map(toVendorCreditDto));
+  },
+  getVendorCreditById: async (id: string): Promise<VendorCredit | undefined> => {
+    const credit = await findRecord<VendorCreditRecord>(
+      vendorCreditsCollection(),
+      id,
+    );
+    return credit ? toVendorCreditDto(credit) : undefined;
+  },
+  createVendorCreditPayment: async (
+    payment: Omit<VendorCreditPayment, "id" | "created_at" | "vendor_credit"> & {
+      vendor_credit: VendorCredit;
+    },
+  ): Promise<VendorCreditPayment> =>
+    database.write(async () => {
+      const timestamp = now();
+      const vendorCredit = await vendorCreditsCollection().find(
+        payment.vendor_credit.id,
+      );
+      const batch = await batchesCollection().find(vendorCredit.batchId);
+      const batchPayment = await batchPaymentsCollection().create((record) => {
+        record.batchId = vendorCredit.batchId;
+        record.paymentMethod = payment.payment_method;
+        record.amount = payment.amount;
+        record.reference = payment.reference;
+        record.createdAt = timestamp;
+      });
+      const creditPayment = await vendorCreditPaymentsCollection().create((record) => {
+        record.vendorCreditId = vendorCredit.id;
+        record.batchPaymentId = batchPayment.id;
+        record.paymentMethod = payment.payment_method;
+        record.amount = payment.amount;
+        record.reference = payment.reference;
+        record.createdAt = timestamp;
+      });
+      await batch.update((recordBatch) => {
+        recordBatch.amountPaid = batch.amountPaid + payment.amount;
+        recordBatch.balance = Math.max(
+          0,
+          recordBatch.totalAmount - recordBatch.amountPaid,
+        );
+        recordBatch.paymentMethod = payment.payment_method;
+        recordBatch.updatedAt = timestamp;
+      });
+      await vendorCredit.update((record) => {
+        record.amountPaid = vendorCredit.amountPaid + payment.amount;
+        record.balance = Math.max(0, vendorCredit.originalAmount - record.amountPaid);
+        record.status = record.balance > 0 ? "partially_paid" : "paid";
+        record.settledAt = record.balance > 0 ? undefined : timestamp;
+      });
+      return toVendorCreditPaymentDto(creditPayment);
     }),
 };
