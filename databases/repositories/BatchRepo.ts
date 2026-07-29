@@ -1,16 +1,6 @@
 import { Q } from "@nozbe/watermelondb";
 import type Collection from "@nozbe/watermelondb/Collection";
 
-import { Batch } from "../models/stock/Batch";
-import { BatchItem } from "../models/stock/BatchItem";
-import { BatchPayment } from "../models/stock/BatchPayment";
-import { DraftBatch } from "../models/stock/Draft";
-import { DraftItem } from "../models/stock/DraftItem";
-import { TaxType } from "../models/stock/TaxType";
-import {
-  VendorCredit,
-  VendorCreditPayment,
-} from "../models/stock/VendorCredit";
 import { database } from "../watermelon/database";
 import {
   BatchItemRecord,
@@ -33,16 +23,12 @@ const draftsCollection = () => database.get<DraftRecord>("drafts");
 const draftItemsCollection = () => database.get<DraftItemRecord>("draft_items");
 const batchesCollection = () => database.get<BatchRecord>("batches");
 const batchItemsCollection = () => database.get<BatchItemRecord>("batch_items");
-const batchPaymentsCollection = () =>
-  database.get<BatchPaymentRecord>("batch_payments");
-const vendorCreditsCollection = () =>
-  database.get<VendorCreditRecord>("vendor_credits");
-const vendorCreditPaymentsCollection = () =>
-  database.get<VendorCreditPaymentRecord>("vendor_credit_payments");
+const batchPaymentsCollection = () => database.get<BatchPaymentRecord>("batch_payments");
+const vendorCreditsCollection = () => database.get<VendorCreditRecord>("vendor_credits");
+const vendorCreditPaymentsCollection = () => database.get<VendorCreditPaymentRecord>("vendor_credit_payments");
 const productsCollection = () => database.get<ProductRecord>("products");
 const taxTypesCollection = () => database.get<TaxTypeRecord>("tax_types");
-const stockMovementsCollection = () =>
-  database.get<StockMovementRecord>("stock_movements");
+const stockMovementsCollection = () => database.get<StockMovementRecord>("stock_movements");
 
 const defaultTaxTypes = [
   { name: "No Tax", code: "NO_TAX", rate: 0 },
@@ -62,14 +48,14 @@ const findRecord = async <T extends { id: string }>(
   }
 };
 
-export const toDraftDto = (draft: DraftRecord): DraftBatch => ({
+export const toDraftDto = (draft: DraftRecord) => ({
   id: draft.id,
   name: draft.name,
   created_at: draft.createdAt,
   updated_at: draft.updatedAt,
 });
 
-export const toBatchDto = (batch: BatchRecord): Batch => ({
+export const toBatchDto = (batch: BatchRecord) => ({
   id: batch.id,
   vendor_id: batch.vendorId,
   payment_method: batch.paymentMethod,
@@ -82,9 +68,7 @@ export const toBatchDto = (batch: BatchRecord): Batch => ({
   created_at: batch.createdAt,
 });
 
-export const toBatchPaymentDto = async (
-  payment: BatchPaymentRecord,
-): Promise<BatchPayment> => {
+export const toBatchPaymentDto = async (payment: BatchPaymentRecord,) => {
   const batch = await batchesCollection().find(payment.batchId);
 
   return {
@@ -99,7 +83,7 @@ export const toBatchPaymentDto = async (
 
 export const toVendorCreditDto = async (
   credit: VendorCreditRecord,
-): Promise<VendorCredit> => {
+) => {
   const batch = await batchesCollection().find(credit.batchId);
 
   return {
@@ -117,7 +101,7 @@ export const toVendorCreditDto = async (
 
 export const toVendorCreditPaymentDto = async (
   payment: VendorCreditPaymentRecord,
-): Promise<VendorCreditPayment> => {
+) => {
   const [vendorCredit, batchPayment] = await Promise.all([
     vendorCreditsCollection().find(payment.vendorCreditId),
     payment.batchPaymentId
@@ -141,7 +125,7 @@ export const toVendorCreditPaymentDto = async (
   };
 };
 
-export const toTaxTypeDto = (taxType: TaxTypeRecord): TaxType => ({
+export const toTaxTypeDto = (taxType: TaxTypeRecord) => ({
   id: taxType.id,
   name: taxType.name,
   code: taxType.code,
@@ -153,7 +137,7 @@ export const toTaxTypeDto = (taxType: TaxTypeRecord): TaxType => ({
 
 const getTaxTypeDto = async (
   taxTypeId?: string,
-): Promise<TaxType | undefined> => {
+) => {
   if (!taxTypeId) return undefined;
   const taxType = await findRecord<TaxTypeRecord>(
     taxTypesCollection(),
@@ -164,7 +148,7 @@ const getTaxTypeDto = async (
 
 export const toDraftItemDto = async (
   item: DraftItemRecord,
-): Promise<DraftItem> => {
+) => {
   const [draft, product, taxType] = await Promise.all([
     draftsCollection().find(item.draftId),
     productsCollection().find(item.productId),
@@ -189,7 +173,7 @@ export const toDraftItemDto = async (
 
 export const toBatchItemDto = async (
   item: BatchItemRecord,
-): Promise<BatchItem> => {
+) => {
   const [batch, product, taxType] = await Promise.all([
     batchesCollection().find(item.batchId),
     productsCollection().find(item.productId),
@@ -211,6 +195,17 @@ export const toBatchItemDto = async (
     updated_at: item.updatedAt,
   };
 };
+
+export type DraftBatch = ReturnType<typeof toDraftDto>;
+export type Batch = ReturnType<typeof toBatchDto>;
+export type BatchPayment = Awaited<ReturnType<typeof toBatchPaymentDto>>;
+export type VendorCredit = Awaited<ReturnType<typeof toVendorCreditDto>>;
+export type VendorCreditPayment = Awaited<
+  ReturnType<typeof toVendorCreditPaymentDto>
+>;
+export type TaxType = ReturnType<typeof toTaxTypeDto>;
+export type DraftItem = Awaited<ReturnType<typeof toDraftItemDto>>;
+export type BatchItem = Awaited<ReturnType<typeof toBatchItemDto>>;
 
 const ensureDefaultTaxTypes = async (): Promise<void> => {
   const existing = await taxTypesCollection().query().fetch();

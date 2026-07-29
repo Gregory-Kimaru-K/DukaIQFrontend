@@ -269,6 +269,31 @@ Do later, after the schema/model pass:
 - Add focused tests for complete sale, partial payment, customer credit, vendor
   credit, reversal, and stock movement creation.
 
+## Repository Type Direction
+
+Avoid importing separate DTO/interface files into repositories when the same
+shape can be derived from the repository mapper functions. The Watermelon model
+classes in `databases/watermelon/models.ts` should be the database-facing source
+for fields, and repository mappers should convert those records into plain
+objects for the UI.
+
+Preferred pattern:
+
+- Use Watermelon record classes for collection access and writes, such as
+  `BatchRecord`, `BatchItemRecord`, and `VendorCreditRecord`.
+- Let mapper functions like `toBatchDto`, `toBatchItemDto`, and
+  `toVendorCreditDto` define the plain object shape returned by the repository.
+- Export local repository types with `ReturnType` or `Awaited<ReturnType<...>>`
+  from those mappers instead of importing separate DTO interfaces that can drift
+  from the schema.
+- Do not return raw Watermelon records to UI code. Repositories should still
+  return plain objects so screens do not become coupled to Watermelon internals.
+
+Why: the schema/model layer is the durable database contract. Separate DTO files
+are easy to forget when schema fields change. Mapper-derived types keep the
+repository return shape close to the actual conversion code while still
+protecting the UI from database record objects.
+
 ## Proposed `sales_items` Fields
 
 - `sale_id`: links the item to the completed sale header.
