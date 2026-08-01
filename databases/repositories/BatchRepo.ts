@@ -162,10 +162,9 @@ export const toDraftItemDto = async (
     quantity: item.quantity,
     expiry: item.expiry,
     price: item.price,
-    vat: item.vat,
+    vat: item.taxAmount,
     tax_type_id: item.taxTypeId,
     tax_type: taxType,
-    exercise_duty: item.exerciseDuty,
     profit: item.profit,
     updated_at: item.updatedAt,
   };
@@ -187,10 +186,9 @@ export const toBatchItemDto = async (
     quantity: item.quantity,
     expiry: item.expiry,
     price: item.price,
-    vat: item.vat,
+    vat: item.taxAmount,
     tax_type_id: item.taxTypeId,
     tax_type: taxType,
-    exercise_duty: item.exerciseDuty,
     profit: item.profit,
     updated_at: item.updatedAt,
   };
@@ -373,7 +371,6 @@ export const BatchRepo = {
         item.profitAmount = 0;
         item.profitScope = "UNIT";
         item.price = 0;
-        item.exerciseDuty = 0;
         item.profit = 0;
         item.updatedAt = now();
       });
@@ -394,11 +391,8 @@ export const BatchRepo = {
           record.price = updates.price;
           record.unitCost = updates.price;
         }
-        if ("vat" in updates) record.vat = updates.vat;
+        if ("vat" in updates) record.taxAmount = updates.vat;
         if ("tax_type_id" in updates) record.taxTypeId = updates.tax_type_id;
-        if (updates.exercise_duty !== undefined) {
-          record.exerciseDuty = updates.exercise_duty;
-        }
         if (updates.profit !== undefined) {
           record.profit = updates.profit;
           record.unitSellingPrice = updates.profit;
@@ -454,9 +448,8 @@ export const BatchRepo = {
           item.profitAmount = draftItem.profitAmount;
           item.profitScope = draftItem.profitScope || "UNIT";
           item.price = draftItem.price;
-          item.vat = draftItem.vat;
+          item.taxAmount = draftItem.vat;
           item.taxTypeId = draftItem.taxTypeId;
-          item.exerciseDuty = draftItem.exerciseDuty;
           item.profit = draftItem.profit;
           item.updatedAt = timestamp;
         }),
@@ -641,9 +634,8 @@ export const BatchRepo = {
         newItem.profitAmount = Math.max(0, item.profit - item.price);
         newItem.profitScope = "UNIT";
         newItem.price = item.price;
-        newItem.vat = item.vat;
+        newItem.taxAmount = item.vat;
         newItem.taxTypeId = item.tax_type_id;
-        newItem.exerciseDuty = item.exercise_duty;
         newItem.profit = item.profit;
         newItem.updatedAt = item.updated_at;
       });
@@ -665,11 +657,8 @@ export const BatchRepo = {
           record.price = updates.price;
           record.unitCost = updates.price;
         }
-        if ("vat" in updates) record.vat = updates.vat;
+        if ("vat" in updates) record.taxAmount = updates.vat;
         if ("tax_type_id" in updates) record.taxTypeId = updates.tax_type_id;
-        if (updates.exercise_duty !== undefined) {
-          record.exerciseDuty = updates.exercise_duty;
-        }
         if (updates.profit !== undefined) {
           record.profit = updates.profit;
           record.unitSellingPrice = updates.profit;

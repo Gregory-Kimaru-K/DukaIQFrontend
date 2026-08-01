@@ -12,7 +12,6 @@ export interface BatchItem {
   vat?: number;
   tax_type_id?: string;
   tax_type?: TaxType;
-  exercise_duty: number;
   profit: number;
   updated_at: string;
 }

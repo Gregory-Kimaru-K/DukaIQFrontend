@@ -209,14 +209,12 @@ export class BatchItemRecord extends DukaModel {
   set profitScope(value: string) { this.setValue("profit_scope", value); }
   get price() { return this.getNumber("price"); }
   set price(value: number) { this.setValue("price", value); }
-  get vat() { return this.getOptionalNumber("vat"); }
-  set vat(value: number | undefined) { this.setValue("vat", value ?? null); }
+  get profit() { return this.getNumber("unit_selling_price"); }
+  set profit(value: number) { this.setValue("unit_selling_price", value); }
+  get taxAmount() { return this.getOptionalNumber("tax_amount"); }
+  set taxAmount(value: number | undefined) { this.setValue("tax_amount", value ?? null); }
   get taxTypeId() { return this.getOptionalString("tax_type_id"); }
   set taxTypeId(value: string | undefined) { this.setValue("tax_type_id", value ?? null); }
-  get exerciseDuty() { return this.getNumber("exercise_duty"); }
-  set exerciseDuty(value: number) { this.setValue("exercise_duty", value); }
-  get profit() { return this.getNumber("profit"); }
-  set profit(value: number) { this.setValue("profit", value); }
   get updatedAt(): string { return this.getTimestamp("updated_at"); }
   set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
 }
@@ -257,14 +255,12 @@ export class DraftItemRecord extends DukaModel {
   set profitScope(value: string) { this.setValue("profit_scope", value); }
   get price() { return this.getNumber("price"); }
   set price(value: number) { this.setValue("price", value); }
-  get vat() { return this.getOptionalNumber("vat"); }
-  set vat(value: number | undefined) { this.setValue("vat", value ?? null); }
+  get profit() { return this.getNumber("unit_selling_price"); }
+  set profit(value: number) { this.setValue("unit_selling_price", value); }
+  get taxAmount() { return this.getOptionalNumber("tax_amount"); }
+  set taxAmount(value: number | undefined) { this.setValue("tax_amount", value ?? null); }
   get taxTypeId() { return this.getOptionalString("tax_type_id"); }
   set taxTypeId(value: string | undefined) { this.setValue("tax_type_id", value ?? null); }
-  get exerciseDuty() { return this.getNumber("exercise_duty"); }
-  set exerciseDuty(value: number) { this.setValue("exercise_duty", value); }
-  get profit() { return this.getNumber("profit"); }
-  set profit(value: number) { this.setValue("profit", value); }
   get updatedAt(): string { return this.getTimestamp("updated_at"); }
   set updatedAt(value: string) { this.setTimestamp("updated_at", value); }
 }
