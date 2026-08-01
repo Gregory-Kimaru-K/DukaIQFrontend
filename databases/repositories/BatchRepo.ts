@@ -196,6 +196,7 @@ export const toBatchItemDto = async (
 
 export type DraftBatch = ReturnType<typeof toDraftDto>;
 export type Batch = ReturnType<typeof toBatchDto>;
+export type Product = Awaited<ReturnType<typeof toProductDto>>;
 export type BatchPayment = Awaited<ReturnType<typeof toBatchPaymentDto>>;
 export type VendorCredit = Awaited<ReturnType<typeof toVendorCreditDto>>;
 export type VendorCreditPayment = Awaited<
@@ -448,7 +449,7 @@ export const BatchRepo = {
           item.profitAmount = draftItem.profitAmount;
           item.profitScope = draftItem.profitScope || "UNIT";
           item.price = draftItem.price;
-          item.taxAmount = draftItem.vat;
+          item.taxAmount = draftItem.taxAmount;
           item.taxTypeId = draftItem.taxTypeId;
           item.profit = draftItem.profit;
           item.updatedAt = timestamp;

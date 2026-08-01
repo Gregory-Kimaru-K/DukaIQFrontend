@@ -4,7 +4,7 @@ import { Colors } from '@/constants/colors'
 import { globalStyles } from '@/constants/styles'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { TextInput } from 'react-native-gesture-handler'
-import { DraftItem } from '@/databases/models/stock/DraftItem'
+import { DraftItem } from '@/databases/repositories/BatchRepo'
 
 interface CheckItemProps {
     restock?: boolean;

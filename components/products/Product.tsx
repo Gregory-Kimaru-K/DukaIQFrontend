@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import type { Product as ProductModel } from '@/databases/models/products/Product'
+import type { Product as ProductModel } from '@/databases/repositories/BatchRepo'
 
 type ProductProps = {
     isFocused?: boolean;

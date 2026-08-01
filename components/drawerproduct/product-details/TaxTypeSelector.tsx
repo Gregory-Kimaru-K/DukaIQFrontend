@@ -1,5 +1,5 @@
 import { globalStyles } from "@/constants/styles";
-import { TaxType } from "@/databases/models/stock/TaxType";
+import { TaxType } from "@/databases/repositories/BatchRepo";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { productDetailsStyles as styles } from "./styles";

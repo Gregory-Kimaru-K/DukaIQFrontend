@@ -9,9 +9,11 @@ import CustomStackTwo from "@/components/stacks/CustomStackTwo";
 import BottomSheetWrapper from "@/components/wrappers/BottomSheetWrapper";
 import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
-import { Product as ProductModel } from "@/databases/models/products/Product";
-import { DraftBatch } from "@/databases/models/stock/Draft";
-import { DraftItem } from "@/databases/models/stock/DraftItem";
+import {
+  DraftBatch,
+  DraftItem,
+  Product as ProductModel,
+} from "@/databases/repositories/BatchRepo";
 import { BatchRepo } from "@/databases/repositories/BatchRepo";
 import { useSheetOne } from "@/hooks/useSheetOne";
 import { useLocalSearchParams } from "expo-router";

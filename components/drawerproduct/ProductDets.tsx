@@ -1,5 +1,5 @@
 import { globalStyles } from "@/constants/styles";
-import { DraftItem } from "@/databases/models/stock/DraftItem";
+import { DraftItem } from "@/databases/repositories/BatchRepo";
 import { Image } from "expo-image";
 import React from "react";
 import { Pressable, Text, View } from "react-native";

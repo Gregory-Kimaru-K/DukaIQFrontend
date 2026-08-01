@@ -4,8 +4,7 @@ import { Image } from 'expo-image'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { globalStyles } from '@/constants/styles'
 import { Colors } from '@/constants/colors'
-import { Batch } from '@/databases/models/stock/Batch'
-import { DraftBatch } from '@/databases/models/stock/Draft'
+import { Batch, DraftBatch } from '@/databases/repositories/BatchRepo'
 
 type DraftProps = {
     batch: Batch | DraftBatch;

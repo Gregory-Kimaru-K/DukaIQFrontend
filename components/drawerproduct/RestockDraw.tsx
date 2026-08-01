@@ -7,7 +7,7 @@ import Total from '../sales/Total'
 import CheckHead from '../sales/CheckHead'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {BatchRepo} from '@/databases/repositories/BatchRepo'
-import { DraftItem } from '@/databases/models/stock/DraftItem'
+import { DraftItem } from '@/databases/repositories/BatchRepo'
 
 interface RestockDrawProps {
     openPay: () => void;

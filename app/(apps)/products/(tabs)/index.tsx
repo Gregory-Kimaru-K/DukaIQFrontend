@@ -2,7 +2,7 @@ import Draft from "@/components/products/Draft";
 import Products404 from "@/components/products/Products404";
 import CustomStackTwo from "@/components/stacks/CustomStackTwo";
 import { globalStyles } from "@/constants/styles";
-import { DraftBatch } from "@/databases/models/stock/Draft";
+import { DraftBatch } from "@/databases/repositories/BatchRepo";
 import { BatchRepo } from "@/databases/repositories/BatchRepo";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
