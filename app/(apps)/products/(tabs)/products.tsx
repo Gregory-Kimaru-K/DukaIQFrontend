@@ -1,10 +1,8 @@
-import { View, Text, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { ScrollView } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomStackTwo from '@/components/stacks/CustomStackTwo'
-import { useRouter } from 'expo-router'
 import Product from '@/components/products/Product'
-import type { Product as ProductModel } from '@/databases/models/products/Product'
 import Search from '@/components/Search'
 import { useSheetOne } from '@/hooks/useSheetOne'
 import BottomSheetWrapper from '@/components/wrappers/BottomSheetWrapper'
@@ -13,20 +11,21 @@ import { globalStyles } from '@/constants/styles'
 import { ProductRepo } from '@/databases/repositories/ProductRepo'
 import Products404 from '@/components/products/Products404'
 
+type ProductModel = Awaited<ReturnType<typeof ProductRepo.listProducts>>[number]
+
 const ProductsIndex = () => {
-  const router = useRouter()
   const proddets = useSheetOne({snapPoints: ["100%"]})
   const repoProducts = ProductRepo
   const [products, setProducts] = useState<ProductModel[]>([])
 
-  const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
     const nextProducts = await repoProducts.listProducts()
     setProducts(nextProducts)
-  }
+  }, [repoProducts])
 
   useEffect(() => {
     loadProducts()
-  }, [])
+  }, [loadProducts])
 
   return (
     <SafeAreaView style={globalStyles.container}>

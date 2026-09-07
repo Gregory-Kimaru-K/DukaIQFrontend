@@ -1,0 +1,1082 @@
+[
+  {
+    "plan": {
+      "title": "DukaIQ: Fix model imports and verify Android startup",
+      "start_time": "2026-09-07T09:15:00+03:00",
+      "end_time": "2026-09-07T11:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "cmhcbvlh7ilen5l03tmft8fu10",
+      "summary": "DukaIQ: Fix model imports and verify Android startup",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-07T09:15:00+03:00",
+      "end": "2026-09-07T11:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=Y21oY2J2bGg3aWxlbjVsMDN0bWZ0OGZ1MTAgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Repair restock completion and atomic writes",
+      "start_time": "2026-09-07T11:30:00+03:00",
+      "end_time": "2026-09-07T13:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "s93okrcqtas089jmmt0qjunhtk",
+      "summary": "DukaIQ: Repair restock completion and atomic writes",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-07T11:30:00+03:00",
+      "end": "2026-09-07T13:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=czkzb2tyY3F0YXMwODlqbW10MHFqdW5odGsgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Money/quantity rules and real cash checkout",
+      "start_time": "2026-09-07T14:15:00+03:00",
+      "end_time": "2026-09-07T16:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "ufm22191471h3v8nco5so0mlss",
+      "summary": "DukaIQ: Money/quantity rules and real cash checkout",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-07T14:15:00+03:00",
+      "end": "2026-09-07T16:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=dWZtMjIxOTE0NzFoM3Y4bmNvNXNvMG1sc3MgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Integrate, test persistence and review blockers",
+      "start_time": "2026-09-07T16:30:00+03:00",
+      "end_time": "2026-09-07T18:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "9o5k869v9oqf1ojkknf16gd608",
+      "summary": "DukaIQ: Integrate, test persistence and review blockers",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-07T16:30:00+03:00",
+      "end": "2026-09-07T18:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=OW81azg2OXY5b3FmMW9qa2tuZjE2Z2Q2MDggZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Complete cash checkout and stock deduction",
+      "start_time": "2026-09-08T09:15:00+03:00",
+      "end_time": "2026-09-08T11:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "1jr3fsdjc64tmholhv0d5sisvs",
+      "summary": "DukaIQ: Complete cash checkout and stock deduction",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-08T09:15:00+03:00",
+      "end": "2026-09-08T11:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=MWpyM2ZzZGpjNjR0bWhvbGh2MGQ1c2lzdnMgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Customer credit and repayments",
+      "start_time": "2026-09-08T11:30:00+03:00",
+      "end_time": "2026-09-08T13:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "n0lmm96f729pr6bm79i22k0f4c",
+      "summary": "DukaIQ: Customer credit and repayments",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-08T11:30:00+03:00",
+      "end": "2026-09-08T13:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=bjBsbW05NmY3MjlwcjZibTc5aTIyazBmNGMgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Reversals and real today's-sales totals",
+      "start_time": "2026-09-08T14:15:00+03:00",
+      "end_time": "2026-09-08T16:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "0ekd0iu5ef942obsd1rje96atc",
+      "summary": "DukaIQ: Reversals and real today's-sales totals",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-08T14:15:00+03:00",
+      "end": "2026-09-08T16:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=MGVrZDBpdTVlZjk0Mm9ic2QxcmplOTZhdGMgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Daraja sandbox integration and daily checkpoint",
+      "start_time": "2026-09-08T16:30:00+03:00",
+      "end_time": "2026-09-08T18:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "u0oel76jaj3bvoffr9lneh1v7s",
+      "summary": "DukaIQ: Daraja sandbox integration and daily checkpoint",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-08T16:30:00+03:00",
+      "end": "2026-09-08T18:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=dTBvZWw3NmphajNidm9mZnI5bG5laDF2N3MgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Daraja sandbox results and recovery testing",
+      "start_time": "2026-09-09T09:15:00+03:00",
+      "end_time": "2026-09-09T11:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "kfca5v1m3v197c2chgkagk27mo",
+      "summary": "DukaIQ: Daraja sandbox results and recovery testing",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-09T09:15:00+03:00",
+      "end": "2026-09-09T11:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=a2ZjYTV2MW0zdjE5N2MyY2hna2FnazI3bW8gZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Offline, restart and data-correctness testing",
+      "start_time": "2026-09-09T11:30:00+03:00",
+      "end_time": "2026-09-09T13:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "8sarpvc5e2p7tje2qj1atd8auk",
+      "summary": "DukaIQ: Offline, restart and data-correctness testing",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-09T11:30:00+03:00",
+      "end": "2026-09-09T13:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=OHNhcnB2YzVlMnA3dGplMnFqMWF0ZDhhdWsgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: Fix pilot blockers and build Android APK",
+      "start_time": "2026-09-09T14:15:00+03:00",
+      "end_time": "2026-09-09T16:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "jih6gqo53imgjr82k0n53jkok8",
+      "summary": "DukaIQ: Fix pilot blockers and build Android APK",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-09T14:15:00+03:00",
+      "end": "2026-09-09T16:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=amloNmdxbzUzaW1nanI4MmswbjUzamtvazggZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "DukaIQ: APK smoke test and pilot-readiness decision",
+      "start_time": "2026-09-09T16:30:00+03:00",
+      "end_time": "2026-09-09T18:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow's first task. Wednesday is a target, not a readiness guarantee."
+    },
+    "saved": {
+      "id": "ad6jn1306urg2o7mtuhc9tt52o",
+      "summary": "DukaIQ: APK smoke test and pilot-readiness decision",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nFollow unfinished prerequisites first. Preserve completed-sale snapshots; integer money; traceable stock; offline cash/credit/manual M-Pesa. Daraja sandbox first. Take a 5-minute screen break after about 55 minutes. Last block: use 17:50–18:00 to record evidence, blockers and tomorrow&#x27;s first task. Wednesday is a target, not a readiness guarantee.</p>",
+      "location": null,
+      "start": "2026-09-09T16:30:00+03:00",
+      "end": "2026-09-09T18:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=YWQ2am4xMzA2dXJnMm83bXR1aGM5dHQ1Mm8gZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Break: stretch and step away",
+      "start_time": "2026-09-07T11:15:00+03:00",
+      "end_time": "2026-09-07T11:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=3"
+      ]
+    },
+    "saved": {
+      "id": "6f67o9nci3n91107mbucqcao20",
+      "summary": "Break: stretch and step away",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.</p>",
+      "location": null,
+      "start": "2026-09-07T11:15:00+03:00",
+      "end": "2026-09-07T11:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=NmY2N285bmNpM245MTEwN21idWNxY2FvMjBfMjAyNjA5MDdUMDgxNTAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Lunch break",
+      "start_time": "2026-09-07T13:30:00+03:00",
+      "end_time": "2026-09-07T14:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=7"
+      ]
+    },
+    "saved": {
+      "id": "0p353md719kbmo9ed4q2q6f8g8",
+      "summary": "Lunch break",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.</p>",
+      "location": null,
+      "start": "2026-09-07T13:30:00+03:00",
+      "end": "2026-09-07T14:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=MHAzNTNtZDcxOWtibW85ZWQ0cTJxNmY4ZzhfMjAyNjA5MDdUMTAzMDAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Break: move away from the screen",
+      "start_time": "2026-09-07T16:15:00+03:00",
+      "end_time": "2026-09-07T16:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=7"
+      ]
+    },
+    "saved": {
+      "id": "6gl2k7c1d3pfr47uesaojtmgm0",
+      "summary": "Break: move away from the screen",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.</p>",
+      "location": null,
+      "start": "2026-09-07T16:15:00+03:00",
+      "end": "2026-09-07T16:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=NmdsMms3YzFkM3BmcjQ3dWVzYW9qdG1nbTBfMjAyNjA5MDdUMTMxNTAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Certification study: learning, practice and recall",
+      "start_time": "2026-09-07T20:00:00+03:00",
+      "end_time": "2026-09-07T22:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nMon: diagnostic/first lesson. Tue: lesson and practical exercise. Wed: practice and weak topics. Thu–Sun: practice, mock assessment and error review. Certification track to be selected; record learning output.",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=7"
+      ]
+    },
+    "saved": {
+      "id": "86a0tfckg04v8mnf288l4bc5t4",
+      "summary": "Certification study: learning, practice and recall",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nMon: diagnostic/first lesson. Tue: lesson and practical exercise. Wed: practice and weak topics. Thu–Sun: practice, mock assessment and error review. Certification track to be selected; record learning output.</p>",
+      "location": null,
+      "start": "2026-09-07T20:00:00+03:00",
+      "end": "2026-09-07T22:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=ODZhMHRmY2tnMDR2OG1uZjI4OGw0YmM1dDRfMjAyNjA5MDdUMTcwMDAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Certification study: focused lesson / lab",
+      "start_time": "2026-09-10T14:15:00+03:00",
+      "end_time": "2026-09-10T16:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nThursday–Sunday: this plus the evening block protects four study hours daily.",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=4"
+      ]
+    },
+    "saved": {
+      "id": "eivu9udvsppuheq9onqmej0k9c",
+      "summary": "Certification study: focused lesson / lab",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nThursday–Sunday: this plus the evening block protects four study hours daily.</p>",
+      "location": null,
+      "start": "2026-09-10T14:15:00+03:00",
+      "end": "2026-09-10T16:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=ZWl2dTl1ZHZzcHB1aGVxOW9ucW1lajBrOWNfMjAyNjA5MTBUMTExNTAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "PTI study and closed-book recall",
+      "start_time": "2026-09-10T09:15:00+03:00",
+      "end_time": "2026-09-10T10:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nReview a section, recall without notes and record weak areas. PTI material to be selected.",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=4"
+      ]
+    },
+    "saved": {
+      "id": "4las2l8itve8ctju01kjtdrtg0",
+      "summary": "PTI study and closed-book recall",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nReview a section, recall without notes and record weak areas. PTI material to be selected.</p>",
+      "location": null,
+      "start": "2026-09-10T09:15:00+03:00",
+      "end": "2026-09-10T10:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=NGxhczJsOGl0dmU4Y3RqdTAxa2p0ZHJ0ZzBfMjAyNjA5MTBUMDYxNTAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "AfterQuery preparation",
+      "start_time": "2026-09-10T10:30:00+03:00",
+      "end_time": "2026-09-10T11:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nReview actual role/invitation requirements; practise answers and note improvements."
+    },
+    "saved": {
+      "id": "m2pbugbrk2lfaqilb96ev8q1c0",
+      "summary": "AfterQuery preparation",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nReview actual role/invitation requirements; practise answers and note improvements.</p>",
+      "location": null,
+      "start": "2026-09-10T10:30:00+03:00",
+      "end": "2026-09-10T11:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=bTJwYnVnYnJrMmxmYXFpbGI5NmV2OHExYzAgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "micro1 preparation",
+      "start_time": "2026-09-11T10:30:00+03:00",
+      "end_time": "2026-09-11T11:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nReview actual role/invitation requirements; practise answers and note improvements."
+    },
+    "saved": {
+      "id": "kl5c0rlpc44d4pi7bgt4b7sd0s",
+      "summary": "micro1 preparation",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nReview actual role/invitation requirements; practise answers and note improvements.</p>",
+      "location": null,
+      "start": "2026-09-11T10:30:00+03:00",
+      "end": "2026-09-11T11:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=a2w1YzBybHBjNDRkNHBpN2JndDRiN3NkMHMgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Timed mock interview",
+      "start_time": "2026-09-12T10:30:00+03:00",
+      "end_time": "2026-09-12T11:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nReview actual role/invitation requirements; practise answers and note improvements."
+    },
+    "saved": {
+      "id": "keb9qtesl4avfbfltvm69qu6tk",
+      "summary": "Timed mock interview",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nReview actual role/invitation requirements; practise answers and note improvements.</p>",
+      "location": null,
+      "start": "2026-09-12T10:30:00+03:00",
+      "end": "2026-09-12T11:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=a2ViOXF0ZXNsNGF2ZmJmbHR2bTY5cXU2dGsgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Interview review and next-week plan",
+      "start_time": "2026-09-13T10:30:00+03:00",
+      "end_time": "2026-09-13T11:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nReview actual role/invitation requirements; practise answers and note improvements."
+    },
+    "saved": {
+      "id": "9m2ce5log5cemb1nbc8jl2bcfg",
+      "summary": "Interview review and next-week plan",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nReview actual role/invitation requirements; practise answers and note improvements.</p>",
+      "location": null,
+      "start": "2026-09-13T10:30:00+03:00",
+      "end": "2026-09-13T11:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=OW0yY2U1bG9nNWNlbWIxbmJjOGpsMmJjZmcgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Exercise: home strength circuit",
+      "start_time": "2026-09-08T08:15:00+03:00",
+      "end_time": "2026-09-08T08:45:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nWarm up 5 min. Start with 1 round; add a second if comfortable. Per round: jumping jacks 15–20 (or 20 alternating step jacks), press-ups 8–10, squats 8–10, glute bridges 10, bird-dogs 5/side, small crunches 6–8. If already comfortable with sit-ups, substitute 5–8 for crunches; do not add both. Rest 30–60 sec between exercises and 90 sec between rounds. Keep about 2 good reps in reserve. Cool down 3–5 min. Stop movements causing pain. Saturday: easy walk instead if not recovered. Track rounds/reps and how you feel."
+    },
+    "saved": {
+      "id": "dll7bhom6sr0mavepudn5ouh6g",
+      "summary": "Exercise: home strength circuit",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nWarm up 5 min. Start with 1 round; add a second if comfortable. Per round: jumping jacks 15–20 (or 20 alternating step jacks), press-ups 8–10, squats 8–10, glute bridges 10, bird-dogs 5/side, small crunches 6–8. If already comfortable with sit-ups, substitute 5–8 for crunches; do not add both. Rest 30–60 sec between exercises and 90 sec between rounds. Keep about 2 good reps in reserve. Cool down 3–5 min. Stop movements causing pain. Saturday: easy walk instead if not recovered. Track rounds/reps and how you feel.</p>",
+      "location": null,
+      "start": "2026-09-08T08:15:00+03:00",
+      "end": "2026-09-08T08:45:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=ZGxsN2Job202c3IwbWF2ZXB1ZG41b3VoNmcgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Exercise: home strength circuit",
+      "start_time": "2026-09-10T08:15:00+03:00",
+      "end_time": "2026-09-10T08:45:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nWarm up 5 min. Start with 1 round; add a second if comfortable. Per round: jumping jacks 15–20 (or 20 alternating step jacks), press-ups 8–10, squats 8–10, glute bridges 10, bird-dogs 5/side, small crunches 6–8. If already comfortable with sit-ups, substitute 5–8 for crunches; do not add both. Rest 30–60 sec between exercises and 90 sec between rounds. Keep about 2 good reps in reserve. Cool down 3–5 min. Stop movements causing pain. Saturday: easy walk instead if not recovered. Track rounds/reps and how you feel."
+    },
+    "saved": {
+      "id": "buubrk1drufqd6ilmhqkk1qoe8",
+      "summary": "Exercise: home strength circuit",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nWarm up 5 min. Start with 1 round; add a second if comfortable. Per round: jumping jacks 15–20 (or 20 alternating step jacks), press-ups 8–10, squats 8–10, glute bridges 10, bird-dogs 5/side, small crunches 6–8. If already comfortable with sit-ups, substitute 5–8 for crunches; do not add both. Rest 30–60 sec between exercises and 90 sec between rounds. Keep about 2 good reps in reserve. Cool down 3–5 min. Stop movements causing pain. Saturday: easy walk instead if not recovered. Track rounds/reps and how you feel.</p>",
+      "location": null,
+      "start": "2026-09-10T08:15:00+03:00",
+      "end": "2026-09-10T08:45:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=YnV1YnJrMWRydWZxZDZpbG1ocWtrMXFvZTggZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Exercise: home strength circuit",
+      "start_time": "2026-09-12T08:15:00+03:00",
+      "end_time": "2026-09-12T08:45:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nWarm up 5 min. Start with 1 round; add a second if comfortable. Per round: jumping jacks 15–20 (or 20 alternating step jacks), press-ups 8–10, squats 8–10, glute bridges 10, bird-dogs 5/side, small crunches 6–8. If already comfortable with sit-ups, substitute 5–8 for crunches; do not add both. Rest 30–60 sec between exercises and 90 sec between rounds. Keep about 2 good reps in reserve. Cool down 3–5 min. Stop movements causing pain. Saturday: easy walk instead if not recovered. Track rounds/reps and how you feel."
+    },
+    "saved": {
+      "id": "l3krr2fmo1l9af12tlu9ucj3ug",
+      "summary": "Exercise: home strength circuit",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nWarm up 5 min. Start with 1 round; add a second if comfortable. Per round: jumping jacks 15–20 (or 20 alternating step jacks), press-ups 8–10, squats 8–10, glute bridges 10, bird-dogs 5/side, small crunches 6–8. If already comfortable with sit-ups, substitute 5–8 for crunches; do not add both. Rest 30–60 sec between exercises and 90 sec between rounds. Keep about 2 good reps in reserve. Cool down 3–5 min. Stop movements causing pain. Saturday: easy walk instead if not recovered. Track rounds/reps and how you feel.</p>",
+      "location": null,
+      "start": "2026-09-12T08:15:00+03:00",
+      "end": "2026-09-12T08:45:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=bDNrcnIyZm1vMWw5YWYxMnRsdTl1Y2ozdWcgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Exercise: walk and gentle mobility",
+      "start_time": "2026-09-09T08:15:00+03:00",
+      "end_time": "2026-09-09T08:45:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n20–30-minute comfortable walk; Sunday easy pace. Gentle mobility as comfortable."
+    },
+    "saved": {
+      "id": "jobr5dqrd6d5pk6fasfo2i115c",
+      "summary": "Exercise: walk and gentle mobility",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\n20–30-minute comfortable walk; Sunday easy pace. Gentle mobility as comfortable.</p>",
+      "location": null,
+      "start": "2026-09-09T08:15:00+03:00",
+      "end": "2026-09-09T08:45:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=am9icjVkcXJkNmQ1cGs2ZmFzZm8yaTExNWMgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Exercise: walk and gentle mobility",
+      "start_time": "2026-09-11T08:15:00+03:00",
+      "end_time": "2026-09-11T08:45:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n20–30-minute comfortable walk; Sunday easy pace. Gentle mobility as comfortable."
+    },
+    "saved": {
+      "id": "osv2qdv8dre52m1dv999a4912k",
+      "summary": "Exercise: walk and gentle mobility",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\n20–30-minute comfortable walk; Sunday easy pace. Gentle mobility as comfortable.</p>",
+      "location": null,
+      "start": "2026-09-11T08:15:00+03:00",
+      "end": "2026-09-11T08:45:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=b3N2MnFkdjhkcmU1Mm0xZHY5OTlhNDkxMmsgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Exercise: walk and gentle mobility",
+      "start_time": "2026-09-13T08:15:00+03:00",
+      "end_time": "2026-09-13T08:45:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n20–30-minute comfortable walk; Sunday easy pace. Gentle mobility as comfortable."
+    },
+    "saved": {
+      "id": "vi12leqbv7l3ird1vkg17o6334",
+      "summary": "Exercise: walk and gentle mobility",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\n20–30-minute comfortable walk; Sunday easy pace. Gentle mobility as comfortable.</p>",
+      "location": null,
+      "start": "2026-09-13T08:15:00+03:00",
+      "end": "2026-09-13T08:45:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=dmkxMmxlcWJ2N2wzaXJkMXZrZzE3bzYzMzQgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Exercise: today's walk",
+      "start_time": "2026-09-07T18:00:00+03:00",
+      "end_time": "2026-09-07T18:30:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nMorning slot has passed; 20–30-minute comfortable walk."
+    },
+    "saved": {
+      "id": "tinev9k49dpbhatatg4i8vep7o",
+      "summary": "Exercise: today's walk",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nMorning slot has passed; 20–30-minute comfortable walk.</p>",
+      "location": null,
+      "start": "2026-09-07T18:00:00+03:00",
+      "end": "2026-09-07T18:30:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=dGluZXY5azQ5ZHBiaGF0YXRnNGk4dmVwN28gZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Dinner, rest and personal time",
+      "start_time": "2026-09-07T18:30:00+03:00",
+      "end_time": "2026-09-07T20:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n"
+    },
+    "saved": {
+      "id": "p7dpgrteh5pma009lpn69lq3qs",
+      "summary": "Dinner, rest and personal time",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.</p>",
+      "location": null,
+      "start": "2026-09-07T18:30:00+03:00",
+      "end": "2026-09-07T20:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=cDdkcGdydGVoNXBtYTAwOWxwbjY5bHEzcXMgZ3JlZ29yeWtpbWFydTVAbQ",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Dinner, rest and personal time",
+      "start_time": "2026-09-08T18:00:00+03:00",
+      "end_time": "2026-09-08T20:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=6"
+      ]
+    },
+    "saved": {
+      "id": "33alfo4l2532o9nbq303t7ime8",
+      "summary": "Dinner, rest and personal time",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.</p>",
+      "location": null,
+      "start": "2026-09-08T18:00:00+03:00",
+      "end": "2026-09-08T20:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=MzNhbGZvNGwyNTMybzluYnEzMDN0N2ltZThfMjAyNjA5MDhUMTUwMDAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Wake up and get ready",
+      "start_time": "2026-09-08T08:00:00+03:00",
+      "end_time": "2026-09-08T08:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=6"
+      ]
+    },
+    "saved": {
+      "id": "ha64t1f7579c7j5d95o2ff56ic",
+      "summary": "Wake up and get ready",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.</p>",
+      "location": null,
+      "start": "2026-09-08T08:00:00+03:00",
+      "end": "2026-09-08T08:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=aGE2NHQxZjc1NzljN2o1ZDk1bzJmZjU2aWNfMjAyNjA5MDhUMDUwMDAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Shower and breakfast",
+      "start_time": "2026-09-08T08:45:00+03:00",
+      "end_time": "2026-09-08T09:15:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\n",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=6"
+      ]
+    },
+    "saved": {
+      "id": "bigeqh8su2d637ajvsl74rb3n4",
+      "summary": "Shower and breakfast",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.</p>",
+      "location": null,
+      "start": "2026-09-08T08:45:00+03:00",
+      "end": "2026-09-08T09:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=YmlnZXFoOHN1MmQ2MzdhanZzbDc0cmIzbjRfMjAyNjA5MDhUMDU0NTAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Wind down for bed",
+      "start_time": "2026-09-08T00:15:00+03:00",
+      "end_time": "2026-09-08T01:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nPrepare for sleep. Bring bedtime earlier if more rest is needed.",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=7"
+      ]
+    },
+    "saved": {
+      "id": "rhe0irqve7dm0j5trje2brmiac",
+      "summary": "Wind down for bed",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nPrepare for sleep. Bring bedtime earlier if more rest is needed.</p>",
+      "location": null,
+      "start": "2026-09-08T00:15:00+03:00",
+      "end": "2026-09-08T01:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=cmhlMGlycXZlN2RtMGo1dHJqZTJicm1pYWNfMjAyNjA5MDdUMjExNTAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Sleep",
+      "start_time": "2026-09-08T01:00:00+03:00",
+      "end_time": "2026-09-08T08:00:00+03:00",
+      "description": "DukaIQ weekly curriculum — September 7–13, 2026.\nProtect sleep; no work or study scheduled in this window.",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=7"
+      ]
+    },
+    "saved": {
+      "id": "2281026qc45s6idqnrkar6c460",
+      "summary": "Sleep",
+      "description": "<p>DukaIQ weekly curriculum — September 7–13, 2026.\nProtect sleep; no work or study scheduled in this window.</p>",
+      "location": null,
+      "start": "2026-09-08T01:00:00+03:00",
+      "end": "2026-09-08T08:00:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=MjI4MTAyNnFjNDVzNmlkcW5ya2FyNmM0NjBfMjAyNjA5MDdUMjIwMDAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  },
+  {
+    "plan": {
+      "title": "Personal time and relaxation",
+      "start_time": "2026-09-07T22:00:00+03:00",
+      "end_time": "2026-09-08T00:15:00+03:00",
+      "description": "DukaIQ weekly curriculum. Relaxation or light reading; wind down at 00:15.",
+      "recurrence": [
+        "RRULE:FREQ=DAILY;COUNT=7"
+      ]
+    },
+    "saved": {
+      "id": "mm3266s02nhkel5uc5vs7jfjig",
+      "summary": "Personal time and relaxation",
+      "description": "<p>DukaIQ weekly curriculum. Relaxation or light reading; wind down at 00:15.</p>",
+      "location": null,
+      "start": "2026-09-07T22:00:00+03:00",
+      "end": "2026-09-08T00:15:00+03:00",
+      "attendees": [],
+      "url": "https://www.google.com/calendar/event?eid=bW0zMjY2czAybmhrZWw1dWM1dnM3amZqaWdfMjAyNjA5MDdUMTkwMDAwWiBncmVnb3J5a2ltYXJ1NUBt",
+      "color_id": null,
+      "reminders": {
+        "use_default": false,
+        "overrides": []
+      },
+      "visibility": "private",
+      "transparency": null,
+      "hangout_link": null,
+      "conference_id": null,
+      "conference_status": null,
+      "conference_solution_type": null
+    }
+  }
+]

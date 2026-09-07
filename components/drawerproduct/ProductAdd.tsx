@@ -1,8 +1,6 @@
 import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
-import { Category } from "@/databases/models/products/Category";
-import { Shop } from "@/databases/models/products/Shop";
-import { Type } from "@/databases/models/products/Type";
+import type { Category, Shop, ProductType as Type } from "@/databases/repositories/ProductRepo";
 import { ProductRepo } from "@/databases/repositories/ProductRepo";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import React, { useState } from "react";
@@ -113,7 +111,7 @@ const ProductAdd = ({ onCreated }: ProductAddProps) => {
       current_stock: 0,
       total_purchased: 0,
       total_sold: 0,
-      current_batch: undefined as never,
+      current_batch: undefined,
       batch_count: 0,
       unit: selectUnit as "Unit" | "Kg" | "Litre",
       updated_at: new Date().toISOString(),

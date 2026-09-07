@@ -1,17 +1,15 @@
 import Draft from "@/components/products/Draft";
 import CustomStackTwo from "@/components/stacks/CustomStackTwo";
-import { Batch } from "@/databases/models/stock/Batch";
-import { BatchRepo } from "@/databases/repositories/BatchRepo";
+import { BatchRepo, type Batch } from "@/databases/repositories/BatchRepo";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text } from "react-native";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { globalStyles } from "@/constants/styles";
 import Products404 from "@/components/products/Products404";
 
 const BatchIndex = () => {
   const router = useRouter();
-  const [batches, setBatches] = useState<Array<{ batch: Batch; itemCount: number }>>([]);
+  const [batches, setBatches] = useState<{ batch: Batch; itemCount: number }[]>([]);
 
   const loadBatches = async () => {
     const nextBatches = await BatchRepo.listSavedBatches();

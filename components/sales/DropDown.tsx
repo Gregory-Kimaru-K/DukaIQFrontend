@@ -1,7 +1,4 @@
 import { Colors } from "@/constants/colors";
-import { Category } from "@/databases/models/products/Category";
-import { Shop } from "@/databases/models/products/Shop";
-import { Type } from "@/databases/models/products/Type";
 import {
   BottomSheetScrollView,
   BottomSheetTextInput,

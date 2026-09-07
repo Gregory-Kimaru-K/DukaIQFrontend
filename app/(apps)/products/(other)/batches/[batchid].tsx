@@ -1,8 +1,7 @@
 import Product from "@/components/products/Product";
 import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
-import { Batch } from "@/databases/models/stock/Batch";
-import { BatchItem } from "@/databases/models/stock/BatchItem";
+import type { Batch, BatchItem } from "@/databases/repositories/BatchRepo";
 import { BatchRepo } from "@/databases/repositories/BatchRepo";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";

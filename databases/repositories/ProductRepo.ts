@@ -1,10 +1,4 @@
 import type Collection from "@nozbe/watermelondb/Collection";
-
-import { Category } from "../models/products/Category";
-import { Product } from "../models/products/Product";
-import { Shop } from "../models/products/Shop";
-import { Type as ProductType } from "../models/products/Type";
-import { Vendor } from "../models/products/Vendors";
 import { database } from "../watermelon/database";
 import {
   CategoryRecord,
@@ -33,16 +27,14 @@ const findRecord = async <T extends { id: string }>(
   }
 };
 
-export const toShopDto = (shop: ShopRecord): Shop => ({
+export const toShopDto = (shop: ShopRecord) => ({
   id: shop.id,
   name: shop.name,
   created_at: shop.createdAt,
   updated_at: shop.updatedAt,
 });
 
-export const toCategoryDto = async (
-  category: CategoryRecord,
-): Promise<Category> => {
+export const toCategoryDto = async (category: CategoryRecord) => {
   const shop = await shopsCollection().find(category.shopId);
 
   return {
@@ -54,7 +46,7 @@ export const toCategoryDto = async (
   };
 };
 
-export const toTypeDto = async (type: TypeRecord): Promise<ProductType> => {
+export const toTypeDto = async (type: TypeRecord) => {
   const category = await categoriesCollection().find(type.categoryId);
 
   return {
@@ -66,15 +58,13 @@ export const toTypeDto = async (type: TypeRecord): Promise<ProductType> => {
   };
 };
 
-export const toVendorDto = (vendor: VendorRecord): Vendor => ({
+export const toVendorDto = (vendor: VendorRecord) => ({
   id: vendor.id,
   name: vendor.name,
   phone_number: vendor.phoneNumber,
 });
 
-export const toProductDto = async (
-  product: ProductRecord,
-): Promise<Product> => {
+export const toProductDto = async (product: ProductRecord) => {
   const [shop, category, type] = await Promise.all([
     shopsCollection().find(product.shopId),
     categoriesCollection().find(product.categoryId),
@@ -94,9 +84,18 @@ export const toProductDto = async (
     total_purchased: product.totalPurchased,
     total_sold: product.totalSold,
     batch_count: product.batchCount,
-    unit: product.unit as Product["unit"],
+    unit: product.unit as "Unit" | "Kg" | "Litre",
   };
 };
+
+export type Shop = ReturnType<typeof toShopDto>;
+export type Category = Awaited<ReturnType<typeof toCategoryDto>>;
+export type ProductType = Awaited<ReturnType<typeof toTypeDto>>;
+export type Vendor = ReturnType<typeof toVendorDto>;
+export type Product = Awaited<ReturnType<typeof toProductDto>>;
+
+// Existing write API accepts a batch reference; reads expose stock totals only.
+type ProductInput = Product & { current_batch?: { id: string } };
 
 export const ProductRepo = {
   listShops: async (): Promise<Shop[]> => {
@@ -283,7 +282,7 @@ export const ProductRepo = {
     const product = await findRecord<ProductRecord>(productsCollection(), id);
     return product ? toProductDto(product) : undefined;
   },
-  createProduct: async (product: Omit<Product, "id">): Promise<Product> =>
+  createProduct: async (product: Omit<ProductInput, "id">): Promise<Product> =>
     database.write(async () => {
       const record = await productsCollection().create((newProduct) => {
         newProduct.name = product.name;
@@ -305,7 +304,7 @@ export const ProductRepo = {
     }),
   updateProduct: async (
     id: string,
-    updates: Partial<Omit<Product, "id">>,
+    updates: Partial<Omit<ProductInput, "id">>,
   ): Promise<Product | undefined> =>
     database.write(async () => {
       const product = await findRecord<ProductRecord>(productsCollection(), id);

@@ -1,11 +1,7 @@
 import { Q } from "@nozbe/watermelondb";
 import type Collection from "@nozbe/watermelondb/Collection";
-
-import { CreditorRepayment, Creditors, CreditorSale } from "../models/Creditors";
-import { SalePayment, Sales } from "../models/sales/Sales";
-import { SalesItem } from "../models/sales/SalesItem";
 import { database } from "../watermelon/database";
-import {
+import type {
   CreditorRepaymentRecord,
   CreditorRecord,
   CreditorSaleRecord,
@@ -40,7 +36,7 @@ const findRecord = async <T extends { id: string }>(
   }
 };
 
-export const toSaleDto = (sale: SalesRecord): Sales => ({
+export const toSaleDto = (sale: SalesRecord) => ({
   id: sale.id,
   payment: sale.payment,
   payment_method: sale.paymentMethod,
@@ -68,7 +64,7 @@ export const toSaleDto = (sale: SalesRecord): Sales => ({
 
 export const toSalePaymentDto = async (
   payment: SalePaymentRecord,
-): Promise<SalePayment> => {
+) => {
   const sale = await salesCollection().find(payment.saleId);
 
   return {
@@ -85,7 +81,7 @@ export const toSalePaymentDto = async (
 
 export const toSalesItemDto = async (
   item: SalesItemRecord,
-): Promise<SalesItem> => {
+) => {
   const [product, sale] = await Promise.all([
     productsCollection().find(item.productId),
     salesCollection().find(item.saleId),
@@ -111,7 +107,7 @@ export const toSalesItemDto = async (
   };
 };
 
-const toCreditorDto = async (creditor: CreditorRecord): Promise<Creditors> => {
+const toCreditorDto = async (creditor: CreditorRecord) => {
   const links = await creditorSalesCollection()
     .query(Q.where("creditor_id", creditor.id))
     .fetch();
@@ -130,7 +126,7 @@ const toCreditorDto = async (creditor: CreditorRecord): Promise<Creditors> => {
 
 const toCreditorSaleDto = async (
   link: CreditorSaleRecord,
-): Promise<CreditorSale> => {
+) => {
   const [creditor, sale] = await Promise.all([
     creditorsCollection().find(link.creditorId),
     salesCollection().find(link.saleId),
@@ -151,7 +147,7 @@ const toCreditorSaleDto = async (
 
 const toCreditorRepaymentDto = async (
   repayment: CreditorRepaymentRecord,
-): Promise<CreditorRepayment> => {
+) => {
   const creditorSale = await creditorSalesCollection().find(
     repayment.creditorSaleId,
   );
@@ -166,6 +162,13 @@ const toCreditorRepaymentDto = async (
     created_at: repayment.createdAt,
   };
 };
+
+export type Sales = ReturnType<typeof toSaleDto>;
+export type SalePayment = Awaited<ReturnType<typeof toSalePaymentDto>>;
+export type SalesItem = Awaited<ReturnType<typeof toSalesItemDto>>;
+export type Creditors = Awaited<ReturnType<typeof toCreditorDto>>;
+export type CreditorSale = Awaited<ReturnType<typeof toCreditorSaleDto>>;
+export type CreditorRepayment = Awaited<ReturnType<typeof toCreditorRepaymentDto>>;
 
 export const SalesRepo = {
   listSales: async (): Promise<Sales[]> => {
