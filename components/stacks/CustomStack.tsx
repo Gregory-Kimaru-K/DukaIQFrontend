@@ -8,7 +8,7 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-type StackProps = {
+interface StackProps {
     header: string,
     desc: string,
 }
@@ -20,7 +20,7 @@ const CustomStack = ({header, desc}: StackProps) => {
 
         <MaskedView
           maskElement={
-            <Text style={[globalStyles.h1pro, styles.maskedText]}>{header}</Text>
+            <Text style={[globalStyles.h1pro, styles.maskedText, {fontWeight: "600"}]}>{header}</Text>
           }
         >
           <LinearGradient

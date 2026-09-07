@@ -38,7 +38,7 @@ const BatchIndex = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <CustomStackTwo
         header="RESTOCK"
-        desc="View, Add and Edit Batches"
+        desc="View, add and Edit batches"
         icon="add"
         onIconPress={iconPress}
       />

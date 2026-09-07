@@ -5,9 +5,9 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
-type StackProps = {
+interface StackProps {
   header: string;
   desc: string;
   icon: React.ComponentProps<typeof Ionicons>["name"];
@@ -24,24 +24,31 @@ const CustomStackTwo = ({ header, desc, icon, onIconPress, count=false, countNo=
         <Ionicons name="grid" size={40} color={Colors.brand.ORANGE} />
       </Pressable>
       <View style={styles.text_cont}>
-        <MaskedView
-          maskElement={
-            <Text style={draft ? [styles.draftStyle, styles.maskedText] : [globalStyles.h1pro, styles.maskedText]}>
-              {header}
-            </Text>
-          }
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.headerScroll}
+          contentContainerStyle={styles.headerScrollContent}
         >
-          <LinearGradient
-            colors={["#E66413", "#EC8124", "#F29D35", "#FED757"]}
-            start={[0, 0]}
-            end={[0.5, 0]}
-            style={styles.gradient}
+          <MaskedView
+            maskElement={
+              <Text numberOfLines={1} style={[styles.draftStyle, styles.maskedText]}>
+                {header}
+              </Text>
+            }
           >
-            <Text style={draft ? [styles.draftStyle, styles.gradientText] : [globalStyles.h1pro, styles.gradientText]}>
-              {header}
-            </Text>
-          </LinearGradient>
-        </MaskedView>
+            <LinearGradient
+              colors={["#E66413", "#EC8124", "#F29D35", "#FED757"]}
+              start={[0, 0]}
+              end={[0.5, 0]}
+              style={styles.gradient}
+            >
+              <Text numberOfLines={1} style={[styles.draftStyle, styles.gradientText]}>
+                {header}
+              </Text>
+            </LinearGradient>
+          </MaskedView>
+        </ScrollView>
 
         <MaskedView
           maskElement={
@@ -84,7 +91,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   text_cont: {
-    alignItems: "center",
+    alignItems: "baseline",
+    minWidth: 0,
+    marginBottom: 4
+  },
+  headerScroll: {
+    alignSelf: "center",
+    maxHeight: 36
+  },
+  headerScrollContent: {
+    alignItems: "flex-start",
   },
 
   Icon: {
@@ -106,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: "50%",
   },
   gradient: {
-    width: "100%",
+    alignSelf: "flex-start",
   },
   maskedText: {
     color: "black",
