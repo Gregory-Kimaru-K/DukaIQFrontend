@@ -29,8 +29,13 @@ export const useProductDetailsForm = (
     if (!draftItem) return;
 
     setQuantity(draftItem.quantity);
-    setBuyingPrice(draftItem.price);
-    setSelling(draftItem.profit);
+    setStockType(draftItem.purchase_unit === "PACKET" ? "PACKET" : "UNITS");
+    setBuyingPrice(
+      draftItem.unit_cost > 0 ? draftItem.unit_cost : draftItem.price,
+    );
+    setPackQuantity(draftItem.units_per_pack > 1 ? draftItem.units_per_pack : 0);
+    setSelling(draftItem.unit_selling_price ?? draftItem.profit);
+    setProfitMode(draftItem.profit_scope === "PACK" ? "PACK" : "UNIT");
     setExpiryDate(draftItem.expiry ?? "");
     setSelectedTaxTypeId(draftItem.tax_type_id);
     setTaxAmount(draftItem.vat ?? 0);
@@ -52,17 +57,6 @@ export const useProductDetailsForm = (
     setUnitPrice(calculatePacketUnitPrice(buyingPrice, packQuantity));
   }, [buyingPrice, packQuantity]);
 
-  useEffect(() => {
-    setSelling(
-      getSellingPrice({
-        stockType,
-        profitMode,
-        buyingPrice,
-        packQuantity,
-      }),
-    );
-  }, [stockType, profitMode, buyingPrice, packQuantity]);
-
   const handleSelectTaxType = (taxType: TaxType) => {
     setSelectedTaxTypeId(taxType.id);
     setTaxAmount(calculateTaxAmount(buyingPrice, quantity, taxType.rate));
@@ -79,6 +73,11 @@ export const useProductDetailsForm = (
       return;
     }
 
+    if (stockType === "PACKET" && packQuantity <= 0) {
+      alert("Quantity per packet must be greater than zero");
+      return;
+    }
+
     const cleanExpiryDate = expiryDate.trim();
     if (cleanExpiryDate && !isValidDateInput(cleanExpiryDate)) {
       alert("Use expiry date format YYYY-MM-DD");
@@ -87,11 +86,17 @@ export const useProductDetailsForm = (
 
     await BatchRepo.updateDraftItem(draftItem.id, {
       quantity,
+      purchase_unit: stockType === "PACKET" ? "PACKET" : "UNIT",
+      units_per_pack: stockType === "PACKET" ? Math.max(1, packQuantity) : 1,
+      unit_cost: buyingPrice,
+      unit_selling_price: selling,
+      profit_amount: selling,
+      profit_scope: profitMode,
       expiry: cleanExpiryDate || undefined,
-      price:
-        stockType === "PACKET" && profitMode === "UNIT"
-          ? unitPrice
-          : buyingPrice,
+      // `price` is the purchase price used to calculate the batch total. Keep
+      // it as the configured buying price even when a packet's unit price is
+      // displayed or used for selling.
+      price: buyingPrice,
       vat: taxAmount,
       tax_type_id: selectedTaxTypeId,
       profit: selling,

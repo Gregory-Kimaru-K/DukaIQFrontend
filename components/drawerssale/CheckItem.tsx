@@ -10,9 +10,11 @@ interface CheckItemProps {
     restock?: boolean;
     item?: DraftItem;
     onRemove?: (item: DraftItem) => void | Promise<void>;
+    onToggleSelect?: (item: DraftItem) => void;
+    selected?: boolean;
 }
 
-const CheckItem = ({ restock=false, item, onRemove }: CheckItemProps) => {
+const CheckItem = ({ restock=false, item, onRemove, onToggleSelect, selected=false }: CheckItemProps) => {
     const [quantity, setQuantity] = useState(1)
     const displayName = item?.product.name ?? "Prod_1";
     const displayQuantity = item?.quantity ?? quantity;
@@ -20,7 +22,7 @@ const CheckItem = ({ restock=false, item, onRemove }: CheckItemProps) => {
     const tax = item?.vat ?? 0;
     const lineTotal = (unitPrice * displayQuantity) + tax;
     return (
-        <View style={styles.item}>
+        <View style={[styles.item, selected && styles.selectedItem]}>
             <View style={styles.itemsCont}>
                 <View style={styles.title}>
                     <Text style={styles.name}>{displayName}</Text>
@@ -48,9 +50,23 @@ const CheckItem = ({ restock=false, item, onRemove }: CheckItemProps) => {
                     <Text style={{fontWeight: "bold", color: Colors.brand.ORANGE, fontSize: 18}}>KSH. 600</Text>
 
                 }
-                <Pressable onPress={() => item && onRemove?.(item)}>
-                    <Ionicons name='close-circle' size={28} color={Colors.brand.LIGHT_BLUE} />
-                </Pressable>
+                {restock ? (
+                    <Pressable
+                        accessibilityRole="checkbox"
+                        accessibilityState={{ checked: selected }}
+                        onPress={() => item && onToggleSelect?.(item)}
+                    >
+                        <Ionicons
+                            name={selected ? "checkmark-circle" : "ellipse-outline"}
+                            size={28}
+                            color={selected ? Colors.brand.ORANGE : Colors.brand.LIGHT_BLUE}
+                        />
+                    </Pressable>
+                ) : (
+                    <Pressable onPress={() => item && onRemove?.(item)}>
+                        <Ionicons name='close-circle' size={28} color={Colors.brand.LIGHT_BLUE} />
+                    </Pressable>
+                )}
             </View>
         </View>
     )
@@ -61,6 +77,9 @@ const styles=StyleSheet.create({
         padding: 8,
         borderBottomWidth: 2,
         borderBottomColor: Colors.brand.LIGHT_BLUE
+    },
+    selectedItem: {
+        backgroundColor: Colors.brand.DARK_LIGHT_BLUE,
     },
     itemsCont: {
         width: "100%",

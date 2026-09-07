@@ -215,11 +215,10 @@ const DraftView = () => {
           onClose={restock.onClose}
         >
           <RestockDraw
-            openPay={handleCompleteDraft}
+            openPay={() => {
+              paymentStock.openSheetOne(3)
+              restock.onClose()}}
             draftId={draftid || ""}
-            onDraftChanged={async () => {
-              await loadDraft();
-            }}
              />
         </BottomSheetWrapper>
       )}

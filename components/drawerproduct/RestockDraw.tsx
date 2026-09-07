@@ -10,32 +10,41 @@ import {BatchRepo} from '@/databases/repositories/BatchRepo'
 import { DraftItem } from '@/databases/repositories/BatchRepo'
 
 interface RestockDrawProps {
-    openPay: () => void;
+    openPay: (draftItemIds?: string[]) => void;
     draftId: string;
-    onDraftChanged?: () => void | Promise<void>;
 }
 
-const RestockDraw = ({ openPay, draftId, onDraftChanged }: RestockDrawProps) => {
+const RestockDraw = ({ openPay, draftId }: RestockDrawProps) => {
     const [draftItems, setDraftItems] = React.useState<DraftItem[]>([])
+    const [selectedDraftItemIds, setSelectedDraftItemIds] = React.useState<string[]>([])
     const Batchrepo = BatchRepo
 
     const loadDraftItems = async () => {
         if (!draftId) return;
         const items = await Batchrepo.listDraftItems(draftId)
         setDraftItems(items)
+        setSelectedDraftItemIds((currentIds) =>
+            currentIds.filter((id) => items.some((item) => item.id === id)),
+        )
     }
 
     useEffect(() => {
         loadDraftItems()
     }, [draftId])
 
-    const handleRemoveDraftItem = async (item: DraftItem) => {
-        await Batchrepo.deleteDraftItem(item.id)
-        await loadDraftItems()
-        await onDraftChanged?.()
+    const handleToggleDraftItem = (item: DraftItem) => {
+        setSelectedDraftItemIds((currentIds) =>
+            currentIds.includes(item.id)
+                ? currentIds.filter((id) => id !== item.id)
+                : [...currentIds, item.id],
+        )
     }
 
-    const totalAmount = draftItems.reduce(
+    const itemsToRestock = selectedDraftItemIds.length > 0
+        ? draftItems.filter((item) => selectedDraftItemIds.includes(item.id))
+        : draftItems
+
+    const totalAmount = itemsToRestock.reduce(
         (total, item) => total + ((item.price * item.quantity) + (item.vat ?? 0)),
         0,
     )
@@ -46,14 +55,20 @@ const RestockDraw = ({ openPay, draftId, onDraftChanged }: RestockDrawProps) => 
             <View style={globalStyles.image_cont}>
                 <Image source={require("../../assets/Supplier.png")} style={globalStyles.image} />
             </View>
-            <Total handlePayments={openPay} label={`KSH. ${totalAmount}`} />
+            <Total
+                handlePayments={() => openPay(
+                    selectedDraftItemIds.length > 0 ? selectedDraftItemIds : undefined,
+                )}
+                label={`KSH. ${totalAmount}`}
+            />
             <View>
                 {draftItems.map((item, index) => (
                     <CheckItem
                         key={item.id ?? index}
                         restock={true}
                         item={item}
-                        onRemove={handleRemoveDraftItem}
+                        onToggleSelect={handleToggleDraftItem}
+                        selected={selectedDraftItemIds.includes(item.id)}
                     />
                 ))}
             </View>

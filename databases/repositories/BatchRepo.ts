@@ -160,6 +160,12 @@ export const toDraftItemDto = async (
     draft: toDraftDto(draft),
     product: await toProductDto(product),
     quantity: item.quantity,
+    purchase_unit: item.purchaseUnit,
+    units_per_pack: item.unitsPerPack,
+    unit_cost: item.unitCost,
+    unit_selling_price: item.unitSellingPrice,
+    profit_amount: item.profitAmount,
+    profit_scope: item.profitScope,
     expiry: item.expiry,
     price: item.price,
     vat: item.taxAmount,
@@ -184,6 +190,12 @@ export const toBatchItemDto = async (
     batch: toBatchDto(batch),
     product: await toProductDto(product),
     quantity: item.quantity,
+    purchase_unit: item.purchaseUnit,
+    units_per_pack: item.unitsPerPack,
+    unit_cost: item.unitCost,
+    unit_selling_price: item.unitSellingPrice,
+    profit_amount: item.profitAmount,
+    profit_scope: item.profitScope,
     expiry: item.expiry,
     price: item.price,
     vat: item.taxAmount,
@@ -387,6 +399,22 @@ export const BatchRepo = {
       if (!item) return undefined;
       await item.update((record) => {
         if (updates.quantity !== undefined) record.quantity = updates.quantity;
+        if (updates.purchase_unit !== undefined) {
+          record.purchaseUnit = updates.purchase_unit;
+        }
+        if (updates.units_per_pack !== undefined) {
+          record.unitsPerPack = updates.units_per_pack;
+        }
+        if (updates.unit_cost !== undefined) record.unitCost = updates.unit_cost;
+        if (updates.unit_selling_price !== undefined) {
+          record.unitSellingPrice = updates.unit_selling_price;
+        }
+        if (updates.profit_amount !== undefined) {
+          record.profitAmount = updates.profit_amount;
+        }
+        if (updates.profit_scope !== undefined) {
+          record.profitScope = updates.profit_scope;
+        }
         if ("expiry" in updates) record.expiry = updates.expiry;
         if (updates.price !== undefined) {
           record.price = updates.price;
@@ -404,6 +432,8 @@ export const BatchRepo = {
     }),
   completeDraft: async (
     draftId: string,
+    // An omitted or empty list completes every item still in the draft.
+    draftItemIds?: string[],
     batchDetails: {
       payment_method?: string;
       payment?: string;
@@ -414,9 +444,17 @@ export const BatchRepo = {
     database.write(async () => {
       const draft = await findRecord<DraftRecord>(draftsCollection(), draftId);
       if (!draft) return undefined;
-      const draftItems = await draftItemsCollection()
-        .query(Q.where("draft_id", draftId))
-        .fetch();
+      const draftItems =
+        draftItemIds && draftItemIds.length > 0
+          ? await draftItemsCollection()
+              .query(
+                Q.where("draft_id", draftId),
+                Q.where("id", Q.oneOf(draftItemIds)),
+              )
+              .fetch()
+          : await draftItemsCollection()
+              .query(Q.where("draft_id", draftId))
+              .fetch();
       if (draftItems.length === 0) return undefined;
 
       const totalPrice = draftItems.reduce(
@@ -506,6 +544,9 @@ export const BatchRepo = {
               }),
             ]
           : [];
+      const completedDraftItems = draftItems.map((item) =>
+        item.prepareDestroyPermanently(),
+      );
 
       await database.batch(
         batchItems,
@@ -513,6 +554,7 @@ export const BatchRepo = {
         stockMovements,
         batchPayments,
         vendorCredits,
+        completedDraftItems,
       );
       return toBatchDto(batch);
     }),
