@@ -34,6 +34,8 @@ const DraftView = () => {
   const [draftItems, setDraftItems] = useState<DraftItem[]>([]);
   const [selectedDraftItem, setSelectedDraftItem] = useState<DraftItem | null>(null);
   const [selectedDraftItemIds, setSelectedDraftItemIds] = useState<string[]>([]);
+  const [selectedRestock, setSelectedRestock] = useState<string[]>([]);
+  const [paymentAmount, setPaymentAmount] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [products, setProducts] = useState<ProductModel[]>([]);
   const repoProducts = ProductRepo;
@@ -129,14 +131,44 @@ const DraftView = () => {
     await loadDraft();
   };
 
+  const handleOpenPayments = async (draftItemIds?: string[]) => {
+    const currentDraftId = draft?.id ?? draftid;
+    if (!currentDraftId) return;
+
+    const allDraftItems = await BatchRepo.listDraftItems(currentDraftId);
+    const selectedItems =
+      draftItemIds && draftItemIds.length > 0
+        ? allDraftItems.filter((item) => draftItemIds.includes(item.id))
+        : allDraftItems;
+
+    if (selectedItems.length === 0) {
+      alert("Add products before restocking");
+      return;
+    }
+
+    const total = selectedItems.reduce(
+      (sum, item) => sum + item.price * item.quantity + (item.vat ?? 0),
+      0,
+    );
+
+    setSelectedRestock(draftItemIds ?? []);
+    setPaymentAmount(Math.round(total));
+    restock.onClose();
+    paymentStock.openSheetOne(3);
+  };
+
   const handleCompleteDraft = async () => {
     if (!draft) return;
 
-    const batch = await BatchRepo.completeDraft(draft.id);
+    const batch = await BatchRepo.completeDraft(
+      draft.id,
+      selectedRestock.length > 0 ? selectedRestock : undefined,
+    );
     if (!batch) {
       alert("Add products before restocking");
       return;
     }
+    setSelectedRestock([]);
     await loadDraft();
     restock.onClose();
     alert("Restock batch saved");
@@ -215,9 +247,7 @@ const DraftView = () => {
           onClose={restock.onClose}
         >
           <RestockDraw
-            openPay={() => {
-              paymentStock.openSheetOne(3)
-              restock.onClose()}}
+            openPay={handleOpenPayments}
             draftId={draftid || ""}
              />
         </BottomSheetWrapper>
@@ -231,8 +261,10 @@ const DraftView = () => {
           onClose={paymentStock.onClose}
         >
           <Payments
-            closeTwo={restock.onClose}
+            closeTwo={paymentStock.onClose}
             openOne={() => restock.openSheetOne(3)}
+            amount={paymentAmount}
+            onAmountChange={setPaymentAmount}
           />
         </BottomSheetWrapper>
       )}

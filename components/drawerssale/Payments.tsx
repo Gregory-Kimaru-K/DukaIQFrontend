@@ -2,7 +2,7 @@ import { Colors } from "@/constants/colors";
 import { globalStyles } from "@/constants/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
-import React, { useState } from "react";
+import React from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CoutryPickerComp from "../sales/CoutryPickerComp";
@@ -10,15 +10,16 @@ import CoutryPickerComp from "../sales/CoutryPickerComp";
 type PaymentsProps = {
   closeTwo: () => void;
   openOne: (index: number) => void;
+  amount: number;
+  onAmountChange: (amount: number) => void;
 };
 
-const Payments = ({ closeTwo, openOne }: PaymentsProps) => {
+const Payments = ({ closeTwo, openOne, amount, onAmountChange }: PaymentsProps) => {
   const handleBack = () => {
     closeTwo();
     openOne(3);
   };
 
-  const [price, setPrice] = useState(1800);
   return (
     <SafeAreaView style={{ gap: 12 }}>
       <Pressable onPress={handleBack}>
@@ -53,11 +54,11 @@ const Payments = ({ closeTwo, openOne }: PaymentsProps) => {
             globalStyles.h1pro,
             { textAlign: "center", color: Colors.brand.ORANGE },
           ]}
-          value={price.toString()}
+          value={amount.toString()}
           keyboardType="numeric"
           onChangeText={(text) => {
             const value = Number(text);
-            setPrice(isNaN(value) ? 0 : value);
+            onAmountChange(Number.isFinite(value) ? value : 0);
           }}
         />
       </View>

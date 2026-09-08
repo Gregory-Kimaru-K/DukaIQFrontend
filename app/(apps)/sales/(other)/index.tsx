@@ -15,6 +15,7 @@ const CreateSaleScreen = () => {
   const cartSheet = useSheetOne();
   const paySheet = useSheetOne();
   const creditSheet = useSheetOne();
+  const [paymentAmount, setPaymentAmount] = React.useState(1800);
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -63,7 +64,12 @@ const CreateSaleScreen = () => {
           onSheetChange={paySheet.onSheetChange}
           onClose={paySheet.onClose}
         >
-          <Payments openOne={cartSheet.openSheetOne} closeTwo={paySheet.onClose} />
+          <Payments
+            openOne={cartSheet.openSheetOne}
+            closeTwo={paySheet.onClose}
+            amount={paymentAmount}
+            onAmountChange={setPaymentAmount}
+          />
         </BottomSheetWrapper>
       )}
       {creditSheet.isOpenOne && (
