@@ -19,7 +19,7 @@ const CheckItem = ({ restock=false, item, onRemove, onToggleSelect, selected=fal
     const displayName = item?.product.name ?? "Prod_1";
     const displayQuantity = item?.quantity ?? quantity;
     const unitPrice = item?.price ?? 200;
-    const tax = item?.vat ?? 0;
+    const tax = item?.tax_amount ?? 0;
     const lineTotal = (unitPrice * displayQuantity) + tax;
     return (
         <View style={[styles.item, selected && styles.selectedItem]}>

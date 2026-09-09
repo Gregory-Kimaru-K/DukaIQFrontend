@@ -38,7 +38,7 @@ export const useProductDetailsForm = (
     setProfitMode(draftItem.profit_scope === "PACK" ? "PACK" : "UNIT");
     setExpiryDate(draftItem.expiry ?? "");
     setSelectedTaxTypeId(draftItem.tax_type_id);
-    setTaxAmount(draftItem.vat ?? 0);
+    setTaxAmount(draftItem.tax_amount ?? 0);
   }, [draftItem]);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export const useProductDetailsForm = (
       // it as the configured buying price even when a packet's unit price is
       // displayed or used for selling.
       price: buyingPrice,
-      vat: taxAmount,
+      tax_amount: taxAmount,
       tax_type_id: selectedTaxTypeId,
       profit: selling,
       updated_at: new Date().toISOString(),

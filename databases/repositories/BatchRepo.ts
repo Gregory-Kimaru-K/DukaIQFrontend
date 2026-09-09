@@ -168,7 +168,7 @@ export const toDraftItemDto = async (
     profit_scope: item.profitScope,
     expiry: item.expiry,
     price: item.price,
-    vat: item.taxAmount,
+    tax_amount: item.taxAmount,
     tax_type_id: item.taxTypeId,
     tax_type: taxType,
     profit: item.profit,
@@ -198,7 +198,7 @@ export const toBatchItemDto = async (
     profit_scope: item.profitScope,
     expiry: item.expiry,
     price: item.price,
-    vat: item.taxAmount,
+    tax_amount: item.taxAmount,
     tax_type_id: item.taxTypeId,
     tax_type: taxType,
     profit: item.profit,
@@ -420,7 +420,7 @@ export const BatchRepo = {
           record.price = updates.price;
           record.unitCost = updates.price;
         }
-        if ("vat" in updates) record.taxAmount = updates.vat;
+        if ("tax_amount" in updates) record.taxAmount = updates.tax_amount;
         if ("tax_type_id" in updates) record.taxTypeId = updates.tax_type_id;
         if (updates.profit !== undefined) {
           record.profit = updates.profit;
@@ -458,7 +458,7 @@ export const BatchRepo = {
       if (draftItems.length === 0) return undefined;
 
       const totalPrice = draftItems.reduce(
-        (total, item) => total + item.price * item.quantity,
+        (total, item) => total + item.price * item.quantity + (item.taxAmount ?? 0),
         0,
       );
       const timestamp = now();
@@ -677,7 +677,7 @@ export const BatchRepo = {
         newItem.profitAmount = Math.max(0, item.profit - item.price);
         newItem.profitScope = "UNIT";
         newItem.price = item.price;
-        newItem.taxAmount = item.vat;
+        newItem.taxAmount = item.tax_amount;
         newItem.taxTypeId = item.tax_type_id;
         newItem.profit = item.profit;
         newItem.updatedAt = item.updated_at;
@@ -700,7 +700,7 @@ export const BatchRepo = {
           record.price = updates.price;
           record.unitCost = updates.price;
         }
-        if ("vat" in updates) record.taxAmount = updates.vat;
+        if ("tax_amount" in updates) record.taxAmount = updates.tax_amount;
         if ("tax_type_id" in updates) record.taxTypeId = updates.tax_type_id;
         if (updates.profit !== undefined) {
           record.profit = updates.profit;

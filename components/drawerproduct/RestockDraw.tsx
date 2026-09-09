@@ -23,9 +23,6 @@ const RestockDraw = ({ openPay, draftId }: RestockDrawProps) => {
         if (!draftId) return;
         const items = await Batchrepo.listDraftItems(draftId)
         setDraftItems(items)
-        setSelectedDraftItemIds((currentIds) =>
-            currentIds.filter((id) => items.some((item) => item.id === id)),
-        )
     }
 
     useEffect(() => {
@@ -45,7 +42,8 @@ const RestockDraw = ({ openPay, draftId }: RestockDrawProps) => {
         : draftItems
 
     const totalAmount = itemsToRestock.reduce(
-        (total, item) => total + ((item.price * item.quantity) + (item.vat ?? 0)),
+        (total, item) =>
+            total + item.price * item.quantity + (item.tax_amount ?? 0),
         0,
     )
 

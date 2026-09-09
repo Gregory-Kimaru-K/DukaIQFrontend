@@ -147,7 +147,7 @@ const DraftView = () => {
     }
 
     const total = selectedItems.reduce(
-      (sum, item) => sum + item.price * item.quantity + (item.vat ?? 0),
+      (sum, item) => sum + item.price * item.quantity + (item.tax_amount ?? 0),
       0,
     );
 
